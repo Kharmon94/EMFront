@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { FiBell, FiCheck, FiX } from 'react-icons/fi';
+import { FiBell, FiCheck, FiX, FiHeart, FiMessageCircle, FiMusic, FiCalendar, FiVideo, FiUsers } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
@@ -172,7 +172,3 @@ function NotificationItem({ notification, onMarkAsRead }: any) {
 
   return link ? <a href={link}>{content}</a> : content;
 }
-
-// Add these imports at the top of the file (they're missing)
-import { FiMusic, FiCalendar, FiVideo, FiUsers } from 'react-icons/fi';
-
