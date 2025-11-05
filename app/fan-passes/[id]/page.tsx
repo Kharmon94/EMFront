@@ -7,7 +7,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { FiDollarSign, FiUsers, FiTrendingUp, FiCheckCircle, FiLock, FiGift, FiCalendar } from 'react-icons/fi';
 import api from '@/lib/api';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import { formatCurrency } from '@/lib/utils';
 import toast from 'react-hot-toast';
 

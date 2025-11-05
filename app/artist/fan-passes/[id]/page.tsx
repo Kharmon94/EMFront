@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { FiUsers, FiDollarSign, FiCalendar, FiSend, FiTrendingUp, FiCheckCircle } from 'react-icons/fi';
 import api from '@/lib/api';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import { formatCurrency } from '@/lib/utils';
 import toast from 'react-hot-toast';
 

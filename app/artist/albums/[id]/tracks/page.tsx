@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FiGlobe, FiEye, FiLock, FiCheck, FiMusic } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 
 interface Track {
   id: number;

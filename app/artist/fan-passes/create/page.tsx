@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FiCheck, FiDollarSign, FiUsers, FiGift, FiTrendingUp } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 
 interface FanPassConfig {
   name: string;

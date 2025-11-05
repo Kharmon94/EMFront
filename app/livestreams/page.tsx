@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FiVideo, FiUsers, FiClock } from 'react-icons/fi';
 import api from '@/lib/api';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import Link from 'next/link';
 
 export default function LivestreamsPage() {

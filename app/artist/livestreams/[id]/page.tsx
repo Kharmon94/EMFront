@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { FiCopy, FiPlay, FiSquare, FiUsers, FiClock, FiCheckCircle } from 'react-icons/fi';
 import api from '@/lib/api';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import toast from 'react-hot-toast';
 
 export default function ArtistLivestreamManagementPage() {

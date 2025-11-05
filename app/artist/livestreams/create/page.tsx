@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FiVideo, FiCalendar, FiLock } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
-import Navigation from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 
 export default function CreateLivestreamPage() {
   const router = useRouter();
