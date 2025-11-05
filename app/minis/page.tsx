@@ -222,7 +222,7 @@ export default function MinisPage() {
             <h3 className="text-xl font-semibold text-white mb-2">No Mini's yet</h3>
             <p className="text-gray-400">
               {activeTab === 'following'
-                ? 'Follow some artists to see their Mini's here'
+                ? 'Follow some artists to see their Minis here'
                 : 'Check back soon for new content!'}
             </p>
           </div>

@@ -14,9 +14,9 @@ RUN apk add --no-cache \
     linux-headers \
     libudev-zero-dev
 
-# Install dependencies based on the preferred package manager
+# Install all dependencies (including devDependencies needed for build)
 COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder

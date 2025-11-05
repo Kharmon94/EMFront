@@ -43,7 +43,7 @@ export default function MiniFeedPage() {
       const nextMini = minis[currentIndex + 1];
       router.replace(`/minis/${nextMini.id}`, { scroll: false });
     } else {
-      toast('No more Mini's!', { icon: '🎬' });
+      toast('No more Minis!', { icon: '🎬' });
     }
   }, [currentIndex, minis, router]);
 
