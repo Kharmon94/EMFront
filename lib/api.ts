@@ -102,8 +102,23 @@ class ApiClient {
     return response.data;
   }
 
+  async getArtistProfile(id: number) {
+    const response = await this.client.get(`/artists/${id}/profile`);
+    return response.data;
+  }
+
   async searchArtists(query: string) {
     const response = await this.client.get('/artists', { params: { q: query } });
+    return response.data;
+  }
+
+  async followArtist(id: number) {
+    const response = await this.client.post(`/artists/${id}/follow`);
+    return response.data;
+  }
+
+  async unfollowArtist(id: number) {
+    const response = await this.client.delete(`/artists/${id}/follow`);
     return response.data;
   }
 
@@ -339,6 +354,56 @@ class ApiClient {
 
   async distributeDividends(id: number, data: { period_start?: string; period_end?: string; revenue_by_source: any }) {
     const response = await this.client.post(`/fan_passes/${id}/distribute_dividends`, data);
+    return response.data;
+  }
+
+  // Comments
+  async getComments(contentType: string, contentId: number) {
+    const response = await this.client.get(`/${contentType}/${contentId}/comments`);
+    return response.data;
+  }
+
+  async createComment(contentType: string, contentId: number, content: string, parentId?: number) {
+    const response = await this.client.post(`/${contentType}/${contentId}/comments`, {
+      comment: { content, parent_id: parentId }
+    });
+    return response.data;
+  }
+
+  async deleteComment(commentId: number) {
+    const response = await this.client.delete(`/comments/${commentId}`);
+    return response.data;
+  }
+
+  // Likes
+  async likeContent(contentType: string, contentId: number) {
+    const response = await this.client.post(`/${contentType}/${contentId}/like`);
+    return response.data;
+  }
+
+  async unlikeContent(contentType: string, contentId: number) {
+    const response = await this.client.delete(`/${contentType}/${contentId}/like`);
+    return response.data;
+  }
+
+  async getLikes(contentType: string, contentId: number) {
+    const response = await this.client.get(`/${contentType}/${contentId}/likes`);
+    return response.data;
+  }
+
+  // Notifications
+  async getNotifications(params?: any) {
+    const response = await this.client.get('/notifications', { params });
+    return response.data;
+  }
+
+  async markNotificationAsRead(id: number) {
+    const response = await this.client.post(`/notifications/${id}/mark_as_read`);
+    return response.data;
+  }
+
+  async markAllNotificationsAsRead() {
+    const response = await this.client.post('/notifications/mark_all_as_read');
     return response.data;
   }
 

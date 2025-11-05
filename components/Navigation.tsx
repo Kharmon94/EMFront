@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { WalletButton } from './WalletButton';
+import { NotificationBell } from './NotificationBell';
 import { 
   FiHome, 
   FiMusic, 
@@ -70,6 +71,9 @@ export function Navigation() {
 
           {/* Right side */}
           <div className="flex items-center gap-4">
+            <div className="hidden md:block">
+              <NotificationBell />
+            </div>
             <div className="hidden md:block">
               <WalletButton />
             </div>
