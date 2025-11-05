@@ -13,12 +13,16 @@ import {
   FiRadio, 
   FiShoppingBag,
   FiMenu,
-  FiX
+  FiX,
+  FiVideo,
+  FiFilm
 } from 'react-icons/fi';
 
 const navItems = [
   { href: '/', label: 'Home', icon: FiHome },
   { href: '/music', label: 'Music', icon: FiMusic },
+  { href: '/videos', label: 'Videos', icon: FiVideo },
+  { href: '/minis', label: "Mini's", icon: FiFilm },
   { href: '/tokens', label: 'Tokens', icon: FiDollarSign },
   { href: '/events', label: 'Events', icon: FiCalendar },
   { href: '/livestreams', label: 'Live', icon: FiRadio },

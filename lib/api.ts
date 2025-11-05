@@ -422,6 +422,128 @@ class ApiClient {
     const response = await this.client.get(`/orders/${id}`);
     return response.data;
   }
+
+  // Videos
+  async getVideos(params?: { artist_id?: number; sort?: string; page?: number }) {
+    const response = await this.client.get('/videos', { params });
+    return response.data;
+  }
+
+  async getVideo(id: number) {
+    const response = await this.client.get(`/videos/${id}`);
+    return response.data;
+  }
+
+  async createVideo(data: any) {
+    const response = await this.client.post('/videos', { video: data });
+    return response.data;
+  }
+
+  async updateVideo(id: number, data: any) {
+    const response = await this.client.patch(`/videos/${id}`, { video: data });
+    return response.data;
+  }
+
+  async deleteVideo(id: number) {
+    const response = await this.client.delete(`/videos/${id}`);
+    return response.data;
+  }
+
+  async publishVideo(id: number) {
+    const response = await this.client.post(`/videos/${id}/publish`);
+    return response.data;
+  }
+
+  async watchVideo(id: number) {
+    const response = await this.client.get(`/videos/${id}/watch`);
+    return response.data;
+  }
+
+  async logVideoView(id: number, watchedDuration: number, accessTier: string) {
+    const response = await this.client.post(`/videos/${id}/log_view`, {
+      watched_duration: watchedDuration,
+      access_tier: accessTier
+    });
+    return response.data;
+  }
+
+  async purchaseVideo(id: number, transactionSignature: string) {
+    const response = await this.client.post(`/videos/${id}/purchase`, {
+      transaction_signature: transactionSignature
+    });
+    return response.data;
+  }
+
+  // Minis (short-form content)
+  async getMinis(params?: { artist_id?: number; sort?: string; page?: number }) {
+    const response = await this.client.get('/minis', { params });
+    return response.data;
+  }
+
+  async getMiniFeed() {
+    const response = await this.client.get('/minis/feed');
+    return response.data;
+  }
+
+  async getTrendingMinis() {
+    const response = await this.client.get('/minis/trending');
+    return response.data;
+  }
+
+  async getFollowingMinis() {
+    const response = await this.client.get('/minis/following');
+    return response.data;
+  }
+
+  async getMini(id: number) {
+    const response = await this.client.get(`/minis/${id}`);
+    return response.data;
+  }
+
+  async createMini(data: any) {
+    const response = await this.client.post('/minis', { mini: data });
+    return response.data;
+  }
+
+  async updateMini(id: number, data: any) {
+    const response = await this.client.patch(`/minis/${id}`, { mini: data });
+    return response.data;
+  }
+
+  async deleteMini(id: number) {
+    const response = await this.client.delete(`/minis/${id}`);
+    return response.data;
+  }
+
+  async publishMini(id: number) {
+    const response = await this.client.post(`/minis/${id}/publish`);
+    return response.data;
+  }
+
+  async watchMini(id: number) {
+    const response = await this.client.get(`/minis/${id}/watch`);
+    return response.data;
+  }
+
+  async logMiniView(id: number, watchedDuration: number, accessTier: string) {
+    const response = await this.client.post(`/minis/${id}/log_view`, {
+      watched_duration: watchedDuration,
+      access_tier: accessTier
+    });
+    return response.data;
+  }
+
+  async shareMini(id: number) {
+    const response = await this.client.post(`/minis/${id}/share`);
+    return response.data;
+  }
+
+  async purchaseMini(id: number, transactionSignature: string) {
+    const response = await this.client.post(`/minis/${id}/purchase`, {
+      transaction_signature: transactionSignature
+    });
+    return response.data;
+  }
 }
 
 export const api = new ApiClient();
