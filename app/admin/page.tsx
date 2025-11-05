@@ -147,7 +147,7 @@ export default function AdminDashboard() {
           {activeTab === 'verification' && (
             <div className="space-y-4">
               {(verificationsData?.verification_requests?.length ?? 0) > 0 ? (
-                verificationsData.verification_requests.map((request: any) => (
+                verificationsData?.verification_requests?.map((request: any) => (
                   <div key={request.id} className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex-1">
