@@ -93,8 +93,8 @@ export default function CommentSection({ contentType, contentId }: CommentSectio
             <CommentItem
               key={comment.id}
               comment={comment}
-              onReply={(id) => setReplyTo(id)}
-              onDelete={(id) => deleteCommentMutation.mutate(id)}
+              onReply={(id: number) => setReplyTo(id)}
+              onDelete={(id: number) => deleteCommentMutation.mutate(id)}
               replyTo={replyTo}
               replyContent={replyContent}
               setReplyContent={setReplyContent}
