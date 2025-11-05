@@ -118,7 +118,7 @@ function OrderCard({
   order: any; 
   isExpanded: boolean; 
   onToggle: () => void; 
-  getStatusIcon: (status: string) => JSX.Element;
+  getStatusIcon: (status: string) => React.ReactElement;
   getStatusText: (status: string) => string;
 }) {
   return (
