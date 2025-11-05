@@ -114,7 +114,7 @@ function PlaylistCard({ playlist }: { playlist: any }) {
             className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-105 transition-transform"
             onClick={(e) => {
               e.preventDefault();
-              toast.info('Playlist playback coming soon!');
+              toast('Playlist playback coming soon!', { icon: 'ℹ️' });
             }}
           >
             <FiPlay className="w-6 h-6 ml-0.5" />
