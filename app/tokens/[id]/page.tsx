@@ -189,6 +189,7 @@ export default function TokenTradingPage() {
                 <div className="h-64 sm:h-80">
                   {chartData?.chart_data && chartData.chart_data.length > 0 ? (
                     <BondingCurveChart 
+                      tokenId={parseInt(tokenId)}
                       trades={chartData.chart_data}
                       currentPrice={chartData.current_price}
                     />
