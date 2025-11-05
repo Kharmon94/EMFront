@@ -58,7 +58,7 @@ class ApiClient {
     }
   }
 
-  getToken() {
+  getAuthToken() {
     return this.token;
   }
 
