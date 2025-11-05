@@ -6,6 +6,14 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 
+# Install Python and build tools for native dependencies (usb, etc.)
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    linux-headers \
+    libudev-zero-dev
+
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
 RUN npm ci --omit=dev
@@ -13,6 +21,12 @@ RUN npm ci --omit=dev
 # Stage 2: Builder
 FROM node:20-alpine AS builder
 WORKDIR /app
+
+# Install build tools for the build stage (might be needed for postinstall scripts)
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
