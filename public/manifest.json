@@ -1,0 +1,27 @@
+{
+  "name": "Music Artist Platform",
+  "short_name": "Music Platform",
+  "description": "Discover music, support artists, and trade artist tokens on Solana blockchain",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "finance"],
+  "screenshots": []
+}
+
