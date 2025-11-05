@@ -129,10 +129,6 @@ export default function TradingViewChart({
           type: 'volume',
         },
         priceScaleId: '',
-        scaleMargins: {
-          top: 0.8,
-          bottom: 0,
-        },
       });
       volumeSeriesRef.current = volumeSeries;
     }
