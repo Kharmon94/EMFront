@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
@@ -10,7 +10,7 @@ import { FiSearch, FiMusic, FiUser, FiDisc, FiCheckCircle, FiPlay } from 'react-
 import Link from 'next/link';
 import { formatDuration } from '@/lib/utils';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   
@@ -259,3 +259,17 @@ export default function SearchPage() {
   );
 }
 
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center">
+          <div className="text-white">Loading search...</div>
+        </div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
+  );
+}
