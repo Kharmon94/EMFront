@@ -224,7 +224,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
         />
         <StatCard
           title="Total Revenue"
-          value={`${stats.total_revenue?.toFixed(2)} SOL`}
+          value={`${Number(stats.total_revenue || 0).toFixed(2)} SOL`}
           icon={FiDollarSign}
           trend={growth?.revenue_growth_percentage}
           trendLabel="vs last 30 days"
@@ -275,7 +275,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
-              <div className="text-3xl font-bold text-white mb-2">{quickStats?.revenue_today?.toFixed(2)} SOL</div>
+              <div className="text-3xl font-bold text-white mb-2">{Number(quickStats?.revenue_today || 0).toFixed(2)} SOL</div>
               <div className="text-sm text-gray-400">Revenue</div>
             </div>
           </div>
@@ -770,7 +770,7 @@ function AnalyticsSection({ analyticsData }: any) {
                       <span className="text-white font-medium">{artist.name}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-white font-semibold">{artist.revenue?.toFixed(2)} SOL</td>
+                  <td className="px-6 py-4 text-white font-semibold">{Number(artist.revenue || 0).toFixed(2)} SOL</td>
                   <td className="px-6 py-4 text-gray-400">{artist.followers}</td>
                 </tr>
               ))}
@@ -828,29 +828,29 @@ function RevenueSection({ revenueData }: any) {
       {/* Total Revenue */}
       <div className="bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-800/30 rounded-xl p-6">
         <div className="text-sm text-gray-400 mb-2">Total Platform Revenue</div>
-        <div className="text-4xl font-bold text-white mb-4">{data?.total_revenue?.toFixed(2)} SOL</div>
+        <div className="text-4xl font-bold text-white mb-4">{Number(data?.total_revenue || 0).toFixed(2)} SOL</div>
         
         {/* Revenue by Source */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div>
             <div className="text-xs text-gray-400">Tickets</div>
-            <div className="text-lg font-bold text-white">{data?.revenue_by_source?.tickets?.toFixed(2)}</div>
+            <div className="text-lg font-bold text-white">{Number(data?.revenue_by_source?.tickets || 0).toFixed(2)}</div>
           </div>
           <div>
             <div className="text-xs text-gray-400">Albums</div>
-            <div className="text-lg font-bold text-white">{data?.revenue_by_source?.albums?.toFixed(2)}</div>
+            <div className="text-lg font-bold text-white">{Number(data?.revenue_by_source?.albums || 0).toFixed(2)}</div>
           </div>
           <div>
             <div className="text-xs text-gray-400">Tokens</div>
-            <div className="text-lg font-bold text-white">{data?.revenue_by_source?.tokens?.toFixed(2)}</div>
+            <div className="text-lg font-bold text-white">{Number(data?.revenue_by_source?.tokens || 0).toFixed(2)}</div>
           </div>
           <div>
             <div className="text-xs text-gray-400">Fan Passes</div>
-            <div className="text-lg font-bold text-white">{data?.revenue_by_source?.fan_passes?.toFixed(2)}</div>
+            <div className="text-lg font-bold text-white">{Number(data?.revenue_by_source?.fan_passes || 0).toFixed(2)}</div>
           </div>
           <div>
             <div className="text-xs text-gray-400">Merch</div>
-            <div className="text-lg font-bold text-white">{data?.revenue_by_source?.merch?.toFixed(2)}</div>
+            <div className="text-lg font-bold text-white">{Number(data?.revenue_by_source?.merch || 0).toFixed(2)}</div>
           </div>
         </div>
       </div>
@@ -888,7 +888,7 @@ function RevenueSection({ revenueData }: any) {
               {data?.recent_transactions?.slice(0, 20).map((tx: any, index: number) => (
                 <tr key={index} className="hover:bg-gray-800/50">
                   <td className="px-6 py-4 text-white">{tx.type}</td>
-                  <td className="px-6 py-4 text-green-400 font-semibold">{tx.amount?.toFixed(2)} SOL</td>
+                  <td className="px-6 py-4 text-green-400 font-semibold">{Number(tx.amount || 0).toFixed(2)} SOL</td>
                   <td className="px-6 py-4 text-gray-400 text-sm">{tx.user}</td>
                   <td className="px-6 py-4 text-gray-500 text-sm">{new Date(tx.timestamp).toLocaleString()}</td>
                 </tr>
