@@ -55,7 +55,8 @@ const moreNavItems = [
 export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -246,7 +247,7 @@ export function Navigation() {
                 return (
                   <button
                     key={index}
-                    onClick={() => setMobileMenuOpen(true)}
+                    onClick={() => setDiscoverMenuOpen(true)}
                     className={`flex flex-col items-center justify-center flex-1 min-h-[48px] ${
                       active ? 'text-blue-400' : 'text-gray-400'
                     }`}
@@ -275,7 +276,7 @@ export function Navigation() {
             
             {/* Profile button */}
             <button
-              onClick={() => setMobileMenuOpen(true)}
+              onClick={() => setProfileMenuOpen(true)}
               className="flex flex-col items-center justify-center flex-1 min-h-[48px] text-gray-400"
             >
               <FiUser className="w-6 h-6 mb-1" />
@@ -284,9 +285,109 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* Mobile More Drawer */}
-        <Transition appear show={mobileMenuOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-50" onClose={() => setMobileMenuOpen(false)}>
+        {/* Mobile Discover Drawer */}
+        <Transition appear show={discoverMenuOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-50" onClose={() => setDiscoverMenuOpen(false)}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black/80" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transform transition ease-in-out duration-300"
+                    enterFrom="translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transform transition ease-in-out duration-300"
+                    leaveFrom="translate-x-0"
+                    leaveTo="translate-x-full"
+                  >
+                    <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
+                      <div className="flex h-full flex-col overflow-y-auto bg-black border-l border-gray-800">
+                        <div className="p-4 border-b border-gray-800">
+                          <div className="flex items-center justify-between">
+                            <Dialog.Title className="text-lg font-bold text-white">
+                              Discover
+                            </Dialog.Title>
+                            <button
+                              onClick={() => setDiscoverMenuOpen(false)}
+                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-400"
+                            >
+                              <FiX className="w-6 h-6" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex-1 p-4 space-y-2 overflow-y-auto">
+                          {/* Discover submenu items */}
+                          {mainNavItems
+                            .find(item => item.dropdown)
+                            ?.dropdown?.map((subItem) => {
+                              const Icon = subItem.icon;
+                              return (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  onClick={() => setDiscoverMenuOpen(false)}
+                                  className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                    isActive(subItem.href)
+                                      ? 'bg-blue-600 text-white'
+                                      : 'text-gray-300 hover:bg-gray-900'
+                                  }`}
+                                >
+                                  <Icon className="w-5 h-5" />
+                                  <span className="font-medium">{subItem.label}</span>
+                                </Link>
+                              );
+                            })}
+
+                          <div className="h-px bg-gray-800 my-4" />
+
+                          {/* More items */}
+                          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2">
+                            More
+                          </p>
+                          {moreNavItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setDiscoverMenuOpen(false)}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                  isActive(item.href)
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-300 hover:bg-gray-900'
+                                }`}
+                              >
+                                <Icon className="w-5 h-5" />
+                                <span className="font-medium">{item.label}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+
+        {/* Mobile Profile Drawer */}
+        <Transition appear show={profileMenuOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-50" onClose={() => setProfileMenuOpen(false)}>
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -319,7 +420,7 @@ export function Navigation() {
                               {user ? 'Account' : 'Sign In'}
                             </Dialog.Title>
                             <button
-                              onClick={() => setMobileMenuOpen(false)}
+                              onClick={() => setProfileMenuOpen(false)}
                               className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-400"
                             >
                               <FiX className="w-6 h-6" />
@@ -349,7 +450,7 @@ export function Navigation() {
                               {user.role === 'artist' && (
                                 <Link
                                   href="/artist/dashboard"
-                                  onClick={() => setMobileMenuOpen(false)}
+                                  onClick={() => setProfileMenuOpen(false)}
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                     isActive('/artist/dashboard')
                                       ? 'bg-blue-600 text-white'
@@ -364,7 +465,7 @@ export function Navigation() {
                               {/* Settings Link */}
                               <Link
                                 href="/settings"
-                                onClick={() => setMobileMenuOpen(false)}
+                                onClick={() => setProfileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                   isActive('/settings')
                                     ? 'bg-blue-600 text-white'
@@ -429,7 +530,7 @@ export function Navigation() {
                                 <p className="text-gray-400 mb-4">Sign in to access all features</p>
                                 <button
                                   onClick={() => {
-                                    setMobileMenuOpen(false);
+                                    setProfileMenuOpen(false);
                                     setShowAuthModal(true);
                                   }}
                                   className="w-full px-4 py-3 bg-white hover:bg-gray-100 text-black font-medium rounded-lg transition-colors"
@@ -450,7 +551,7 @@ export function Navigation() {
                                     await api.delete('/auth/sign_out');
                                     api.clearToken();
                                     window.dispatchEvent(new Event('auth-change'));
-                                    setMobileMenuOpen(false);
+                                    setProfileMenuOpen(false);
                                     router.push('/');
                                   } catch (error) {
                                     console.error('Sign out error:', error);
