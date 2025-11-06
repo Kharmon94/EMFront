@@ -27,7 +27,8 @@ import {
   FiSettings,
   FiLogOut,
   FiMail,
-  FiKey
+  FiKey,
+  FiShield
 } from 'react-icons/fi';
 
 const mainNavItems = [
