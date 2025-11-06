@@ -79,6 +79,11 @@ export function Navigation() {
     } catch (e) {
       // ThemeProvider not available
     }
+
+    // Listen for auth modal open events
+    const handleOpenAuthModal = () => setShowAuthModal(true);
+    window.addEventListener('open-auth-modal', handleOpenAuthModal);
+    return () => window.removeEventListener('open-auth-modal', handleOpenAuthModal);
   }, []);
 
   useEffect(() => {
