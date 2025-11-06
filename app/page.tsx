@@ -1,7 +1,49 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
+import api from '@/lib/api';
 
 export default function Home() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuthAndRedirect = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        const user = response.data.user;
+
+        // Redirect based on role
+        if (user.role === 'artist') {
+          router.push('/artist/dashboard');
+        } else if (user.role === 'admin') {
+          router.push('/admin');
+        }
+        // Fans stay on home page to discover content
+        setLoading(false);
+      } catch (error) {
+        // Not logged in, show landing page
+        setLoading(false);
+      }
+    };
+
+    checkAuthAndRedirect();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <>
+        <Navigation />
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Navigation />
