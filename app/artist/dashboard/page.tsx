@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { 
   FiUsers, FiMusic, FiCalendar, FiVideo, FiShoppingBag, FiGift, 
   FiTrendingUp, FiDollarSign, FiPlus, FiUpload, FiRadio, FiFilm,
-  FiClock, FiHeart, FiMessageCircle, FiPackage, FiActivity
+  FiClock, FiHeart, FiMessageCircle, FiPackage, FiActivity, FiUser
 } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
 import api from '@/lib/api';
