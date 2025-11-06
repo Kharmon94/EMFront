@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, Fragment, useEffect } from 'react';
 import { AccountButton } from './AccountButton';
 import { NotificationBell } from './NotificationBell';
+import { AuthModal } from './AuthModal';
 import { Menu, Transition, Dialog } from '@headlessui/react';
 import api from '@/lib/api';
 import { 
@@ -56,6 +57,7 @@ export function Navigation() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -428,9 +430,7 @@ export function Navigation() {
                                 <button
                                   onClick={() => {
                                     setMobileMenuOpen(false);
-                                    // Trigger auth modal through event
-                                    const event = new CustomEvent('open-auth-modal');
-                                    window.dispatchEvent(event);
+                                    setShowAuthModal(true);
                                   }}
                                   className="w-full px-4 py-3 bg-white hover:bg-gray-100 text-black font-medium rounded-lg transition-colors"
                                 >
@@ -519,6 +519,17 @@ export function Navigation() {
           </div>
         </Dialog>
       </Transition>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={async () => {
+          const response = await api.get('/auth/me');
+          setUser(response.data.user);
+          window.dispatchEvent(new Event('auth-change'));
+        }}
+      />
 
       {/* Mobile Spacer */}
       <div className="md:hidden h-14" />
