@@ -8,6 +8,7 @@ import { NotificationBell } from './NotificationBell';
 import { AuthModal } from './AuthModal';
 import { Menu, Transition, Dialog } from '@headlessui/react';
 import api from '@/lib/api';
+import { useTheme } from '@/lib/theme-context';
 import { 
   FiHome, 
   FiCompass,
@@ -28,7 +29,9 @@ import {
   FiLogOut,
   FiMail,
   FiKey,
-  FiShield
+  FiShield,
+  FiSun,
+  FiMoon
 } from 'react-icons/fi';
 
 const mainNavItems = [
@@ -56,6 +59,7 @@ const moreNavItems = [
 export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -98,15 +102,15 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Navigation - Horizontal Top Bar */}
-      <nav className="hidden md:block sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-gray-800">
+      <nav className="hidden md:block sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 flex-shrink-0">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <FiMusic className="w-6 h-6 text-black" />
+              <div className="w-10 h-10 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
+                <FiMusic className="w-6 h-6 text-white dark:text-black" />
               </div>
-              <span className="text-xl font-bold text-white tracking-tight">
+              <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
                 EncryptedMedia
               </span>
             </Link>
@@ -121,8 +125,8 @@ export function Navigation() {
                       <Menu.Button 
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                           isDropdownActive(item.dropdown)
-                            ? 'bg-white text-black'
-                            : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                            ? 'bg-gray-900 text-white dark:bg-white dark:text-black'
+                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white'
                         }`}
                       >
                         <item.icon className="w-4 h-4" />
@@ -138,7 +142,7 @@ export function Navigation() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-black border border-gray-800 shadow-xl focus:outline-none">
+                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-300 dark:border-gray-800 shadow-xl focus:outline-none">
                           <div className="py-1">
                             {item.dropdown.map((subItem) => (
                               <Menu.Item key={subItem.href}>
@@ -147,8 +151,8 @@ export function Navigation() {
                                     href={subItem.href}
                                     className={`${
                                       active || isActive(subItem.href)
-                                        ? 'bg-gray-900 text-white'
-                                        : 'text-gray-300'
+                                        ? 'bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white'
+                                        : 'text-gray-600 dark:text-gray-300'
                                     } group flex w-full items-center gap-3 px-4 py-2 text-sm`}
                                   >
                                     <subItem.icon className="w-4 h-4" />
@@ -170,8 +174,8 @@ export function Navigation() {
                       href={item.href}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                         isActive(item.href)
-                          ? 'bg-white text-black'
-                          : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                          ? 'bg-gray-900 text-white dark:bg-white dark:text-black'
+                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -188,8 +192,8 @@ export function Navigation() {
                     href={item.href}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                       isActive(item.href)
-                        ? 'bg-white text-black'
-                        : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                        ? 'bg-gray-900 text-white dark:bg-white dark:text-black'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -203,9 +207,16 @@ export function Navigation() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 text-gray-300 hover:bg-gray-900 hover:text-white rounded-lg transition-colors"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-colors"
               >
                 <FiSearch className="w-5 h-5" />
+              </button>
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
               </button>
               <NotificationBell />
               <AccountButton />
@@ -217,13 +228,13 @@ export function Navigation() {
       {/* Mobile Navigation */}
       <div className="md:hidden">
         {/* Top Bar */}
-        <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-gray-800">
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800">
           <div className="flex items-center justify-between h-14 px-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <FiMusic className="w-5 h-5 text-black" />
+              <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
+                <FiMusic className="w-5 h-5 text-white dark:text-black" />
               </div>
-              <span className="text-lg font-bold text-white tracking-tight">
+              <span className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">
                 EM
               </span>
             </Link>
@@ -231,7 +242,7 @@ export function Navigation() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-300"
+                className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-600 dark:text-gray-300"
               >
                 <FiSearch className="w-5 h-5" />
               </button>
@@ -240,7 +251,7 @@ export function Navigation() {
         </div>
 
         {/* Bottom Tab Bar */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-black border-t border-gray-800 pb-safe">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-800 pb-safe">
           <div className="flex items-center justify-around h-16">
             {mainNavItems.filter(item => item.mobile).map((item, index) => {
               if (item.dropdown) {
@@ -250,7 +261,7 @@ export function Navigation() {
                     key={index}
                     onClick={() => setDiscoverMenuOpen(true)}
                     className={`flex flex-col items-center justify-center flex-1 min-h-[48px] ${
-                      active ? 'text-blue-400' : 'text-gray-400'
+                      active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'
                     }`}
                   >
                     <item.icon className="w-6 h-6 mb-1" />
@@ -265,7 +276,7 @@ export function Navigation() {
                     key={item.href}
                     href={item.href}
                     className={`flex flex-col items-center justify-center flex-1 min-h-[48px] ${
-                      active ? 'text-blue-400' : 'text-gray-400'
+                      active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'
                     }`}
                   >
                     <Icon className="w-6 h-6 mb-1" />
@@ -278,7 +289,7 @@ export function Navigation() {
             {/* Profile button */}
             <button
               onClick={() => setProfileMenuOpen(true)}
-              className="flex flex-col items-center justify-center flex-1 min-h-[48px] text-gray-400"
+              className="flex flex-col items-center justify-center flex-1 min-h-[48px] text-gray-600 dark:text-gray-400"
             >
               <FiUser className="w-6 h-6 mb-1" />
               <span className="text-xs font-medium">Profile</span>
@@ -314,15 +325,15 @@ export function Navigation() {
                     leaveTo="translate-x-full"
                   >
                     <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                      <div className="flex h-full flex-col overflow-y-auto bg-black border-l border-gray-800">
-                        <div className="p-4 border-b border-gray-800">
+                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-300 dark:border-gray-800">
+                        <div className="p-4 border-b border-gray-300 dark:border-gray-800">
                           <div className="flex items-center justify-between">
-                            <Dialog.Title className="text-lg font-bold text-white">
+                            <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white">
                               Discover
                             </Dialog.Title>
                             <button
                               onClick={() => setDiscoverMenuOpen(false)}
-                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-400"
+                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-600 dark:text-gray-400"
                             >
                               <FiX className="w-6 h-6" />
                             </button>
@@ -343,7 +354,7 @@ export function Navigation() {
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                     isActive(subItem.href)
                                       ? 'bg-blue-600 text-white'
-                                      : 'text-gray-300 hover:bg-gray-900'
+                                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
                                   }`}
                                 >
                                   <Icon className="w-5 h-5" />
@@ -363,7 +374,7 @@ export function Navigation() {
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                   isActive(item.href)
                                     ? 'bg-blue-600 text-white'
-                                    : 'text-gray-300 hover:bg-gray-900'
+                                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
                                 }`}
                               >
                                 <Icon className="w-5 h-5" />
@@ -409,15 +420,15 @@ export function Navigation() {
                     leaveTo="translate-x-full"
                   >
                     <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                      <div className="flex h-full flex-col overflow-y-auto bg-black border-l border-gray-800">
-                        <div className="p-4 border-b border-gray-800">
+                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-300 dark:border-gray-800">
+                        <div className="p-4 border-b border-gray-300 dark:border-gray-800">
                           <div className="flex items-center justify-between">
-                            <Dialog.Title className="text-lg font-bold text-white">
+                            <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white">
                               {user ? 'Account' : 'Sign In'}
                             </Dialog.Title>
                             <button
                               onClick={() => setProfileMenuOpen(false)}
-                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-400"
+                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-600 dark:text-gray-400"
                             >
                               <FiX className="w-6 h-6" />
                             </button>
@@ -428,16 +439,16 @@ export function Navigation() {
                           {/* User Info Section */}
                           {user ? (
                             <>
-                              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 mb-4">
+                              <div className="bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl p-4 mb-4">
                                 <div className="flex items-center gap-3">
                                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                                     {user.email ? user.email[0].toUpperCase() : user.wallet_address?.[0].toUpperCase()}
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-white truncate">
+                                    <p className="font-medium text-gray-900 dark:text-white truncate">
                                       {user.email || (user.wallet_address ? `${user.wallet_address.slice(0, 4)}...${user.wallet_address.slice(-4)}` : 'User')}
                                     </p>
-                                    <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 capitalize">{user.role}</p>
                                   </div>
                                 </div>
                               </div>
@@ -450,7 +461,7 @@ export function Navigation() {
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                     isActive('/artist/dashboard')
                                       ? 'bg-blue-600 text-white'
-                                      : 'text-gray-300 hover:bg-gray-900'
+                                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
                                   }`}
                                 >
                                   <FiUser className="w-5 h-5" />
@@ -466,7 +477,7 @@ export function Navigation() {
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                     isActive('/admin')
                                       ? 'bg-blue-600 text-white'
-                                      : 'text-gray-300 hover:bg-gray-900'
+                                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
                                   }`}
                                 >
                                   <FiShield className="w-5 h-5" />
@@ -481,30 +492,30 @@ export function Navigation() {
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                   isActive('/settings')
                                     ? 'bg-blue-600 text-white'
-                                    : 'text-gray-300 hover:bg-gray-900'
+                                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
                                 }`}
                               >
                                 <FiSettings className="w-5 h-5" />
                                 <span className="font-medium">Settings</span>
                               </Link>
 
-                              <div className="h-px bg-gray-800 my-4" />
+                              <div className="h-px bg-gray-300 dark:bg-gray-800 my-4" />
 
                               {/* Connected Methods Section */}
                               <div className="mb-4">
-                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-3">
+                                <p className="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider px-4 mb-3">
                                   Connected Methods
                                 </p>
                                 
                                 {/* Email Auth Status */}
                                 <div className="px-4 py-3 flex items-center gap-3">
                                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                    user.has_email_auth ? 'bg-green-900/30' : 'bg-gray-900'
+                                    user.has_email_auth ? 'bg-green-200 dark:bg-green-900/30' : 'bg-gray-200 dark:bg-gray-900'
                                   }`}>
-                                    <FiMail className={`w-5 h-5 ${user.has_email_auth ? 'text-green-400' : 'text-gray-600'}`} />
+                                    <FiMail className={`w-5 h-5 ${user.has_email_auth ? 'text-green-600 dark:text-green-400' : 'text-gray-600'}`} />
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-medium ${user.has_email_auth ? 'text-white' : 'text-gray-500'}`}>
+                                    <p className={`text-sm font-medium ${user.has_email_auth ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
                                       Email
                                     </p>
                                     <p className="text-xs text-gray-500 truncate">
@@ -516,12 +527,12 @@ export function Navigation() {
                                 {/* Wallet Auth Status */}
                                 <div className="px-4 py-3 flex items-center gap-3">
                                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                    user.has_wallet_auth ? 'bg-blue-900/30' : 'bg-gray-900'
+                                    user.has_wallet_auth ? 'bg-blue-200 dark:bg-blue-900/30' : 'bg-gray-200 dark:bg-gray-900'
                                   }`}>
-                                    <FiKey className={`w-5 h-5 ${user.has_wallet_auth ? 'text-blue-400' : 'text-gray-600'}`} />
+                                    <FiKey className={`w-5 h-5 ${user.has_wallet_auth ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600'}`} />
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-medium ${user.has_wallet_auth ? 'text-white' : 'text-gray-500'}`}>
+                                    <p className={`text-sm font-medium ${user.has_wallet_auth ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
                                       Wallet
                                     </p>
                                     <p className="text-xs text-gray-500 truncate">
@@ -534,25 +545,34 @@ export function Navigation() {
                                 </div>
                               </div>
 
-                              <div className="h-px bg-gray-800 my-4" />
+                              <div className="h-px bg-gray-300 dark:bg-gray-800 my-4" />
                             </>
                           ) : (
                             <>
-                              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-4 text-center">
-                                <p className="text-gray-400 mb-4">Sign in to access all features</p>
+                              <div className="bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl p-6 mb-4 text-center">
+                                <p className="text-gray-600 dark:text-gray-400 mb-4">Sign in to access all features</p>
                                 <button
                                   onClick={() => {
                                     setProfileMenuOpen(false);
                                     setShowAuthModal(true);
                                   }}
-                                  className="w-full px-4 py-3 bg-white hover:bg-gray-100 text-black font-medium rounded-lg transition-colors"
+                                  className="w-full px-4 py-3 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black font-medium rounded-lg transition-colors"
                                 >
                                   Sign In
                                 </button>
                               </div>
-                              <div className="h-px bg-gray-800 my-4" />
+                              <div className="h-px bg-gray-300 dark:bg-gray-800 my-4" />
                             </>
                           )}
+
+                          {/* Theme Toggle */}
+                          <button
+                            onClick={toggleTheme}
+                            className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
+                          >
+                            {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
+                            <span className="font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                          </button>
 
                           {/* Sign Out (if authenticated) */}
                           {user && (
@@ -569,7 +589,7 @@ export function Navigation() {
                                     console.error('Sign out error:', error);
                                   }
                                 }}
-                                className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-red-400 hover:bg-red-900/20 w-full"
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 w-full"
                               >
                                 <FiLogOut className="w-5 h-5" />
                                 <span className="font-medium">Sign Out</span>

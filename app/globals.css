@@ -30,10 +30,10 @@
   --color-green-500: #10b981;
   --color-green-600: #059669;
   
-  /* Design System */
-  --background: var(--color-black);
-  --foreground: var(--color-white);
-  --border: var(--color-gray-800);
+  /* Design System - Light Mode (Default) */
+  --background: var(--color-white);
+  --foreground: var(--color-gray-900);
+  --border: var(--color-gray-300);
   
   /* Spacing (8px grid system) */
   --spacing-1: 8px;
@@ -54,6 +54,13 @@
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Theme */
+.dark {
+  --background: var(--color-black);
+  --foreground: var(--color-white);
+  --border: var(--color-gray-800);
 }
 
 @theme inline {
