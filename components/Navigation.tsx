@@ -24,7 +24,9 @@ import {
   FiList,
   FiUser,
   FiSettings,
-  FiLogOut
+  FiLogOut,
+  FiMail,
+  FiKey
 } from 'react-icons/fi';
 
 const mainNavItems = [
@@ -372,6 +374,52 @@ export function Navigation() {
                               </Link>
 
                               <div className="h-px bg-gray-800 my-4" />
+
+                              {/* Connected Methods Section */}
+                              <div className="mb-4">
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-3">
+                                  Connected Methods
+                                </p>
+                                
+                                {/* Email Auth Status */}
+                                <div className="px-4 py-3 flex items-center gap-3">
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                    user.has_email_auth ? 'bg-green-900/30' : 'bg-gray-900'
+                                  }`}>
+                                    <FiMail className={`w-5 h-5 ${user.has_email_auth ? 'text-green-400' : 'text-gray-600'}`} />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className={`text-sm font-medium ${user.has_email_auth ? 'text-white' : 'text-gray-500'}`}>
+                                      Email
+                                    </p>
+                                    <p className="text-xs text-gray-500 truncate">
+                                      {user.has_email_auth ? user.email : 'Not connected'}
+                                    </p>
+                                  </div>
+                                </div>
+                                
+                                {/* Wallet Auth Status */}
+                                <div className="px-4 py-3 flex items-center gap-3">
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                    user.has_wallet_auth ? 'bg-blue-900/30' : 'bg-gray-900'
+                                  }`}>
+                                    <FiKey className={`w-5 h-5 ${user.has_wallet_auth ? 'text-blue-400' : 'text-gray-600'}`} />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className={`text-sm font-medium ${user.has_wallet_auth ? 'text-white' : 'text-gray-500'}`}>
+                                      Wallet
+                                    </p>
+                                    <p className="text-xs text-gray-500 truncate">
+                                      {user.has_wallet_auth 
+                                        ? `${user.wallet_address.slice(0, 4)}...${user.wallet_address.slice(-4)}`
+                                        : 'Not connected'
+                                      }
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="h-px bg-gray-800 my-4" />
                             </>
                           ) : (
                             <>
@@ -393,33 +441,9 @@ export function Navigation() {
                             </>
                           )}
 
-                          {/* Secondary Navigation Items */}
-                          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2">
-                            Explore
-                          </p>
-                          {moreNavItems.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
-                                  isActive(item.href)
-                                    ? 'bg-blue-600 text-white'
-                                    : 'text-gray-300 hover:bg-gray-900'
-                                }`}
-                              >
-                                <Icon className="w-5 h-5" />
-                                <span className="font-medium">{item.label}</span>
-                              </Link>
-                            );
-                          })}
-
                           {/* Sign Out (if authenticated) */}
                           {user && (
                             <>
-                              <div className="h-px bg-gray-800 my-4" />
                               <button
                                 onClick={async () => {
                                   try {
