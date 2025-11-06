@@ -8,12 +8,21 @@ import toast from 'react-hot-toast';
 
 export function NotificationBell() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const queryClient = useQueryClient();
+
+  // Check if user is authenticated
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: () => api.getNotifications({ limit: 20 }),
     refetchInterval: 30000, // Refetch every 30 seconds
+    enabled: isAuthenticated, // Only fetch if authenticated
+    retry: false, // Don't retry on failure
   });
 
   const markAsReadMutation = useMutation({
@@ -33,6 +42,11 @@ export function NotificationBell() {
 
   const notifications = data?.notifications || [];
   const unreadCount = data?.unread_count || 0;
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="relative">
