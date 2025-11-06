@@ -40,10 +40,10 @@ const mainNavItems = [
       { href: '/music', label: 'Music', icon: FiMusic },
       { href: '/videos', label: 'Videos', icon: FiVideo },
       { href: '/minis', label: "Mini's", icon: FiFilm },
+      { href: '/events', label: 'Events', icon: FiCalendar },
     ]
   },
   { href: '/tokens', label: 'Tokens', icon: FiTrendingUp, mobile: true },
-  { href: '/events', label: 'Events', icon: FiCalendar, mobile: true },
 ];
 
 const moreNavItems = [
