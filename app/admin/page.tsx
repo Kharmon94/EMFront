@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { StatCard } from '@/components/admin/StatCard';
 import { ActivityFeed } from '@/components/admin/ActivityFeed';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import { 
   FiShield, FiUsers, FiDollarSign, FiMusic, FiFlag, FiCheckCircle,
   FiTrendingUp, FiActivity, FiAlertTriangle, FiBarChart2, FiGrid,
