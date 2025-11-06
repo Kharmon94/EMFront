@@ -17,7 +17,14 @@ class ApiClient {
 
     // Request interceptor to add auth token
     this.client.interceptors.request.use((config) => {
-      if (this.token) {
+      // Always check localStorage for the latest token
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+          this.token = token; // Update cached token
+        }
+      } else if (this.token) {
         config.headers.Authorization = `Bearer ${this.token}`;
       }
       return config;

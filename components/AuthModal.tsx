@@ -48,9 +48,9 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
 
       const response = await api.post(endpoint, payload);
       
-      // Store token
+      // Store token using ApiClient's setToken method to update both localStorage AND the instance
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+        api.setToken(response.data.token);
         // Dispatch custom event to notify other components
         window.dispatchEvent(new Event('auth-change'));
       }
@@ -95,9 +95,9 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
 
       const response = await api.post(endpoint, payload);
       
-      // Store token
+      // Store token using ApiClient's setToken method to update both localStorage AND the instance
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+        api.setToken(response.data.token);
         // Dispatch custom event to notify other components
         window.dispatchEvent(new Event('auth-change'));
       }

@@ -71,7 +71,7 @@ export function AccountButton() {
   const handleSignOut = async () => {
     try {
       await api.delete('/auth/sign_out');
-      localStorage.removeItem('token');
+      api.clearToken(); // Use ApiClient's clearToken to update both localStorage AND the instance
       setUser(null);
       // Dispatch event to notify other components
       window.dispatchEvent(new Event('auth-change'));
