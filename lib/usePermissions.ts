@@ -128,21 +128,44 @@ export function usePermissions(): Permissions {
     return permissionMap[permission] || false;
   };
 
-  // Check if user owns a resource
+  // Check if user owns a resource (mirrors ability.rb ownership patterns)
   const owns = (resource: string, data: any): boolean => {
     if (!user || !data) return false;
     
-    // Direct ownership check
+    // Direct ownership check (for fan resources and some artist resources)
     if (data.user_id === user.id) return true;
     
-    // Artist ownership check
-    if (resource === 'artist' && data.id === user.artist_id) return true;
-    if (data.artist_id === user.artist_id) return true;
-    
-    // Nested artist ownership (album.artist.user_id, track.album.artist.user_id, etc.)
-    if (data.artist?.user_id === user.id) return true;
-    if (data.album?.artist?.user_id === user.id) return true;
-    if (data.event?.artist?.user_id === user.id) return true;
+    // Artist ownership checks
+    if (user.artist_id) {
+      // Direct artist resource (Artist model itself)
+      if (resource === 'artist' && data.id === user.artist_id) return true;
+      
+      // Resources with direct artist_id
+      // Covers: ArtistToken, Album, Video, Mini, Event, Livestream, MerchItem, FanPass, Airdrop
+      if (data.artist_id === user.artist_id) return true;
+      
+      // Resources nested under artist (one level deep)
+      // Covers: Album.artist.user_id, Video.artist.user_id, etc.
+      if (data.artist?.user_id === user.id) return true;
+      if (data.artist?.id === user.artist_id) return true;
+      
+      // Resources nested under album (two levels deep)
+      // Covers: Track.album.artist.user_id
+      if (data.album?.artist?.user_id === user.id) return true;
+      if (data.album?.artist?.id === user.artist_id) return true;
+      if (data.album?.artist_id === user.artist_id) return true;
+      
+      // Resources nested under event (two levels deep)
+      // Covers: TicketTier.event.artist.user_id, Ticket.ticket_tier.event.artist.user_id
+      if (data.event?.artist?.user_id === user.id) return true;
+      if (data.event?.artist?.id === user.artist_id) return true;
+      if (data.event?.artist_id === user.artist_id) return true;
+      
+      // Ticket ownership through ticket_tier.event.artist
+      if (data.ticket_tier?.event?.artist?.user_id === user.id) return true;
+      if (data.ticket_tier?.event?.artist?.id === user.artist_id) return true;
+      if (data.ticket_tier?.event?.artist_id === user.artist_id) return true;
+    }
     
     return false;
   };
