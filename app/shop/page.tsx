@@ -176,14 +176,8 @@ export default function GlobalShopPage() {
 
           <div className="flex gap-6">
             {/* Filters Sidebar */}
-            <aside className={`
-              ${showFilters ? 'fixed inset-0 z-50 bg-black/60 dark:bg-black/80 lg:relative lg:bg-transparent' : 'hidden'}
-              lg:block lg:w-64 lg:flex-shrink-0
-            `}>
-              <div className={`
-                ${showFilters ? 'absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white dark:bg-black overflow-y-auto' : ''}
-                lg:sticky lg:top-20
-              `}>
+            <aside className="hidden lg:block lg:w-64 lg:flex-shrink-0">
+              <div className="sticky top-20">
                 <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-4 space-y-6">
                   {/* Mobile Header */}
                   <div className="lg:hidden flex items-center justify-between mb-4 pb-4 border-b border-gray-300 dark:border-gray-800">
@@ -344,18 +338,117 @@ export default function GlobalShopPage() {
                     </div>
                   </div>
 
-                  {/* Mobile Apply Button */}
-                  <div className="lg:hidden pt-4 border-t border-gray-300 dark:border-gray-800">
-                    <button
-                      onClick={() => setShowFilters(false)}
-                      className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
-                    >
-                      Show {merchItems.length} Results
-                    </button>
-                  </div>
                 </div>
               </div>
             </aside>
+
+            {/* Mobile Filters Modal */}
+            {showFilters && (
+              <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 lg:hidden">
+                <div className="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white dark:bg-black overflow-y-auto">
+                  <div className="p-4 space-y-6">
+                    {/* Mobile Header */}
+                    <div className="flex items-center justify-between pb-4 border-b border-gray-300 dark:border-gray-800">
+                      <h2 className="text-lg font-bold text-gray-900 dark:text-white">Filters</h2>
+                      <button
+                        onClick={() => setShowFilters(false)}
+                        className="p-2 text-gray-600 dark:text-gray-400"
+                      >
+                        <FiX className="w-6 h-6" />
+                      </button>
+                    </div>
+
+                    {/* Same filter content as desktop */}
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Category</h3>
+                      <div className="space-y-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="category-mobile"
+                            value=""
+                            checked={!selectedCategory}
+                            onChange={() => setSelectedCategory('')}
+                            className="w-4 h-4 text-blue-600"
+                          />
+                          <span className="text-sm text-gray-700 dark:text-gray-300">All Categories</span>
+                        </label>
+                        {categories.map((cat: any) => (
+                          <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="category-mobile"
+                              value={cat.id}
+                              checked={selectedCategory === cat.id.toString()}
+                              onChange={() => setSelectedCategory(cat.id.toString())}
+                              className="w-4 h-4 text-blue-600"
+                            />
+                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                              {cat.name} {cat.product_count > 0 && `(${cat.product_count})`}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Price Range</h3>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          placeholder="Min"
+                          value={minPrice}
+                          onChange={(e) => setMinPrice(e.target.value)}
+                          className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+                        />
+                        <span className="text-gray-400">-</span>
+                        <input
+                          type="number"
+                          placeholder="Max"
+                          value={maxPrice}
+                          onChange={(e) => setMaxPrice(e.target.value)}
+                          className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Quick Filters</h3>
+                      <div className="space-y-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={inStockOnly}
+                            onChange={(e) => setInStockOnly(e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-300 text-blue-600"
+                          />
+                          <span className="text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={featuredOnly}
+                            onChange={(e) => setFeaturedOnly(e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-300 text-blue-600"
+                          />
+                          <span className="text-sm text-gray-700 dark:text-gray-300">Featured Items</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Mobile Apply Button */}
+                    <div className="pt-4 border-t border-gray-300 dark:border-gray-800">
+                      <button
+                        onClick={() => setShowFilters(false)}
+                        className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                      >
+                        Show {merchItems.length} Results
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Main Content */}
             <div className="flex-1 min-w-0">
