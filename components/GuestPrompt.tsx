@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiX, FiLock } from 'react-icons/fi';
 import { AuthModal } from './AuthModal';
 
@@ -19,7 +19,7 @@ export function GuestPrompt({
   const [dismissed, setDismissed] = useState(false);
 
   // Check if previously dismissed (if dismissible)
-  useState(() => {
+  useEffect(() => {
     if (dismissible) {
       const isDismissed = localStorage.getItem('guestPromptDismissed');
       setDismissed(isDismissed === 'true');
