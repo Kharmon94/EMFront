@@ -57,9 +57,16 @@ export default function GlobalShopPage() {
     queryFn: () => api.get('/categories').then(res => res.data),
   });
 
+  const { data: recentlyViewedData } = useQuery({
+    queryKey: ['recently-viewed'],
+    queryFn: () => api.get('/merch/recently_viewed').then(res => res.data),
+    enabled: true
+  });
+
   const merchItems = merchData?.merch_items || [];
   const categories = categoriesData?.categories || [];
   const meta = merchData?.meta || {};
+  const recentlyViewed = recentlyViewedData?.items || [];
 
   const clearFilters = () => {
     setSelectedCategory('');
@@ -102,6 +109,41 @@ export default function GlobalShopPage() {
                 <span className="font-medium text-gray-900 dark:text-white">Wishlist</span>
               </Link>
             </div>
+
+            {/* Recently Viewed */}
+            {recentlyViewed.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <FiEye className="w-5 h-5 text-purple-600" />
+                    Recently Viewed
+                  </h2>
+                </div>
+                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                  {recentlyViewed.map((item: any) => (
+                    <Link
+                      key={item.id}
+                      href={`/shop/merch/${item.id}`}
+                      className="flex-shrink-0 w-48 bg-white dark:bg-gray-800/30 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
+                    >
+                      <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative">
+                        {item.images?.[0] ? (
+                          <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <FiShoppingCart className="w-12 h-12 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-3">
+                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate">{item.title}</h3>
+                        <p className="text-base font-bold text-gray-900 dark:text-white">{formatCurrency(item.price)}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Search & Sort Bar */}
