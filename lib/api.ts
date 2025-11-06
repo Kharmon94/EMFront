@@ -40,26 +40,43 @@ class ApiClient {
 
     // Load token from localStorage on client side
     if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('auth_token');
+      this.token = localStorage.getItem('token');
     }
   }
 
   setToken(token: string) {
     this.token = token;
     if (typeof window !== 'undefined') {
-      localStorage.setItem('auth_token', token);
+      localStorage.setItem('token', token);
     }
   }
 
   clearToken() {
     this.token = null;
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('auth_token');
+      localStorage.removeItem('token');
     }
   }
 
   getAuthToken() {
     return this.token;
+  }
+
+  // Generic HTTP methods
+  async get(url: string, config?: AxiosRequestConfig) {
+    return this.client.get(url, config);
+  }
+
+  async post(url: string, data?: any, config?: AxiosRequestConfig) {
+    return this.client.post(url, data, config);
+  }
+
+  async put(url: string, data?: any, config?: AxiosRequestConfig) {
+    return this.client.put(url, data, config);
+  }
+
+  async delete(url: string, config?: AxiosRequestConfig) {
+    return this.client.delete(url, config);
   }
 
   // Authentication
