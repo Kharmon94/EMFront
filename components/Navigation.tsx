@@ -65,26 +65,16 @@ export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [themeToggle, setThemeToggle] = useState<() => void>(() => () => {});
   
   useEffect(() => {
     setMounted(true);
-    
-    // Initialize theme after mounting
-    try {
-      const themeContext = useTheme();
-      setTheme(themeContext.theme);
-      setThemeToggle(() => themeContext.toggleTheme);
-    } catch (e) {
-      // ThemeProvider not available
-    }
 
     // Listen for auth modal open events
     const handleOpenAuthModal = () => setShowAuthModal(true);
@@ -245,7 +235,7 @@ export function Navigation() {
               </div>
               {mounted && (
                 <button
-                  onClick={themeToggle}
+                  onClick={toggleTheme}
                   className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
                   title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
