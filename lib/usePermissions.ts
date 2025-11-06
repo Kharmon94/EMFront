@@ -13,6 +13,14 @@ export interface User {
   artist_id?: number;
 }
 
+export type PermissionAction = 'read' | 'create' | 'update' | 'destroy' | 'manage';
+
+export interface ResourcePermissionCheck {
+  resource: string;
+  action: PermissionAction;
+  data?: any;
+}
+
 export interface Permissions {
   user: User | null;
   loading: boolean;
@@ -29,6 +37,9 @@ export interface Permissions {
   requiresAuth: (action: string) => boolean;
   requiresWallet: (action: string) => boolean;
   hasPermission: (permission: string) => boolean;
+  can: (action: PermissionAction, resource: string, data?: any) => boolean;
+  canManageResource: (resource: string, data: any) => boolean;
+  owns: (resource: string, data: any) => boolean;
 }
 
 export function usePermissions(): Permissions {
@@ -117,6 +128,116 @@ export function usePermissions(): Permissions {
     return permissionMap[permission] || false;
   };
 
+  // Check if user owns a resource
+  const owns = (resource: string, data: any): boolean => {
+    if (!user || !data) return false;
+    
+    // Direct ownership check
+    if (data.user_id === user.id) return true;
+    
+    // Artist ownership check
+    if (resource === 'artist' && data.id === user.artist_id) return true;
+    if (data.artist_id === user.artist_id) return true;
+    
+    // Nested artist ownership (album.artist.user_id, track.album.artist.user_id, etc.)
+    if (data.artist?.user_id === user.id) return true;
+    if (data.album?.artist?.user_id === user.id) return true;
+    if (data.event?.artist?.user_id === user.id) return true;
+    
+    return false;
+  };
+
+  // Check if user can perform an action on a resource (mirrors ability.rb)
+  const can = (action: PermissionAction, resource: string, data?: any): boolean => {
+    if (!user && !isAuthenticated) {
+      // Guest permissions - can only read public content
+      return action === 'read' && [
+        'artist', 'album', 'track', 'video', 'mini', 
+        'event', 'ticket_tier', 'merch_item', 'platform_token', 'platform_metric'
+      ].includes(resource);
+    }
+
+    // Admins can do everything
+    if (isAdmin) return true;
+
+    // Artist permissions
+    if (isArtist) {
+      // Artists can manage their own content
+      if (action === 'manage' || action === 'update' || action === 'destroy') {
+        if (!data) return false; // Need data to check ownership
+        
+        const artistResources = [
+          'artist', 'artist_token', 'album', 'track', 'video', 'mini',
+          'event', 'ticket_tier', 'livestream', 'merch_item', 'fan_pass', 'airdrop'
+        ];
+        
+        if (artistResources.includes(resource)) {
+          return owns(resource, data);
+        }
+      }
+      
+      // Artists can create their own content (no data needed for creation)
+      if (action === 'create') {
+        const creatableResources = [
+          'album', 'track', 'video', 'mini', 'event', 
+          'ticket_tier', 'livestream', 'merch_item', 'fan_pass', 'airdrop'
+        ];
+        return creatableResources.includes(resource);
+      }
+      
+      // Artists have all read permissions
+      if (action === 'read') return true;
+    }
+
+    // Fan permissions
+    if (isFan || isAuthenticated) {
+      // Fans can manage their own content
+      if ((action === 'manage' || action === 'update' || action === 'destroy') && data) {
+        const ownableResources = ['playlist', 'follow', 'report', 'comment', 'notification'];
+        if (ownableResources.includes(resource)) {
+          return owns(resource, data);
+        }
+      }
+      
+      // Fans can create certain content
+      if (action === 'create') {
+        const creatableResources = [
+          'playlist', 'follow', 'report', 'purchase', 'trade', 
+          'fan_pass_nft', 'stream', 'video_view', 'mini_view',
+          'stream_message', 'comment', 'like'
+        ];
+        return creatableResources.includes(resource);
+      }
+      
+      // Fans can read their own purchases/orders/tickets
+      if (action === 'read' && data) {
+        const readableOwnResources = [
+          'purchase', 'trade', 'ticket', 'order', 'fan_pass_nft',
+          'stream', 'video_view', 'mini_view', 'notification'
+        ];
+        if (readableOwnResources.includes(resource)) {
+          return owns(resource, data);
+        }
+      }
+      
+      // Fans can destroy their own likes
+      if (action === 'destroy' && resource === 'like' && data) {
+        return owns('like', data);
+      }
+      
+      // Fans can read all public content
+      if (action === 'read') return true;
+    }
+
+    return false;
+  };
+
+  // Simplified check for managing a resource (combines update, destroy, manage)
+  const canManageResource = (resource: string, data: any): boolean => {
+    return can('manage', resource, data) || 
+           (can('update', resource, data) && can('destroy', resource, data));
+  };
+
   return {
     user,
     loading,
@@ -132,7 +253,10 @@ export function usePermissions(): Permissions {
     canViewAnalytics,
     requiresAuth,
     requiresWallet,
-    hasPermission
+    hasPermission,
+    can,
+    canManageResource,
+    owns
   };
 }
 

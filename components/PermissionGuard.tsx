@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePermissions } from '@/lib/usePermissions';
+import { usePermissions, PermissionAction } from '@/lib/usePermissions';
 import { FiLock, FiAlertCircle } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
 
@@ -10,6 +10,9 @@ interface PermissionGuardProps {
   children: ReactNode;
   require?: 'auth' | 'admin' | 'artist' | 'wallet';
   permission?: string;
+  resource?: string;
+  action?: PermissionAction;
+  resourceData?: any;
   fallback?: ReactNode;
   redirectTo?: string;
   showMessage?: boolean;
@@ -19,6 +22,9 @@ export function PermissionGuard({
   children, 
   require,
   permission,
+  resource,
+  action,
+  resourceData,
   fallback,
   redirectTo,
   showMessage = true
@@ -32,6 +38,23 @@ export function PermissionGuard({
         <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
+  }
+
+  // Check resource-specific permission
+  if (resource && action) {
+    const hasAccess = perms.can(action, resource, resourceData);
+    if (!hasAccess) {
+      const message = `You cannot ${action} this ${resource}`;
+      if (showMessage) {
+        toast.error(message);
+      }
+      if (redirectTo) {
+        router.push(redirectTo);
+        return null;
+      }
+      return fallback || <PermissionDenied message={message} />;
+    }
+    return <>{children}</>;
   }
 
   // Check specific permission
