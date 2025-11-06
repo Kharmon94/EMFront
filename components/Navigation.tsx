@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState, Fragment } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState, Fragment, useEffect } from 'react';
 import { AccountButton } from './AccountButton';
 import { NotificationBell } from './NotificationBell';
 import { Menu, Transition, Dialog } from '@headlessui/react';
+import api from '@/lib/api';
 import { 
   FiHome, 
   FiCompass,
@@ -20,7 +21,10 @@ import {
   FiMusic,
   FiSearch,
   FiChevronDown,
-  FiList
+  FiList,
+  FiUser,
+  FiSettings,
+  FiLogOut
 } from 'react-icons/fi';
 
 const mainNavItems = [
@@ -47,8 +51,34 @@ const moreNavItems = [
 
 export function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetchUser();
+      } else {
+        setUser(null);
+      }
+    };
+
+    const fetchUser = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        setUser(response.data.user);
+      } catch (error) {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+    window.addEventListener('auth-change', checkAuth);
+    return () => window.removeEventListener('auth-change', checkAuth);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -240,13 +270,13 @@ export function Navigation() {
               }
             })}
             
-            {/* More button */}
+            {/* Profile button */}
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="flex flex-col items-center justify-center flex-1 min-h-[48px] text-gray-400"
             >
-              <FiMenu className="w-6 h-6 mb-1" />
-              <span className="text-xs font-medium">More</span>
+              <FiUser className="w-6 h-6 mb-1" />
+              <span className="text-xs font-medium">Profile</span>
             </button>
           </div>
         </div>
@@ -283,7 +313,7 @@ export function Navigation() {
                         <div className="p-4 border-b border-gray-800">
                           <div className="flex items-center justify-between">
                             <Dialog.Title className="text-lg font-bold text-white">
-                              Menu
+                              {user ? 'Account' : 'Sign In'}
                             </Dialog.Title>
                             <button
                               onClick={() => setMobileMenuOpen(false)}
@@ -294,32 +324,80 @@ export function Navigation() {
                           </div>
                         </div>
 
-                        <div className="flex-1 p-4 space-y-2">
-                          {/* Discover submenu items */}
-                          {mainNavItems
-                            .find(item => item.dropdown)
-                            ?.dropdown?.map((subItem) => {
-                              const Icon = subItem.icon;
-                              return (
+                        <div className="flex-1 p-4 space-y-2 overflow-y-auto">
+                          {/* User Info Section */}
+                          {user ? (
+                            <>
+                              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                    {user.email ? user.email[0].toUpperCase() : user.wallet_address?.[0].toUpperCase()}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="font-medium text-white truncate">
+                                      {user.email || (user.wallet_address ? `${user.wallet_address.slice(0, 4)}...${user.wallet_address.slice(-4)}` : 'User')}
+                                    </p>
+                                    <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Artist Dashboard Link (if artist) */}
+                              {user.role === 'artist' && (
                                 <Link
-                                  key={subItem.href}
-                                  href={subItem.href}
+                                  href="/artist/dashboard"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
-                                    isActive(subItem.href)
+                                    isActive('/artist/dashboard')
                                       ? 'bg-blue-600 text-white'
                                       : 'text-gray-300 hover:bg-gray-900'
                                   }`}
                                 >
-                                  <Icon className="w-5 h-5" />
-                                  <span className="font-medium">{subItem.label}</span>
+                                  <FiUser className="w-5 h-5" />
+                                  <span className="font-medium">Artist Dashboard</span>
                                 </Link>
-                              );
-                            })}
+                              )}
 
-                          <div className="h-px bg-gray-800 my-4" />
+                              {/* Settings Link */}
+                              <Link
+                                href="/settings"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                  isActive('/settings')
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-300 hover:bg-gray-900'
+                                }`}
+                              >
+                                <FiSettings className="w-5 h-5" />
+                                <span className="font-medium">Settings</span>
+                              </Link>
 
-                          {/* More items */}
+                              <div className="h-px bg-gray-800 my-4" />
+                            </>
+                          ) : (
+                            <>
+                              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-4 text-center">
+                                <p className="text-gray-400 mb-4">Sign in to access all features</p>
+                                <button
+                                  onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    // Trigger auth modal through event
+                                    const event = new CustomEvent('open-auth-modal');
+                                    window.dispatchEvent(event);
+                                  }}
+                                  className="w-full px-4 py-3 bg-white hover:bg-gray-100 text-black font-medium rounded-lg transition-colors"
+                                >
+                                  Sign In
+                                </button>
+                              </div>
+                              <div className="h-px bg-gray-800 my-4" />
+                            </>
+                          )}
+
+                          {/* Secondary Navigation Items */}
+                          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2">
+                            Explore
+                          </p>
                           {moreNavItems.map((item) => {
                             const Icon = item.icon;
                             return (
@@ -338,6 +416,30 @@ export function Navigation() {
                               </Link>
                             );
                           })}
+
+                          {/* Sign Out (if authenticated) */}
+                          {user && (
+                            <>
+                              <div className="h-px bg-gray-800 my-4" />
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    await api.delete('/auth/sign_out');
+                                    api.clearToken();
+                                    window.dispatchEvent(new Event('auth-change'));
+                                    setMobileMenuOpen(false);
+                                    router.push('/');
+                                  } catch (error) {
+                                    console.error('Sign out error:', error);
+                                  }
+                                }}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-red-400 hover:bg-red-900/20 w-full"
+                              >
+                                <FiLogOut className="w-5 h-5" />
+                                <span className="font-medium">Sign Out</span>
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </Dialog.Panel>

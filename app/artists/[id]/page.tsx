@@ -6,8 +6,10 @@ import { useQuery } from '@tanstack/react-query';
 import { 
   FiUsers, FiMusic, FiCalendar, FiVideo, FiShoppingBag, FiGift, 
   FiCheckCircle, FiShare2, FiHeart, FiMessageCircle, FiTrendingUp,
-  FiGlobe, FiInstagram, FiTwitter
+  FiGlobe, FiInstagram, FiTwitter, FiCopy, FiShare
 } from 'react-icons/fi';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { formatCurrency } from '@/lib/utils';
@@ -112,10 +114,48 @@ export default function ArtistProfilePage() {
     setFollowing(false);
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     const url = window.location.href;
-    navigator.clipboard.writeText(url);
-    toast.success('Profile link copied to clipboard!');
+    const title = `${artist.name} on EncryptedMedia`;
+    const text = artist.bio || `Check out ${artist.name}'s music and exclusive content`;
+
+    // Try native share API first (mobile friendly)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text,
+          url,
+        });
+        toast.success('Shared successfully!');
+      } catch (error) {
+        // User cancelled or share failed
+        if ((error as Error).name !== 'AbortError') {
+          // Fallback to copy to clipboard
+          await navigator.clipboard.writeText(url);
+          toast.success('Profile link copied to clipboard!');
+        }
+      }
+    } else {
+      // Fallback for desktop: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        toast.success('Profile link copied to clipboard!');
+      } catch (error) {
+        toast.error('Failed to copy link');
+      }
+    }
+  };
+
+  const shareToTwitter = () => {
+    const url = window.location.href;
+    const text = `Check out ${artist.name} on EncryptedMedia! 🎵`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+  };
+
+  const shareToFacebook = () => {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
   };
 
   return (
@@ -185,13 +225,66 @@ export default function ArtistProfilePage() {
                     {following ? 'Loading...' : is_following ? 'Following' : 'Follow'}
                   </button>
                   
-                  <button
-                    onClick={handleShare}
-                    className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full font-bold flex items-center gap-2"
-                  >
-                    <FiShare2 className="w-5 h-5" />
-                    Share
-                  </button>
+                  {/* Share Button with Dropdown */}
+                  <Menu as="div" className="relative">
+                    <Menu.Button className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full font-bold flex items-center gap-2">
+                      <FiShare2 className="w-5 h-5" />
+                      Share
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left divide-y divide-gray-800 rounded-lg bg-gray-900 border border-gray-800 shadow-lg focus:outline-none z-10">
+                        <div className="px-1 py-1">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={handleShare}
+                                className={`${
+                                  active ? 'bg-gray-800' : ''
+                                } group flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-300`}
+                              >
+                                <FiCopy className="w-4 h-4" />
+                                Copy Link
+                              </button>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={shareToTwitter}
+                                className={`${
+                                  active ? 'bg-gray-800' : ''
+                                } group flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-300`}
+                              >
+                                <FiTwitter className="w-4 h-4 text-blue-400" />
+                                Share on Twitter
+                              </button>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={shareToFacebook}
+                                className={`${
+                                  active ? 'bg-gray-800' : ''
+                                } group flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-300`}
+                              >
+                                <FiShare className="w-4 h-4 text-blue-500" />
+                                Share on Facebook
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
                   
                   {/* Social Links */}
                   {artist.social_links?.twitter && (
