@@ -36,7 +36,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
 
     setLoading(true);
     try {
-      const endpoint = mode === 'signin' ? '/api/v1/auth/sign_in' : '/api/v1/auth/sign_up';
+      const endpoint = mode === 'signin' ? '/auth/sign_in' : '/auth/sign_up';
       const payload: any = { email, password };
       
       if (mode === 'signup') {
@@ -77,7 +77,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
       const encodedMessage = new TextEncoder().encode(message);
       const signature = await signMessage(encodedMessage);
 
-      const endpoint = mode === 'signin' ? '/api/v1/auth/sign_in' : '/api/v1/auth/sign_up';
+      const endpoint = mode === 'signin' ? '/auth/sign_in' : '/auth/sign_up';
       const payload: any = {
         wallet_address: publicKey.toString(),
         signature: Buffer.from(signature).toString('hex'),

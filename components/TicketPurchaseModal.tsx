@@ -53,7 +53,7 @@ export function TicketPurchaseModal({ isOpen, onClose, event, tier, onSuccess }:
       if (!token) return;
       
       try {
-        const response = await api.get('/api/v1/auth/me');
+        const response = await api.get('/auth/me');
         setUser(response.data.user);
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -528,7 +528,7 @@ export function TicketPurchaseModal({ isOpen, onClose, event, tier, onSuccess }:
       onClose={() => setShowAuthModal(false)}
       defaultMode="signup"
       onSuccess={async () => {
-        const response = await api.get('/api/v1/auth/me');
+        const response = await api.get('/auth/me');
         setUser(response.data.user);
       }}
     />

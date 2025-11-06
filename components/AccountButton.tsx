@@ -43,7 +43,7 @@ export function AccountButton() {
     }
 
     try {
-      const response = await api.get('/api/v1/auth/me');
+      const response = await api.get('/auth/me');
       setUser(response.data.user);
     } catch (error) {
       console.error('Failed to fetch user:', error);
@@ -55,7 +55,7 @@ export function AccountButton() {
 
   const handleSignOut = async () => {
     try {
-      await api.delete('/api/v1/auth/sign_out');
+      await api.delete('/auth/sign_out');
       localStorage.removeItem('token');
       setUser(null);
       if (publicKey) {
