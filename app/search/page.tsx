@@ -167,7 +167,7 @@ function SearchPageContent() {
           <div>
             <p className="font-semibold text-gray-900 dark:text-gray-100">{item.title}</p>
             <p className="text-sm text-gray-500">
-              {item.venue}, {item.city}
+              {item.venue}, {item.location}
             </p>
             <p className="text-sm text-gray-500">{new Date(item.start_time).toLocaleDateString()}</p>
           </div>

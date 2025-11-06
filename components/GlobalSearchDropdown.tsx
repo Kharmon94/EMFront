@@ -223,7 +223,7 @@ export const GlobalSearchDropdown: React.FC<{
                         <div className="flex-1">
                           <p className="font-medium text-gray-900 dark:text-gray-100">{event.title}</p>
                           <p className="text-sm text-gray-500">
-                            {event.venue}, {event.city} • {new Date(event.start_time).toLocaleDateString()}
+                            {event.venue}, {event.location} • {new Date(event.start_time).toLocaleDateString()}
                           </p>
                         </div>
                       </button>
