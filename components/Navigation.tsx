@@ -32,8 +32,10 @@ import {
   FiShield,
   FiSun,
   FiMoon,
-  FiMessageCircle
+  FiMessageCircle,
+  FiShoppingCart
 } from 'react-icons/fi';
+import { useCart } from '@/lib/useCart';
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: FiHome, mobile: true },
