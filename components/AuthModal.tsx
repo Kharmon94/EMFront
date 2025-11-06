@@ -51,6 +51,8 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
       // Store token
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new Event('auth-change'));
       }
       
       toast.success(mode === 'signin' ? 'Signed in successfully!' : 'Account created successfully!');
@@ -96,6 +98,8 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
       // Store token
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new Event('auth-change'));
       }
       
       toast.success(mode === 'signin' ? 'Signed in successfully!' : 'Account created successfully!');

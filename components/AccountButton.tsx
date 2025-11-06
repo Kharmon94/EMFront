@@ -33,6 +33,21 @@ export function AccountButton() {
   useEffect(() => {
     setMounted(true);
     fetchCurrentUser();
+
+    // Listen for auth changes (e.g., sign in, sign out from other components)
+    const handleAuthChange = () => {
+      fetchCurrentUser();
+    };
+
+    window.addEventListener('auth-change', handleAuthChange);
+    
+    // Also listen for storage changes (in case of sign in from another tab)
+    window.addEventListener('storage', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('auth-change', handleAuthChange);
+      window.removeEventListener('storage', handleAuthChange);
+    };
   }, []);
 
   const fetchCurrentUser = async () => {
@@ -58,6 +73,8 @@ export function AccountButton() {
       await api.delete('/auth/sign_out');
       localStorage.removeItem('token');
       setUser(null);
+      // Dispatch event to notify other components
+      window.dispatchEvent(new Event('auth-change'));
       if (publicKey) {
         await disconnect();
       }
