@@ -65,20 +65,20 @@ export function Navigation() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [themeToggle, setThemeToggle] = useState<() => void>(() => () => {});
   
-  // Get theme with fallback for SSR
-  let theme = 'dark';
-  let toggleTheme = () => {};
-  try {
-    const themeContext = useTheme();
-    theme = themeContext.theme;
-    toggleTheme = themeContext.toggleTheme;
-  } catch (e) {
-    // ThemeProvider not available during SSR
-  }
-
   useEffect(() => {
     setMounted(true);
+    
+    // Initialize theme after mounting
+    try {
+      const themeContext = useTheme();
+      setTheme(themeContext.theme);
+      setThemeToggle(() => themeContext.toggleTheme);
+    } catch (e) {
+      // ThemeProvider not available
+    }
   }, []);
 
   useEffect(() => {
@@ -226,13 +226,15 @@ export function Navigation() {
               >
                 <FiSearch className="w-5 h-5" />
               </button>
-              <button
-                onClick={toggleTheme}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
-                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
-              </button>
+              {mounted && (
+                <button
+                  onClick={themeToggle}
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
+                  title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
+                </button>
+              )}
               <NotificationBell />
               <AccountButton />
             </div>
@@ -581,13 +583,15 @@ export function Navigation() {
                           )}
 
                           {/* Theme Toggle */}
-                          <button
-                            onClick={toggleTheme}
-                            className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
-                          >
-                            {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
-                            <span className="font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-                          </button>
+                          {mounted && (
+                            <button
+                              onClick={themeToggle}
+                              className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
+                            >
+                              {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
+                              <span className="font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                            </button>
+                          )}
 
                           {/* Sign Out (if authenticated) */}
                           {user && (
