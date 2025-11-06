@@ -7,6 +7,8 @@ import { Navigation } from '@/components/Navigation';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default function FanPassesPage() {
   const { data, isLoading } = useQuery({
     queryKey: ['fanPasses'],
