@@ -6,7 +6,7 @@ import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { 
   FiShoppingBag, FiSearch, FiFilter, FiCheckCircle, FiStar, FiGrid, FiList,
-  FiHeart, FiEye, FiChevronDown, FiX, FiTrendingUp
+  FiHeart, FiEye, FiChevronDown, FiX, FiTrendingUp, FiShoppingCart
 } from 'react-icons/fi';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
