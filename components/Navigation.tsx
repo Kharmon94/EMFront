@@ -351,12 +351,7 @@ export function Navigation() {
                               );
                             })}
 
-                          <div className="h-px bg-gray-800 my-4" />
-
-                          {/* More items */}
-                          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2">
-                            More
-                          </p>
+                          {/* Additional discover items */}
                           {moreNavItems.map((item) => {
                             const Icon = item.icon;
                             return (
