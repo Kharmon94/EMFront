@@ -168,37 +168,6 @@ export default function MerchDetailPage() {
                 </div>
               )}
 
-              {/* Variants */}
-              {hasVariants && (
-                <div className="border-t border-gray-800 pt-6">
-                  <h2 className="text-lg font-semibold text-white mb-3">Select Options</h2>
-                  <div className="space-y-4">
-                    {Object.entries(merch_item.variants).map(([key, values]: [string, any]) => (
-                      <div key={key}>
-                        <label className="text-sm text-gray-400 mb-2 block capitalize">
-                          {key}
-                        </label>
-                        <div className="flex flex-wrap gap-2">
-                          {Array.isArray(values) ? values.map((value: string) => (
-                            <button
-                              key={value}
-                              onClick={() => setSelectedVariant({ ...selectedVariant, [key]: value })}
-                              className={`px-4 py-2 rounded-lg border transition-colors ${
-                                selectedVariant?.[key] === value
-                                  ? 'border-purple-500 bg-purple-500/20 text-white'
-                                  : 'border-gray-700 text-gray-300 hover:border-gray-600'
-                              }`}
-                            >
-                              {value}
-                            </button>
-                          )) : null}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Actions */}
               <div className="border-t border-gray-800 pt-6 space-y-3">
                 <AddToCartButton merch_item={merch_item} variant="primary" showQuantity={true} />
