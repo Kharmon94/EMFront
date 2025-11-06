@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { FiX, FiShoppingCart, FiCheck, FiAlertCircle, FiCalendar, FiMapPin, FiDownload } from 'react-icons/fi';
@@ -8,6 +8,8 @@ import { formatCurrency, formatDateTime } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import { QRCodeCanvas } from 'qrcode.react';
 import api from '@/lib/api';
+import { AuthModal } from './AuthModal';
+import { ConnectWalletPrompt } from './ConnectWalletPrompt';
 
 interface TicketPurchaseModalProps {
   isOpen: boolean;
@@ -40,14 +42,41 @@ export function TicketPurchaseModal({ isOpen, onClose, event, tier, onSuccess }:
   const [errorMessage, setErrorMessage] = useState('');
   const [ticketData, setTicketData] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showWalletPrompt, setShowWalletPrompt] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      
+      try {
+        const response = await api.get('/api/v1/auth/me');
+        setUser(response.data.user);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      }
+    };
+    
+    if (isOpen) {
+      checkAuth();
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handlePurchase = async () => {
-    // CRITICAL: Validate wallet connection first
+    // Check if user is authenticated
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    // Check if wallet is connected for blockchain transaction
     if (!publicKey || !signTransaction) {
-      setErrorMessage('Please connect your wallet to purchase tickets');
-      setStep('error');
+      setShowWalletPrompt(true);
       return;
     }
 
@@ -210,6 +239,7 @@ export function TicketPurchaseModal({ isOpen, onClose, event, tier, onSuccess }:
   };
 
   return (
+    <>
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-gray-900 rounded-lg shadow-2xl max-w-md w-full border border-gray-800 max-h-[90vh] overflow-y-auto">
         {/* Header */}
@@ -491,6 +521,29 @@ export function TicketPurchaseModal({ isOpen, onClose, event, tier, onSuccess }:
         )}
       </div>
     </div>
+    
+    {/* Auth & Wallet Prompts */}
+    <AuthModal
+      isOpen={showAuthModal}
+      onClose={() => setShowAuthModal(false)}
+      defaultMode="signup"
+      onSuccess={async () => {
+        const response = await api.get('/api/v1/auth/me');
+        setUser(response.data.user);
+      }}
+    />
+    
+    <ConnectWalletPrompt
+      isOpen={showWalletPrompt}
+      onClose={() => setShowWalletPrompt(false)}
+      actionName="purchase this ticket"
+      onConnected={() => {
+        setShowWalletPrompt(false);
+        // Wallet is now connected, user can retry purchase
+        toast.success('Wallet connected! You can now purchase tickets.');
+      }}
+    />
+    </>
   );
 }
 

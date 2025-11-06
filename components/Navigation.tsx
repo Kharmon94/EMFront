@@ -2,130 +2,402 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { WalletButton } from './WalletButton';
+import { useState, Fragment } from 'react';
+import { AccountButton } from './AccountButton';
 import { NotificationBell } from './NotificationBell';
+import { Menu, Transition, Dialog } from '@headlessui/react';
 import { 
   FiHome, 
-  FiMusic, 
-  FiDollarSign, 
+  FiCompass,
+  FiTrendingUp,
   FiCalendar, 
   FiRadio, 
   FiShoppingBag,
   FiMenu,
   FiX,
   FiVideo,
-  FiFilm
+  FiFilm,
+  FiMusic,
+  FiSearch,
+  FiChevronDown,
+  FiList
 } from 'react-icons/fi';
 
-const navItems = [
-  { href: '/', label: 'Home', icon: FiHome },
-  { href: '/music', label: 'Music', icon: FiMusic },
-  { href: '/videos', label: 'Videos', icon: FiVideo },
-  { href: '/minis', label: "Mini's", icon: FiFilm },
-  { href: '/tokens', label: 'Tokens', icon: FiDollarSign },
-  { href: '/events', label: 'Events', icon: FiCalendar },
+const mainNavItems = [
+  { href: '/', label: 'Home', icon: FiHome, mobile: true },
+  {
+    label: 'Discover',
+    icon: FiCompass,
+    mobile: true,
+    dropdown: [
+      { href: '/music', label: 'Music', icon: FiMusic },
+      { href: '/videos', label: 'Videos', icon: FiVideo },
+      { href: '/minis', label: "Mini's", icon: FiFilm },
+    ]
+  },
+  { href: '/tokens', label: 'Tokens', icon: FiTrendingUp, mobile: true },
+  { href: '/events', label: 'Events', icon: FiCalendar, mobile: true },
+];
+
+const moreNavItems = [
   { href: '/livestreams', label: 'Live', icon: FiRadio },
   { href: '/shop', label: 'Shop', icon: FiShoppingBag },
+  { href: '/playlists', label: 'Playlists', icon: FiList },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
   };
 
+  const isDropdownActive = (items: any[]) => {
+    return items.some(item => isActive(item.href));
+  };
+
   return (
-    <nav className="sticky top-0 z-50 bg-black border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-              <FiMusic className="w-5 h-5 text-white" />
+    <>
+      {/* Desktop Navigation - Horizontal Top Bar */}
+      <nav className="hidden md:block sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-gray-800">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-3 flex-shrink-0">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                <FiMusic className="w-6 h-6 text-black" />
+              </div>
+              <span className="text-xl font-bold text-white tracking-tight">
+                EncryptedMedia
+              </span>
+            </Link>
+
+            {/* Centered Navigation */}
+            <div className="flex items-center space-x-1">
+              {mainNavItems.map((item, index) => {
+                if (item.dropdown) {
+                  // Dropdown menu
+                  return (
+                    <Menu as="div" key={index} className="relative">
+                      <Menu.Button 
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                          isDropdownActive(item.dropdown)
+                            ? 'bg-white text-black'
+                            : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                        }`}
+                      >
+                        <item.icon className="w-4 h-4" />
+                        <span>{item.label}</span>
+                        <FiChevronDown className="w-3 h-3" />
+                      </Menu.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-black border border-gray-800 shadow-xl focus:outline-none">
+                          <div className="py-1">
+                            {item.dropdown.map((subItem) => (
+                              <Menu.Item key={subItem.href}>
+                                {({ active }) => (
+                                  <Link
+                                    href={subItem.href}
+                                    className={`${
+                                      active || isActive(subItem.href)
+                                        ? 'bg-gray-900 text-white'
+                                        : 'text-gray-300'
+                                    } group flex w-full items-center gap-3 px-4 py-2 text-sm`}
+                                  >
+                                    <subItem.icon className="w-4 h-4" />
+                                    {subItem.label}
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                            ))}
+                          </div>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  );
+                } else if (item.href) {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        isActive(item.href)
+                          ? 'bg-white text-black'
+                          : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                }
+              })}
+              {moreNavItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                      isActive(item.href)
+                        ? 'bg-white text-black'
+                        : 'text-gray-300 hover:bg-gray-900 hover:text-white'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
-            <span className="hidden sm:block text-xl font-bold text-white">
-              Music Platform
-            </span>
-          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    isActive(item.href)
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-4">
-            <div className="hidden md:block">
+            {/* Right side */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="p-2 text-gray-300 hover:bg-gray-900 hover:text-white rounded-lg transition-colors"
+              >
+                <FiSearch className="w-5 h-5" />
+              </button>
               <NotificationBell />
+              <AccountButton />
             </div>
-            <div className="hidden md:block">
-              <WalletButton />
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Navigation */}
+      <div className="md:hidden">
+        {/* Top Bar */}
+        <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-gray-800">
+          <div className="flex items-center justify-between h-14 px-4">
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <FiMusic className="w-5 h-5 text-black" />
+              </div>
+              <span className="text-lg font-bold text-white tracking-tight">
+                EM
+              </span>
+            </Link>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-300"
+              >
+                <FiSearch className="w-5 h-5" />
+              </button>
+              <AccountButton />
             </div>
+          </div>
+        </div>
+
+        {/* Bottom Tab Bar */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-black border-t border-gray-800 pb-safe">
+          <div className="flex items-center justify-around h-16">
+            {mainNavItems.filter(item => item.mobile).map((item, index) => {
+              if (item.dropdown) {
+                const active = isDropdownActive(item.dropdown);
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setMobileMenuOpen(true)}
+                    className={`flex flex-col items-center justify-center flex-1 min-h-[48px] ${
+                      active ? 'text-blue-400' : 'text-gray-400'
+                    }`}
+                  >
+                    <item.icon className="w-6 h-6 mb-1" />
+                    <span className="text-xs font-medium">{item.label}</span>
+                  </button>
+                );
+              } else if (item.href) {
+                const active = isActive(item.href);
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex flex-col items-center justify-center flex-1 min-h-[48px] ${
+                      active ? 'text-blue-400' : 'text-gray-400'
+                    }`}
+                  >
+                    <Icon className="w-6 h-6 mb-1" />
+                    <span className="text-xs font-medium">{item.label}</span>
+                  </Link>
+                );
+              }
+            })}
             
-            {/* Mobile menu button */}
+            {/* More button */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-300 hover:bg-gray-800"
+              onClick={() => setMobileMenuOpen(true)}
+              className="flex flex-col items-center justify-center flex-1 min-h-[48px] text-gray-400"
             >
-              {mobileMenuOpen ? (
-                <FiX className="w-6 h-6" />
-              ) : (
-                <FiMenu className="w-6 h-6" />
-              )}
+              <FiMenu className="w-6 h-6 mb-1" />
+              <span className="text-xs font-medium">More</span>
             </button>
           </div>
         </div>
+
+        {/* Mobile More Drawer */}
+        <Transition appear show={mobileMenuOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-50" onClose={() => setMobileMenuOpen(false)}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black/80" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transform transition ease-in-out duration-300"
+                    enterFrom="translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transform transition ease-in-out duration-300"
+                    leaveFrom="translate-x-0"
+                    leaveTo="translate-x-full"
+                  >
+                    <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
+                      <div className="flex h-full flex-col overflow-y-auto bg-black border-l border-gray-800">
+                        <div className="p-4 border-b border-gray-800">
+                          <div className="flex items-center justify-between">
+                            <Dialog.Title className="text-lg font-bold text-white">
+                              Menu
+                            </Dialog.Title>
+                            <button
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-400"
+                            >
+                              <FiX className="w-6 h-6" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex-1 p-4 space-y-2">
+                          {/* Discover submenu items */}
+                          {mainNavItems
+                            .find(item => item.dropdown)
+                            ?.dropdown?.map((subItem) => {
+                              const Icon = subItem.icon;
+                              return (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                    isActive(subItem.href)
+                                      ? 'bg-blue-600 text-white'
+                                      : 'text-gray-300 hover:bg-gray-900'
+                                  }`}
+                                >
+                                  <Icon className="w-5 h-5" />
+                                  <span className="font-medium">{subItem.label}</span>
+                                </Link>
+                              );
+                            })}
+
+                          <div className="h-px bg-gray-800 my-4" />
+
+                          {/* More items */}
+                          {moreNavItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                  isActive(item.href)
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-300 hover:bg-gray-900'
+                                }`}
+                              >
+                                <Icon className="w-5 h-5" />
+                                <span className="font-medium">{item.label}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-800 bg-black">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-lg text-base font-medium transition-colors flex items-center gap-3 ${
-                    isActive(item.href)
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+      {/* Search Modal (Placeholder for now) */}
+      <Transition appear show={searchOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={() => setSearchOpen(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto pt-20 md:pt-32">
+            <div className="flex min-h-full items-start justify-center p-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden bg-black border border-gray-800 rounded-2xl p-6 text-left align-middle shadow-xl transition-all">
+                  <div className="relative">
+                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search for artists, tracks, albums..."
+                      className="w-full pl-12 pr-4 py-4 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-600"
+                      autoFocus
+                    />
+                  </div>
+                  <p className="mt-4 text-sm text-gray-500 text-center">
+                    Start typing to search...
+                  </p>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-          <div className="px-4 py-3 border-t border-gray-800">
-            <WalletButton />
-          </div>
-        </div>
-      )}
-    </nav>
+        </Dialog>
+      </Transition>
+
+      {/* Mobile Spacer */}
+      <div className="md:hidden h-14" />
+      <div className="md:hidden h-16" />
+    </>
   );
 }
-

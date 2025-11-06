@@ -5,6 +5,7 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import { SolanaWalletProvider } from "@/lib/solana";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
+import { OnboardingModal } from "@/components/OnboardingModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
           <SolanaWalletProvider>
             {children}
             <Toaster position="top-right" />
+            <OnboardingModal />
           </SolanaWalletProvider>
         </Providers>
       </body>
