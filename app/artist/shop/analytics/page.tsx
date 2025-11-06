@@ -196,8 +196,13 @@ export default function ArtistShopAnalyticsPage() {
   );
 }
 
-function AnalyticsCard({ icon: Icon, label, value, color }: any) {
-  const colors = {
+function AnalyticsCard({ icon: Icon, label, value, color }: { 
+  icon: any; 
+  label: string; 
+  value: string | number; 
+  color: 'blue' | 'green' | 'yellow' | 'purple' | 'red' 
+}) {
+  const colors: Record<string, string> = {
     blue: 'from-blue-500 to-blue-600',
     green: 'from-green-500 to-green-600',
     yellow: 'from-yellow-500 to-yellow-600',
