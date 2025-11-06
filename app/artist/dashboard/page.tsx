@@ -9,6 +9,7 @@ import {
   FiClock, FiHeart, FiMessageCircle, FiPackage, FiActivity, FiUser
 } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import api from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import { toast } from 'react-hot-toast';
@@ -144,10 +145,10 @@ export default function ArtistDashboard() {
   };
 
   return (
-    <>
+    <PermissionGuard require="artist" redirectTo="/">
       <Navigation />
-      
-      <div className="min-h-screen bg-black pt-6 pb-24 md:pb-6">
+
+      <div className="min-h-screen bg-white dark:bg-black pt-6 pb-24 md:pb-6">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
@@ -496,7 +497,7 @@ export default function ArtistDashboard() {
           </div>
         </div>
       </div>
-    </>
+    </PermissionGuard>
   );
 }
 

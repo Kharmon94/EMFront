@@ -118,10 +118,10 @@ export default function AdminDashboard() {
   const recentActivity = dashboardData?.data?.recent_activity;
 
   return (
-    <>
+    <PermissionGuard require="admin" redirectTo="/">
       <Navigation />
       
-      <div className="min-h-screen bg-black pt-6 pb-24 md:pb-6">
+      <div className="min-h-screen bg-white dark:bg-black pt-6 pb-24 md:pb-6">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header with gradient */}
           <div className="mb-8 relative">
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    </>
+    </PermissionGuard>
   );
 }
 
