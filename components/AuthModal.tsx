@@ -58,7 +58,17 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
       toast.success(mode === 'signin' ? 'Signed in successfully!' : 'Account created successfully!');
       onSuccess?.();
       onClose();
-      router.refresh();
+      
+      // Redirect based on user role
+      const user = response.data.user;
+      if (user?.role === 'admin') {
+        router.push('/admin');
+      } else if (user?.role === 'artist') {
+        router.push('/artist/dashboard');
+      } else {
+        router.push('/');
+        router.refresh();
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.error || `Failed to ${mode === 'signin' ? 'sign in' : 'sign up'}`);
     } finally {
@@ -105,7 +115,17 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin', onSuccess }
       toast.success(mode === 'signin' ? 'Signed in successfully!' : 'Account created successfully!');
       onSuccess?.();
       onClose();
-      router.refresh();
+      
+      // Redirect based on user role
+      const user = response.data.user;
+      if (user?.role === 'admin') {
+        router.push('/admin');
+      } else if (user?.role === 'artist') {
+        router.push('/artist/dashboard');
+      } else {
+        router.push('/');
+        router.refresh();
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.error || `Failed to ${mode === 'signin' ? 'sign in' : 'sign up'}`);
     } finally {
