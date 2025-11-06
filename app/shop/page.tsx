@@ -15,28 +15,37 @@ import { Pagination } from '@/components/Pagination';
 export default function GlobalShopPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedArtist, setSelectedArtist] = useState<string>('');
-  const [minPrice, setMinPrice] = useState<string>('');
-  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [priceRange, setPriceRange] = useState<string>('');
   const [minRating, setMinRating] = useState<string>('');
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [featuredOnly, setFeaturedOnly] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
 
+  // Parse price range
+  const getPriceRange = () => {
+    switch (priceRange) {
+      case 'under25': return { min: undefined, max: '25' };
+      case '25to50': return { min: '25', max: '50' };
+      case '50to100': return { min: '50', max: '100' };
+      case '100to200': return { min: '100', max: '200' };
+      case 'over200': return { min: '200', max: undefined };
+      default: return { min: undefined, max: undefined };
+    }
+  };
+
+  const { min: minPrice, max: maxPrice } = getPriceRange();
+
   const { data: merchData, isLoading } = useQuery({
-    queryKey: ['global-merch', searchQuery, selectedCategory, selectedArtist, minPrice, maxPrice, minRating, inStockOnly, featuredOnly, sortBy, page],
+    queryKey: ['global-merch', searchQuery, selectedCategory, priceRange, minRating, inStockOnly, sortBy, page],
     queryFn: () => api.getMerchItems({
       q: searchQuery || undefined,
       category_id: selectedCategory || undefined,
-      artist_id: selectedArtist || undefined,
-      min_price: minPrice || undefined,
-      max_price: maxPrice || undefined,
+      min_price: minPrice,
+      max_price: maxPrice,
       min_rating: minRating || undefined,
       in_stock: inStockOnly ? 'true' : undefined,
-      featured: featuredOnly ? 'true' : undefined,
       sort: sortBy,
       page,
       limit: 24
@@ -48,35 +57,23 @@ export default function GlobalShopPage() {
     queryFn: () => api.get('/categories').then(res => res.data),
   });
 
-  const { data: artistsData } = useQuery({
-    queryKey: ['artists-list'],
-    queryFn: () => api.getArtists({ limit: 100 }),
-  });
-
   const merchItems = merchData?.merch_items || [];
   const categories = categoriesData?.categories || [];
-  const artists = artistsData?.artists || [];
   const meta = merchData?.meta || {};
 
   const clearFilters = () => {
     setSelectedCategory('');
-    setSelectedArtist('');
-    setMinPrice('');
-    setMaxPrice('');
+    setPriceRange('');
     setMinRating('');
     setInStockOnly(false);
-    setFeaturedOnly(false);
     setPage(1);
   };
 
   const activeFiltersCount = [
     selectedCategory,
-    selectedArtist,
-    minPrice,
-    maxPrice,
+    priceRange,
     minRating,
-    inStockOnly,
-    featuredOnly
+    inStockOnly
   ].filter(Boolean).length;
 
   return (
@@ -239,23 +236,18 @@ export default function GlobalShopPage() {
                   {/* Price Range */}
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Price Range</h3>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="number"
-                        placeholder="Min"
-                        value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
-                        className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
-                      />
-                      <span className="text-gray-400">-</span>
-                      <input
-                        type="number"
-                        placeholder="Max"
-                        value={maxPrice}
-                        onChange={(e) => setMaxPrice(e.target.value)}
-                        className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
-                      />
-                    </div>
+                    <select
+                      value={priceRange}
+                      onChange={(e) => setPriceRange(e.target.value)}
+                      className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
+                    >
+                      <option value="">All Prices</option>
+                      <option value="under25">Under $25</option>
+                      <option value="25to50">$25 - $50</option>
+                      <option value="50to100">$50 - $100</option>
+                      <option value="100to200">$100 - $200</option>
+                      <option value="over200">Over $200</option>
+                    </select>
                   </div>
 
                   {/* Rating */}
@@ -296,46 +288,18 @@ export default function GlobalShopPage() {
                     </div>
                   </div>
 
-                  {/* Artist */}
+                  {/* Availability */}
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Artist</h3>
-                    <select
-                      value={selectedArtist}
-                      onChange={(e) => setSelectedArtist(e.target.value)}
-                      className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
-                    >
-                      <option value="">All Artists</option>
-                      {artists.map((artist: any) => (
-                        <option key={artist.id} value={artist.id}>
-                          {artist.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Quick Filters */}
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Quick Filters</h3>
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={inStockOnly}
-                          onChange={(e) => setInStockOnly(e.target.checked)}
-                          className="w-4 h-4 rounded border-gray-300 text-blue-600"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={featuredOnly}
-                          onChange={(e) => setFeaturedOnly(e.target.checked)}
-                          className="w-4 h-4 rounded border-gray-300 text-blue-600"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">Featured Items</span>
-                      </label>
-                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Availability</h3>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={inStockOnly}
+                        onChange={(e) => setInStockOnly(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-blue-600"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
+                    </label>
                   </div>
 
                 </div>
@@ -393,47 +357,31 @@ export default function GlobalShopPage() {
 
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Price Range</h3>
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          value={minPrice}
-                          onChange={(e) => setMinPrice(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
-                        />
-                        <span className="text-gray-400">-</span>
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          value={maxPrice}
-                          onChange={(e) => setMaxPrice(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
-                        />
-                      </div>
+                      <select
+                        value={priceRange}
+                        onChange={(e) => setPriceRange(e.target.value)}
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
+                      >
+                        <option value="">All Prices</option>
+                        <option value="under25">Under $25</option>
+                        <option value="25to50">$25 - $50</option>
+                        <option value="50to100">$50 - $100</option>
+                        <option value="100to200">$100 - $200</option>
+                        <option value="over200">Over $200</option>
+                      </select>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Quick Filters</h3>
-                      <div className="space-y-2">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={inStockOnly}
-                            onChange={(e) => setInStockOnly(e.target.checked)}
-                            className="w-4 h-4 rounded border-gray-300 text-blue-600"
-                          />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={featuredOnly}
-                            onChange={(e) => setFeaturedOnly(e.target.checked)}
-                            className="w-4 h-4 rounded border-gray-300 text-blue-600"
-                          />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">Featured Items</span>
-                        </label>
-                      </div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Availability</h3>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={inStockOnly}
+                          onChange={(e) => setInStockOnly(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-300 text-blue-600"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
+                      </label>
                     </div>
 
                     {/* Mobile Apply Button */}
