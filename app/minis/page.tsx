@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { FiPlay, FiEye, FiHeart, FiTrendingUp, FiUsers, FiGlobe, FiLock } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import api from '@/lib/api';
 
 export default function MinisPage() {
@@ -78,8 +79,9 @@ export default function MinisPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
-      <Navigation />
+    <PermissionGuard require="auth" redirectTo="/">
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
+        <Navigation />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -228,7 +230,8 @@ export default function MinisPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </PermissionGuard>
   );
 }
 

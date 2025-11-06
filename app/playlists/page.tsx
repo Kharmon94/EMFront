@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { MusicPlayer } from '@/components/MusicPlayer';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import { FiMusic, FiPlus, FiPlay, FiLock, FiGlobe, FiClock } from 'react-icons/fi';
 import Link from 'next/link';
 import { formatDuration } from '@/lib/utils';
@@ -26,9 +27,9 @@ export default function PlaylistsPage() {
   };
 
   return (
-    <>
+    <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-32">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
@@ -86,7 +87,7 @@ export default function PlaylistsPage() {
       </main>
       
       <MusicPlayer />
-    </>
+    </PermissionGuard>
   );
 }
 

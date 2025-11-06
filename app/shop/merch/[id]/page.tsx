@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import { 
   FiShoppingCart, 
   FiCheckCircle, 
@@ -81,9 +82,9 @@ export default function MerchDetailPage() {
   };
 
   return (
-    <>
+    <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-20">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column - Images */}
@@ -283,7 +284,7 @@ export default function MerchDetailPage() {
           )}
         </div>
       </main>
-    </>
+    </PermissionGuard>
   );
 }
 

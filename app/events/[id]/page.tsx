@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { TicketPurchaseModal } from '@/components/TicketPurchaseModal';
+import { PermissionGuard } from '@/components/PermissionGuard';
 import { 
   FiCalendar, 
   FiMapPin, 
@@ -111,9 +112,9 @@ export default function EventDetailPage() {
   };
 
   return (
-    <>
+    <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-32">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
         {/* Hero Section */}
         <div className="relative h-96 sm:h-[500px] overflow-hidden">
           {/* Background Image */}

@@ -1,16 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { FiUsers, FiClock } from 'react-icons/fi';
+import { FiUsers, FiClock, FiLogIn } from 'react-icons/fi';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import LivestreamPlayer from '@/components/LivestreamPlayer';
+import { usePermissions } from '@/lib/usePermissions';
 
 export default function LivestreamViewPage() {
   const params = useParams();
   const livestreamId = parseInt(params.id as string);
+  const { isAuthenticated } = usePermissions();
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const { data, refetch } = useQuery({
     queryKey: ['livestream', livestreamId],
@@ -21,6 +24,7 @@ export default function LivestreamViewPage() {
   const livestream = data?.livestream;
   const isLive = livestream?.status === 'live';
   const hlsUrl = livestream?.hls_url;
+  const isFree = !livestream?.is_token_gated && !livestream?.price_sol;
 
   if (!livestream) {
     return (
@@ -41,11 +45,34 @@ export default function LivestreamViewPage() {
           {/* Video Player */}
           <div className="mb-6">
             {isLive && hlsUrl ? (
-              <LivestreamPlayer
-                hlsUrl={hlsUrl}
-                isLive={isLive}
-                poster={livestream.artist.avatar_url}
-              />
+              <>
+                {!isFree && !isAuthenticated ? (
+                  <div className="bg-gray-900 rounded-lg border border-gray-800 aspect-video flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900/40 backdrop-blur-sm" />
+                    <div className="relative text-center z-10 p-8">
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mx-auto mb-6">
+                        <FiLogIn className="w-10 h-10 text-white" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-white mb-3">Premium Livestream</h2>
+                      <p className="text-gray-300 mb-6 max-w-md mx-auto">
+                        This is a premium livestream. Sign in to watch.
+                      </p>
+                      <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))}
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-semibold shadow-lg"
+                      >
+                        Sign In to Watch
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <LivestreamPlayer
+                    hlsUrl={hlsUrl}
+                    isLive={isLive}
+                    poster={livestream.artist.avatar_url}
+                  />
+                )}
+              </>
             ) : (
               <div className="bg-gray-900 rounded-lg border border-gray-800 aspect-video flex items-center justify-center">
                 <div className="text-center">
@@ -98,12 +125,28 @@ export default function LivestreamViewPage() {
                 <p className="text-gray-300">{livestream.description}</p>
               </section>
 
-              {/* TODO: Chat component will go here */}
+              {/* Chat component - requires auth */}
               <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
                 <h3 className="text-lg font-semibold text-white mb-4">Live Chat</h3>
-                <div className="text-gray-500 text-center py-8">
-                  Chat feature coming soon...
-                </div>
+                {!isAuthenticated ? (
+                  <div className="text-center py-12">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mx-auto mb-4">
+                      <FiLogIn className="w-8 h-8 text-white" />
+                    </div>
+                    <h4 className="text-white font-semibold mb-2">Join the conversation</h4>
+                    <p className="text-gray-400 mb-4 text-sm">Sign in to chat with other viewers</p>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))}
+                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Sign In to Chat
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-gray-500 text-center py-8">
+                    Chat feature coming soon...
+                  </div>
+                )}
               </section>
             </div>
 

@@ -7,7 +7,8 @@ import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
 import { PurchaseModal } from '@/components/PurchaseModal';
-import { FiPlay, FiHeart, FiShare2, FiCheckCircle, FiMusic, FiShoppingCart, FiClock, FiHeadphones } from 'react-icons/fi';
+import { usePermissions } from '@/lib/usePermissions';
+import { FiPlay, FiHeart, FiShare2, FiCheckCircle, FiMusic, FiShoppingCart, FiClock, FiHeadphones, FiLogIn } from 'react-icons/fi';
 import Link from 'next/link';
 import { formatDuration, formatDate, formatNumber } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -16,6 +17,7 @@ export default function TrackPage() {
   const params = useParams();
   const trackId = params.id as string;
   const { playTrack } = usePlayerStore();
+  const { isAuthenticated } = usePermissions();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const { data, isLoading, error } = useQuery({
@@ -48,6 +50,12 @@ export default function TrackPage() {
   const { track } = data;
 
   const handlePlay = () => {
+    if (!isAuthenticated) {
+      toast.error('Please sign in to listen to music');
+      window.dispatchEvent(new CustomEvent('open-auth-modal'));
+      return;
+    }
+    
     const enrichedTrack = {
       ...track,
       album: track.album,

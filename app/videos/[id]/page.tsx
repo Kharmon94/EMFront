@@ -1,15 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection, Transaction, SystemProgram, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { FiHeart, FiEye, FiClock, FiGlobe, FiEye as FiEyePreview, FiLock, FiUser, FiCalendar } from 'react-icons/fi';
+import { FiHeart, FiEye, FiClock, FiGlobe, FiEye as FiEyePreview, FiLock, FiUser, FiCalendar, FiLogIn } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
 import VideoPlayer from '@/components/VideoPlayer';
 import CommentSection from '@/components/CommentSection';
+import { usePermissions } from '@/lib/usePermissions';
 import api from '@/lib/api';
 import { toast } from 'react-hot-toast';
 
@@ -18,10 +19,12 @@ export default function VideoPage() {
   const router = useRouter();
   const videoId = parseInt(params.id as string);
   const { publicKey, signTransaction } = useWallet();
+  const { isAuthenticated } = usePermissions();
   
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [hasPurchased, setHasPurchased] = useState(false);
   const [watchData, setWatchData] = useState<any>(null);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['video', videoId],
@@ -30,6 +33,13 @@ export default function VideoPage() {
 
   const video = data?.video;
   const access = data?.access;
+
+  // Check auth requirement when trying to watch
+  useEffect(() => {
+    if (video && !isAuthenticated) {
+      setShowAuthPrompt(true);
+    }
+  }, [video, isAuthenticated]);
 
   // Load watch URL if allowed
   const loadVideo = async () => {
