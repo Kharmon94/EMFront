@@ -242,7 +242,7 @@ export default function ArtistOrdersPage() {
         <OrderDetailModal
           order={selectedOrder}
           onClose={() => setSelectedOrder(null)}
-          onUpdate={(status) => {
+          onUpdate={(status: string) => {
             if (status === 'shipped') {
               if (!trackingNumber || !carrier) return;
               updateStatusMutation.mutate({
@@ -268,8 +268,13 @@ export default function ArtistOrdersPage() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, color }: any) {
-  const colors = {
+function StatCard({ icon: Icon, label, value, color }: {
+  icon: any;
+  label: string;
+  value: string | number;
+  color: 'blue' | 'green' | 'yellow' | 'purple' | 'red';
+}) {
+  const colors: Record<string, string> = {
     blue: 'from-blue-500 to-blue-600',
     green: 'from-green-500 to-green-600',
     yellow: 'from-yellow-500 to-yellow-600',
@@ -292,7 +297,15 @@ function StatCard({ icon: Icon, label, value, color }: any) {
   );
 }
 
-function OrderDetailModal({ order, onClose, onUpdate, trackingNumber, setTrackingNumber, carrier, setCarrier }: any) {
+function OrderDetailModal({ order, onClose, onUpdate, trackingNumber, setTrackingNumber, carrier, setCarrier }: {
+  order: any;
+  onClose: () => void;
+  onUpdate: (status: string) => void;
+  trackingNumber: string;
+  setTrackingNumber: (value: string) => void;
+  carrier: string;
+  setCarrier: (value: string) => void;
+}) {
   return (
     <div className="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-900 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
