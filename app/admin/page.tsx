@@ -7,10 +7,12 @@ import { Navigation } from '@/components/Navigation';
 import { StatCard } from '@/components/admin/StatCard';
 import { ActivityFeed } from '@/components/admin/ActivityFeed';
 import { PermissionGuard } from '@/components/PermissionGuard';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 import { 
   FiShield, FiUsers, FiDollarSign, FiMusic, FiFlag, FiCheckCircle,
   FiTrendingUp, FiActivity, FiAlertTriangle, FiBarChart2, FiGrid,
-  FiEye, FiEdit, FiTrash2, FiStar, FiX, FiCheck, FiSearch, FiFilter
+  FiEye, FiEdit, FiTrash2, FiStar, FiX, FiCheck, FiSearch, FiFilter, FiMenu
 } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
@@ -22,6 +24,7 @@ export default function AdminDashboard() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<AdminSection>('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -127,21 +130,31 @@ export default function AdminDashboard() {
           {/* Header with gradient */}
           <div className="mb-8 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-red-600/10 blur-3xl -z-10" />
-            <div className="flex items-center gap-4 mb-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
-                <FiShield className="w-8 h-8 text-white" />
+            <div className="flex items-center justify-between gap-4 mb-2">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
+                  <FiShield className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">Admin Control Center</h1>
+                  <p className="text-gray-600 dark:text-gray-400">Platform management and monitoring</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-4xl font-bold text-white tracking-tight">Admin Control Center</h1>
-                <p className="text-gray-400">Platform management and monitoring</p>
-              </div>
+              
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-3 rounded-lg bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors"
+              >
+                <FiMenu className="w-6 h-6" />
+              </button>
             </div>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Sidebar with enhanced design */}
-            <div className="lg:w-64 flex-shrink-0">
-              <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-2 sticky top-20 shadow-xl">
+            {/* Desktop Sidebar */}
+            <div className="hidden lg:block lg:w-64 flex-shrink-0">
+              <div className="bg-gray-100 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-300 dark:border-gray-800 rounded-2xl p-2 sticky top-20 shadow-xl">
                 {sidebarItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeSection === item.id;
@@ -152,7 +165,7 @@ export default function AdminDashboard() {
                       className={`group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all mb-1 ${
                         isActive
                           ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-600/20'
-                          : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-white'
                       }`}
                     >
                       <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-105'}`} />
@@ -162,6 +175,82 @@ export default function AdminDashboard() {
                 })}
               </div>
             </div>
+
+            {/* Mobile Sidebar Drawer */}
+            <Transition appear show={sidebarOpen} as={Fragment}>
+              <Dialog as="div" className="relative z-50 lg:hidden" onClose={() => setSidebarOpen(false)}>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-black/60 dark:bg-black/80" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-hidden">
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
+                      <Transition.Child
+                        as={Fragment}
+                        enter="transform transition ease-in-out duration-300"
+                        enterFrom="-translate-x-full"
+                        enterTo="translate-x-0"
+                        leave="transform transition ease-in-out duration-300"
+                        leaveFrom="translate-x-0"
+                        leaveTo="-translate-x-full"
+                      >
+                        <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
+                          <div className="flex h-full flex-col bg-white dark:bg-black border-r border-gray-300 dark:border-gray-800">
+                            <div className="p-4 border-b border-gray-300 dark:border-gray-800">
+                              <div className="flex items-center justify-between">
+                                <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                  <FiShield className="w-5 h-5 text-blue-500" />
+                                  Admin Menu
+                                </Dialog.Title>
+                                <button
+                                  onClick={() => setSidebarOpen(false)}
+                                  className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-600 dark:text-gray-400"
+                                >
+                                  <FiX className="w-6 h-6" />
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="flex-1 p-4 overflow-y-auto">
+                              {sidebarItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = activeSection === item.id;
+                                return (
+                                  <button
+                                    key={item.id}
+                                    onClick={() => {
+                                      setActiveSection(item.id);
+                                      setSidebarOpen(false);
+                                    }}
+                                    className={`group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all mb-2 min-h-[48px] ${
+                                      isActive
+                                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-600/20'
+                                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-white'
+                                    }`}
+                                  >
+                                    <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-105'}`} />
+                                    <span className="font-medium">{item.label}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </Dialog.Panel>
+                      </Transition.Child>
+                    </div>
+                  </div>
+                </div>
+              </Dialog>
+            </Transition>
 
             {/* Main Content */}
             <div className="flex-1 min-w-0">
