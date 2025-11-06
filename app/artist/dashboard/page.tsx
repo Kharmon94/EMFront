@@ -19,9 +19,14 @@ export default function ArtistDashboard() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const checkArtistAccess = async () => {
       try {
         const response = await api.get('/auth/me');
+        
+        if (!isMounted) return;
+        
         const currentUser = response.data.user;
         setUser(currentUser);
 
@@ -29,13 +34,24 @@ export default function ArtistDashboard() {
           toast.error('Artist access required');
           router.push('/');
         }
-      } catch (error) {
+      } catch (error: any) {
+        if (!isMounted) return;
+        
+        // Clear invalid token on 401
+        if (error.response?.status === 401) {
+          api.clearToken();
+        }
+        
         toast.error('Please sign in to access artist dashboard');
         router.push('/');
       }
     };
 
     checkArtistAccess();
+    
+    return () => {
+      isMounted = false;
+    };
   }, [router]);
 
   const { data, isLoading, error } = useQuery({

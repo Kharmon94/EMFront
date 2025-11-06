@@ -24,7 +24,11 @@ export default function Home() {
         }
         // Fans stay on home page to discover content
         setLoading(false);
-      } catch (error) {
+      } catch (error: any) {
+        // Clear invalid token on 401
+        if (error.response?.status === 401) {
+          api.clearToken();
+        }
         // Not logged in, show landing page
         setLoading(false);
       }

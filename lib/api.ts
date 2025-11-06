@@ -37,9 +37,8 @@ class ApiClient {
         if (error.response?.status === 401) {
           // Token expired or invalid - clear it
           this.clearToken();
-          if (typeof window !== 'undefined') {
-            window.location.href = '/';
-          }
+          // Don't redirect here - let individual pages handle it
+          // to prevent refresh loops
         }
         return Promise.reject(error);
       }

@@ -23,10 +23,14 @@ export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState<AdminSection>('overview');
 
   useEffect(() => {
+    let isMounted = true;
+    
     const checkAdminAccess = async () => {
       try {
         const response = await api.get('/auth/me');
         const currentUser = response.data.user;
+        
+        if (!isMounted) return;
         
         if (currentUser.role !== 'admin') {
           toast.error('Admin access required');
@@ -36,13 +40,24 @@ export default function AdminDashboard() {
         
         setUser(currentUser);
         setLoading(false);
-      } catch (error) {
+      } catch (error: any) {
+        if (!isMounted) return;
+        
+        // Clear invalid token on 401
+        if (error.response?.status === 401) {
+          api.clearToken();
+        }
+        
         toast.error('Please sign in to access admin panel');
         router.push('/');
       }
     };
 
     checkAdminAccess();
+    
+    return () => {
+      isMounted = false;
+    };
   }, [router]);
 
   // Fetch dashboard data
