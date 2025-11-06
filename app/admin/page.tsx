@@ -70,25 +70,25 @@ export default function AdminDashboard() {
   const { data: usersData, refetch: refetchUsers } = useQuery({
     queryKey: ['admin', 'users'],
     queryFn: () => api.get('/admin/users'),
-    enabled: activeSection === 'users',
+    enabled: activeSection === 'users' && !!user,
   });
 
   const { data: analyticsData } = useQuery({
-    queryKey: ['admin', 'analytics'],
+    queryKey: ['admin', 'analytics', activeSection],
     queryFn: () => api.get('/admin/analytics?period=30d'),
-    enabled: activeSection === 'analytics',
+    enabled: activeSection === 'analytics' && !!user,
   });
 
   const { data: revenueData } = useQuery({
     queryKey: ['admin', 'revenue'],
     queryFn: () => api.get('/admin/revenue'),
-    enabled: activeSection === 'revenue',
+    enabled: activeSection === 'revenue' && !!user,
   });
 
   const { data: contentData, refetch: refetchContent } = useQuery({
     queryKey: ['admin', 'content'],
     queryFn: () => api.get('/admin/content'),
-    enabled: activeSection === 'content',
+    enabled: activeSection === 'content' && !!user,
   });
 
   if (loading || !user) {
