@@ -22,7 +22,7 @@ export const AutocompleteSearch: React.FC<AutocompleteSearchProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Close dropdown when clicking outside
   useEffect(() => {
