@@ -245,7 +245,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
             <div className="text-2xl font-bold text-white mb-1">
               {quickStats?.content_uploads_24h ? 
-                Object.values(quickStats.content_uploads_24h).reduce((a: any, b: any) => a + b, 0) : 0
+                (Object.values(quickStats.content_uploads_24h).reduce((a: any, b: any) => a + b, 0) as number) : 0
               }
             </div>
             <div className="text-sm text-gray-400">Content Uploads</div>
