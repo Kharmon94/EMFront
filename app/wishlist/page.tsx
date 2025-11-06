@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
 import { PermissionGuard } from '@/components/PermissionGuard';
-import { FiHeart, FiTrash2, FiShoppingCart, FiShare2, FiStar } from 'react-icons/fi';
+import { FiHeart, FiTrash2, FiShoppingCart, FiShare2, FiStar, FiShoppingBag } from 'react-icons/fi';
 import api from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import toast from 'react-hot-toast';
