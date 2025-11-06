@@ -1,6 +1,6 @@
 {
-  "name": "Music Artist Platform",
-  "short_name": "Music Platform",
+  "name": "EncryptedMedia - Music Platform",
+  "short_name": "EncryptedMedia",
   "description": "Discover music, support artists, and trade artist tokens on Solana blockchain",
   "start_url": "/",
   "display": "standalone",
@@ -20,8 +20,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["music", "entertainment", "finance"],
-  "screenshots": []
+  ]
 }
-
