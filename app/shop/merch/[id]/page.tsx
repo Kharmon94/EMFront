@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { PermissionGuard } from '@/components/PermissionGuard';
+import { AddToCartButton } from '@/components/AddToCartButton';
 import { 
   FiShoppingCart, 
   FiCheckCircle, 
@@ -23,8 +24,6 @@ export default function MerchDetailPage() {
   const merchId = params.id as string;
   
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
-  const [quantity, setQuantity] = useState(1);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['merch', merchId],
@@ -57,20 +56,7 @@ export default function MerchDetailPage() {
   const images = merch_item.images || [];
   const hasVariants = merch_item.variants && Object.keys(merch_item.variants).length > 0;
 
-  const handleAddToCart = () => {
-    if (hasVariants && !selectedVariant) {
-      toast.error('Please select a variant');
-      return;
-    }
-    
-    if (!merch_item.in_stock) {
-      toast.error('This item is out of stock');
-      return;
-    }
-
-    // TODO: Implement cart functionality
-    toast.success(`Added ${quantity} to cart`);
-  };
+  // Cart functionality is now handled by AddToCartButton component
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -213,40 +199,9 @@ export default function MerchDetailPage() {
                 </div>
               )}
 
-              {/* Quantity */}
-              <div className="border-t border-gray-800 pt-6">
-                <label className="text-sm text-gray-400 mb-2 block">Quantity</label>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                    className="p-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
-                  >
-                    <FiMinus className="w-5 h-5" />
-                  </button>
-                  <span className="text-white font-semibold text-xl w-12 text-center">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(Math.min(merch_item.inventory_count || 99, quantity + 1))}
-                    disabled={quantity >= (merch_item.inventory_count || 99)}
-                    className="p-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
-                  >
-                    <FiPlus className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
               {/* Actions */}
               <div className="border-t border-gray-800 pt-6 space-y-3">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!merch_item.in_stock}
-                  className="w-full px-6 py-4 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:text-gray-400 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
-                >
-                  <FiShoppingCart className="w-5 h-5" />
-                  Add to Cart
-                </button>
+                <AddToCartButton merch_item={merch_item} variant="primary" showQuantity={true} />
 
                 <div className="flex gap-3">
                   <button
