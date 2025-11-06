@@ -624,7 +624,7 @@ export function Navigation() {
                           {/* Theme Toggle */}
                           {mounted && (
                             <button
-                              onClick={themeToggle}
+                              onClick={toggleTheme}
                               className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
                             >
                               {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
