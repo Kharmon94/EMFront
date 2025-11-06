@@ -752,6 +752,95 @@ export default function SettingsPage() {
     );
   }
 
+  function MessagingSection() {
+    const handleMessagingUpdate = async (field: string, value: any) => {
+      const newPrefs = { ...messagingPrefs, [field]: value };
+      setMessagingPrefs(newPrefs);
+
+      try {
+        await api.patch('/users/me', {
+          [field]: value
+        });
+        toast.success('Messaging preferences updated');
+      } catch (error) {
+        setMessagingPrefs(messagingPrefs);
+        toast.error('Failed to update preferences');
+      }
+    };
+
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Messaging Preferences</h2>
+          <p className="text-gray-600 dark:text-gray-400">Control who can send you direct messages</p>
+        </div>
+
+        {/* Who can message you */}
+        <div className="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-6">
+          <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Who can send you messages</h3>
+          <div className="space-y-3">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="accept_messages"
+                value="everyone"
+                checked={messagingPrefs.accept_messages === 'everyone'}
+                onChange={() => handleMessagingUpdate('accept_messages', 'everyone')}
+                className="w-4 h-4 text-blue-600"
+              />
+              <div>
+                <p className="text-gray-900 dark:text-white font-medium">Everyone</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Anyone can send you messages</p>
+              </div>
+            </label>
+            
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="accept_messages"
+                value="following_only"
+                checked={messagingPrefs.accept_messages === 'following_only'}
+                onChange={() => handleMessagingUpdate('accept_messages', 'following_only')}
+                className="w-4 h-4 text-blue-600"
+              />
+              <div>
+                <p className="text-gray-900 dark:text-white font-medium">People You Follow</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Only people you follow can message you</p>
+              </div>
+            </label>
+            
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="accept_messages"
+                value="no_one"
+                checked={messagingPrefs.accept_messages === 'no_one'}
+                onChange={() => handleMessagingUpdate('accept_messages', 'no_one')}
+                className="w-4 h-4 text-blue-600"
+              />
+              <div>
+                <p className="text-gray-900 dark:text-white font-medium">No One</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Turn off direct messages completely</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        {/* Info Box */}
+        <div className="bg-blue-100 dark:bg-blue-900/20 border border-blue-300 dark:border-blue-800/30 rounded-lg p-4">
+          <div className="flex gap-3">
+            <FiMessageCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                <strong className="text-gray-900 dark:text-white">Note:</strong> Artists and sellers can always message you about orders and purchases.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   function ArtistSection() {
     const handleArtistSave = async () => {
       setSaving(true);
