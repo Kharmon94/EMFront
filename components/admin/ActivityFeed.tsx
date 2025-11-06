@@ -31,9 +31,12 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl divide-y divide-gray-800">
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-white">Recent Activity</h3>
+    <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl overflow-hidden shadow-xl">
+      <div className="p-6 border-b border-gray-800/50">
+        <h3 className="text-xl font-bold text-white flex items-center gap-2">
+          <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-blue-500 rounded-full" />
+          Recent Activity
+        </h3>
       </div>
       <div className="max-h-96 overflow-y-auto">
         {activities && activities.length > 0 ? (
@@ -42,14 +45,14 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
             const colorClass = getIconColor(activity.type);
             
             return (
-              <div key={index} className="p-4 hover:bg-gray-800/50 transition-colors">
-                <div className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${colorClass}`}>
-                    <Icon className="w-5 h-5" />
+              <div key={index} className="group p-4 hover:bg-gray-800/30 transition-all border-b border-gray-800/30 last:border-0">
+                <div className="flex items-start gap-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-700 ${colorClass} group-hover:scale-110 transition-transform`}>
+                    <Icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white font-medium">{activity.description}</p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-sm text-white font-medium mb-1">{activity.description}</p>
+                    <p className="text-xs text-gray-500">
                       {activity.user} • {new Date(activity.timestamp).toLocaleString()}
                     </p>
                   </div>
@@ -58,8 +61,9 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
             );
           })
         ) : (
-          <div className="p-8 text-center text-gray-500">
-            No recent activity
+          <div className="p-12 text-center">
+            <FiAlertTriangle className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <p className="text-gray-400">No recent activity</p>
           </div>
         )}
       </div>
