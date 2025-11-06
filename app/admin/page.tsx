@@ -859,15 +859,15 @@ function RevenueSection({ revenueData }: any) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="text-sm text-gray-400 mb-2">Dev Fee (20%)</div>
-          <div className="text-2xl font-bold text-blue-400">{data?.fee_breakdown?.dev_fee?.toFixed(2)} SOL</div>
+          <div className="text-2xl font-bold text-blue-400">{Number(data?.fee_breakdown?.dev_fee || 0).toFixed(2)} SOL</div>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="text-sm text-gray-400 mb-2">Platform Fees</div>
-          <div className="text-2xl font-bold text-purple-400">{data?.fee_breakdown?.platform_fee?.toFixed(2)} SOL</div>
+          <div className="text-2xl font-bold text-purple-400">{Number(data?.fee_breakdown?.platform_fee || 0).toFixed(2)} SOL</div>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="text-sm text-gray-400 mb-2">Artist Payouts (80%)</div>
-          <div className="text-2xl font-bold text-green-400">{data?.fee_breakdown?.artist_payouts?.toFixed(2)} SOL</div>
+          <div className="text-2xl font-bold text-green-400">{Number(data?.fee_breakdown?.artist_payouts || 0).toFixed(2)} SOL</div>
         </div>
       </div>
 
