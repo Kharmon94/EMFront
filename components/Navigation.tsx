@@ -59,12 +59,27 @@ const moreNavItems = [
 export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [mounted, setMounted] = useState(false);
+  
+  // Get theme with fallback for SSR
+  let theme = 'dark';
+  let toggleTheme = () => {};
+  try {
+    const themeContext = useTheme();
+    theme = themeContext.theme;
+    toggleTheme = themeContext.toggleTheme;
+  } catch (e) {
+    // ThemeProvider not available during SSR
+  }
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const checkAuth = () => {
