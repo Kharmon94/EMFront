@@ -1,16 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { FiCheckCircle, FiAlertTriangle, FiUsers, FiFlag, FiShield } from 'react-icons/fi';
 import { formatRelativeTime } from '@/lib/utils';
+import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
 export default function AdminDashboard() {
-  const { publicKey } = useWallet();
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'verification' | 'reports' | 'fraud'>('verification');
+
+  useEffect(() => {
+    const checkAdminAccess = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        const currentUser = response.data.user;
+        
+        if (currentUser.role !== 'admin') {
+          toast.error('Admin access required');
+          router.push('/');
+          return;
+        }
+        
+        setUser(currentUser);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Please sign in to access admin panel');
+        router.push('/');
+      }
+    };
+
+    checkAdminAccess();
+  }, [router]);
 
   // Check if user is admin (in production, verify on backend)
   // const isAdmin = useQuery(['user', 'role'], ...).data?.role === 'admin';
@@ -78,15 +104,12 @@ export default function AdminDashboard() {
     }
   };
 
-  if (!publicKey) {
+  if (loading || !user) {
     return (
       <>
         <Navigation />
         <main className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-center">
-            <FiShield className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-400">Please connect your wallet to access admin panel</p>
-          </div>
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
         </main>
       </>
     );
