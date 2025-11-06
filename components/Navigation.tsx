@@ -31,7 +31,8 @@ import {
   FiKey,
   FiShield,
   FiSun,
-  FiMoon
+  FiMoon,
+  FiMessageCircle
 } from 'react-icons/fi';
 
 const mainNavItems = [
@@ -54,6 +55,7 @@ const moreNavItems = [
   { href: '/livestreams', label: 'Live', icon: FiRadio },
   { href: '/shop', label: 'Shop', icon: FiShoppingBag },
   { href: '/playlists', label: 'Playlists', icon: FiList },
+  { href: '/messages', label: 'Messages', icon: FiMessageCircle, authRequired: true },
 ];
 
 export function Navigation() {
@@ -206,11 +208,12 @@ export function Navigation() {
               })}
               {moreNavItems.map((item) => {
                 const Icon = item.icon;
+                if ((item as any).authRequired && !user) return null;
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 relative ${
                       isActive(item.href)
                         ? 'bg-gray-900 text-white dark:bg-white dark:text-black'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white'

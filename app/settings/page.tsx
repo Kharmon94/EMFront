@@ -7,12 +7,12 @@ import { DeleteAccountModal } from '@/components/DeleteAccountModal';
 import { 
   FiUser, FiLock, FiBell, FiStar, FiShield, FiAlertTriangle,
   FiSave, FiCamera, FiMail, FiKey, FiTwitter, FiInstagram, FiGlobe,
-  FiCheck, FiX, FiTrash2
+  FiCheck, FiX, FiTrash2, FiMessageCircle
 } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
-type SettingsTab = 'profile' | 'account' | 'notifications' | 'artist' | 'privacy' | 'danger';
+type SettingsTab = 'profile' | 'account' | 'notifications' | 'messaging' | 'artist' | 'privacy' | 'danger';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -46,6 +46,12 @@ export default function SettingsPage() {
     comments: true,
     likes: true,
     livestreams: true,
+  });
+
+  // Messaging preferences
+  const [messagingPrefs, setMessagingPrefs] = useState({
+    accept_messages: 'everyone',
+    blocked_users: []
   });
 
   // Artist settings
@@ -110,6 +116,7 @@ export default function SettingsPage() {
     { id: 'profile' as SettingsTab, label: 'Profile', icon: FiUser },
     { id: 'account' as SettingsTab, label: 'Account', icon: FiLock },
     { id: 'notifications' as SettingsTab, label: 'Notifications', icon: FiBell },
+    { id: 'messaging' as SettingsTab, label: 'Messaging', icon: FiMessageCircle },
     ...(user?.role === 'artist' ? [{ id: 'artist' as SettingsTab, label: 'Artist Settings', icon: FiStar }] : []),
     { id: 'privacy' as SettingsTab, label: 'Privacy & Security', icon: FiShield },
     { id: 'danger' as SettingsTab, label: 'Danger Zone', icon: FiAlertTriangle },
@@ -192,6 +199,7 @@ export default function SettingsPage() {
                 {activeTab === 'profile' && <ProfileSection />}
                 {activeTab === 'account' && <AccountSection />}
                 {activeTab === 'notifications' && <NotificationsSection />}
+                {activeTab === 'messaging' && <MessagingSection />}
                 {activeTab === 'artist' && user?.role === 'artist' && <ArtistSection />}
                 {activeTab === 'privacy' && <PrivacySection />}
                 {activeTab === 'danger' && <DangerZoneSection />}
