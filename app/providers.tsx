@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useState } from 'react';
 import { ThemeProvider } from '@/lib/theme-context';
 import { CartProvider } from '@/lib/cart-context';
+import { SearchProvider } from '@/lib/search-context';
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -26,9 +27,11 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <CartProvider>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <SearchProvider>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </SearchProvider>
       </CartProvider>
     </ThemeProvider>
   );

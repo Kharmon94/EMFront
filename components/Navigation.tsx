@@ -6,6 +6,7 @@ import { useState, Fragment, useEffect } from 'react';
 import { AccountButton } from './AccountButton';
 import { NotificationBell } from './NotificationBell';
 import { AuthModal } from './AuthModal';
+import { GlobalSearchDropdown } from './GlobalSearchDropdown';
 import { Menu, Transition, Dialog } from '@headlessui/react';
 import api from '@/lib/api';
 import { useTheme } from '@/lib/theme-context';
@@ -239,12 +240,9 @@ export function Navigation() {
                   </span>
                 )}
               </Link>
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-colors"
-              >
-                <FiSearch className="w-5 h-5" />
-              </button>
+              <div className="hidden md:block min-w-[300px]">
+                <GlobalSearchDropdown />
+              </div>
               {mounted && (
                 <button
                   onClick={themeToggle}
@@ -283,6 +281,38 @@ export function Navigation() {
                 <FiSearch className="w-5 h-5" />
               </button>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Search Overlay */}
+        <Dialog
+          open={searchOpen}
+          onClose={() => setSearchOpen(false)}
+          className="relative z-50 md:hidden"
+        >
+          <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
+          <div className="fixed inset-0 flex items-start justify-center p-4 pt-20">
+            <Dialog.Panel className="w-full max-w-lg">
+              <div className="flex items-center justify-between mb-4">
+                <Dialog.Title className="text-xl font-bold text-white">Search</Dialog.Title>
+                <button
+                  onClick={() => setSearchOpen(false)}
+                  className="p-2 text-white hover:bg-gray-800 rounded-lg"
+                >
+                  <FiX className="w-6 h-6" />
+                </button>
+              </div>
+              <GlobalSearchDropdown isMobile onClose={() => setSearchOpen(false)} />
+            </Dialog.Panel>
+            </div>
+        </Dialog>
+        
+        {/* Keep the closing div from next section */}
+        <div className="h-14"></div>
+        {/* Rest of mobile navigation content */}
+        <div>
+          <div className="h-14">
+          {/* Rest stays the same */}
           </div>
         </div>
 
