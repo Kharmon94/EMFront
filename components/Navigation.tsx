@@ -80,7 +80,14 @@ export function Navigation() {
     setTheme(newTheme);
     if (typeof window !== 'undefined') {
       localStorage.setItem('theme', newTheme);
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
+      // Update the document class
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      // Dispatch event for other components listening to theme changes
+      window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
     }
   };
   
@@ -93,13 +100,28 @@ export function Navigation() {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       const initialTheme = savedTheme || systemTheme;
       setTheme(initialTheme);
-      document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+      // Update document class
+      if (initialTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
 
     // Listen for auth modal open events
     const handleOpenAuthModal = () => setShowAuthModal(true);
     window.addEventListener('open-auth-modal', handleOpenAuthModal);
-    return () => window.removeEventListener('open-auth-modal', handleOpenAuthModal);
+    
+    // Listen for theme change events from other components
+    const handleThemeChange = (e: CustomEvent) => {
+      setTheme(e.detail.theme);
+    };
+    window.addEventListener('theme-change', handleThemeChange as EventListener);
+    
+    return () => {
+      window.removeEventListener('open-auth-modal', handleOpenAuthModal);
+      window.removeEventListener('theme-change', handleThemeChange as EventListener);
+    };
   }, []);
 
   useEffect(() => {
