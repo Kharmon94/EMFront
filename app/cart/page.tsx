@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Navigation } from '@/components/Navigation';
 import { useCart } from '@/lib/useCart';
 import { FiShoppingCart, FiTrash2, FiPlus, FiMinus } from 'react-icons/fi';
