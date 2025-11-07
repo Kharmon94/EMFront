@@ -38,25 +38,6 @@ import {
 } from 'react-icons/fi';
 import { useCart } from '@/lib/useCart';
 
-const mainNavItems = [
-  { href: '/', label: 'Home', icon: FiHome, mobile: true },
-  {
-    label: 'Discover',
-    icon: FiCompass,
-    mobile: true,
-    dropdown: [
-      { href: '/music', label: 'Music', icon: FiMusic },
-      { href: '/videos', label: 'Videos', icon: FiVideo },
-      { href: '/minis', label: "Mini's", icon: FiFilm },
-      { href: '/livestreams', label: 'Live', icon: FiRadio },
-      { href: '/events', label: 'Events', icon: FiCalendar },
-      { href: '/tokens', label: 'Tokens', icon: FiTrendingUp },
-      { href: '/shop', label: 'Shop', icon: FiShoppingBag },
-      { href: '/playlists', label: 'Playlists', icon: FiList },
-    ]
-  },
-];
-
 const moreNavItems: any[] = [];
 
 export function Navigation() {
@@ -69,6 +50,34 @@ export function Navigation() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
+  
+  // Get dashboard URL based on user role
+  const getDashboardUrl = () => {
+    if (!user) return '/';
+    if (user.role === 'admin') return '/admin';
+    if (user.role === 'artist') return '/artist/dashboard';
+    return '/'; // fan default
+  };
+  
+  // Dynamic nav items based on user
+  const mainNavItems = [
+    { href: getDashboardUrl(), label: 'Home', icon: FiHome, mobile: true },
+    {
+      label: 'Discover',
+      icon: FiCompass,
+      mobile: true,
+      dropdown: [
+        { href: '/music', label: 'Music', icon: FiMusic },
+        { href: '/videos', label: 'Videos', icon: FiVideo },
+        { href: '/minis', label: "Mini's", icon: FiFilm },
+        { href: '/livestreams', label: 'Live', icon: FiRadio },
+        { href: '/events', label: 'Events', icon: FiCalendar },
+        { href: '/tokens', label: 'Tokens', icon: FiTrendingUp },
+        { href: '/shop', label: 'Shop', icon: FiShoppingBag },
+        { href: '/playlists', label: 'Playlists', icon: FiList },
+      ]
+    },
+  ];
   
   // Local theme state (synced with ThemeContext via events)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
