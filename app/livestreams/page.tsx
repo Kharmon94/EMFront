@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tantml:react-query';
+import { useQuery } from '@tanstack/react-query';
 import { FiVideo, FiUsers, FiClock, FiHeart, FiTrendingUp } from 'react-icons/fi';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
