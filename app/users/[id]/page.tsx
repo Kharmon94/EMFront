@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tantml:invoke>
+<parameter name="name">react-query';
 import { Navigation } from '@/components/Navigation';
+import { MessageModal } from '@/components/MessageModal';
 import { 
   FiUser, FiHeart, FiMusic, FiShoppingBag, FiMessageCircle, FiShare2
 } from 'react-icons/fi';
@@ -13,6 +16,7 @@ import toast from 'react-hot-toast';
 export default function UserProfilePage() {
   const params = useParams();
   const userId = params.id as string;
+  const [showMessageModal, setShowMessageModal] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['user-profile', userId],
@@ -75,7 +79,7 @@ export default function UserProfilePage() {
                     Share Profile
                   </button>
                   <button
-                    onClick={() => {/* TODO: Open message modal */}}
+                    onClick={() => setShowMessageModal(true)}
                     className="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-lg font-medium transition-colors flex items-center gap-2"
                   >
                     <FiMessageCircle className="w-4 h-4" />
@@ -134,7 +138,7 @@ export default function UserProfilePage() {
             </Link>
 
             <button
-              onClick={() => {/* TODO: Open message modal */}}
+              onClick={() => setShowMessageModal(true)}
               className="flex items-center gap-3 p-6 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors text-left"
             >
               <FiMessageCircle className="w-6 h-6 text-blue-600" />
@@ -146,6 +150,13 @@ export default function UserProfilePage() {
           </div>
         </div>
       </main>
+
+      <MessageModal
+        isOpen={showMessageModal}
+        onClose={() => setShowMessageModal(false)}
+        recipientId={parseInt(userId)}
+        recipientName={displayName}
+      />
     </>
   );
 }
