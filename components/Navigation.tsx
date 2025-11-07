@@ -65,16 +65,26 @@ export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
-  const { theme, toggleTheme } = useTheme();
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [toggleTheme, setToggleTheme] = useState<() => void>(() => () => {});
   
   useEffect(() => {
     setMounted(true);
+    
+    // Initialize theme after mounting on client
+    try {
+      const { theme: currentTheme, toggleTheme: toggle } = useTheme();
+      setTheme(currentTheme);
+      setToggleTheme(() => toggle);
+    } catch (e) {
+      // SSR or ThemeProvider not available
+    }
 
     // Listen for auth modal open events
     const handleOpenAuthModal = () => setShowAuthModal(true);
