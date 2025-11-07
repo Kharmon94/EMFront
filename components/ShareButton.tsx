@@ -136,7 +136,7 @@ export function ShareButton({ item, type, className = '' }: ShareButtonProps) {
                     </button>
 
                     {/* Native Share */}
-                    {typeof navigator !== 'undefined' && navigator.share && (
+                    {typeof navigator !== 'undefined' && 'share' in navigator && (
                       <button
                         onClick={handleNativeShare}
                         className="w-full flex items-center gap-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
