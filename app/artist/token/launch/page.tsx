@@ -6,7 +6,7 @@ import { Navigation } from '@/components/Navigation';
 import { PermissionGuard } from '@/components/PermissionGuard';
 import api from '@/lib/api';
 import { toast } from 'react-hot-toast';
-import { FiTrendingUp, FiDollarSign, FiInfo, FiRocket } from 'react-icons/fi';
+import { FiTrendingUp, FiDollarSign, FiInfo, FiZap } from 'react-icons/fi';
 
 export default function LaunchTokenPage() {
   const router = useRouter();
@@ -118,7 +118,7 @@ export default function LaunchTokenPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full mb-4">
-              <FiRocket className="w-8 h-8 text-white" />
+              <FiZap className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-black dark:text-white mb-3">Launch Your Artist Token</h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -250,7 +250,7 @@ export default function LaunchTokenPage() {
                   </>
                 ) : (
                   <>
-                    <FiRocket className="w-6 h-6" />
+                    <FiZap className="w-6 h-6" />
                     Launch Token
                   </>
                 )}
