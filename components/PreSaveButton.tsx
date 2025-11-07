@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { FiBell, FiBellOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import api from '@/lib/api';
-import { useAuth } from '@/lib/auth-context';
 
 interface PreSaveButtonProps {
   contentType: 'Album' | 'Track';
@@ -15,19 +14,23 @@ interface PreSaveButtonProps {
 }
 
 export function PreSaveButton({ contentType, contentId, title, releaseDate, compact = false }: PreSaveButtonProps) {
-  const { user } = useAuth();
   const [preSaved, setPreSaved] = useState(false);
   const [preSaveId, setPreSaveId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [checkingStatus, setCheckingStatus] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    // Check if user is logged in
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    setIsLoggedIn(!!token);
+    
+    if (token) {
       checkPreSaveStatus();
     } else {
       setCheckingStatus(false);
     }
-  }, [user, contentId, contentType]);
+  }, [contentId, contentType]);
 
   const checkPreSaveStatus = async () => {
     try {
@@ -48,7 +51,7 @@ export function PreSaveButton({ contentType, contentId, title, releaseDate, comp
   };
 
   const handlePreSave = async () => {
-    if (!user) {
+    if (!isLoggedIn) {
       toast.error('Please sign in to pre-save');
       return;
     }
