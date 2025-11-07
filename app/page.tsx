@@ -82,34 +82,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6">
-                <span className="block">Music Meets</span>
-                <span className="block bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-                  Web3 Innovation
-                </span>
-              </h1>
-              <p className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
-                Launch artist tokens, stream music, attend events, and trade — all on Solana blockchain
-              </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link
-                  href="/music"
-                  className="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors text-center"
-                >
-                  Explore Music
-                </Link>
-                <Link
-                  href="/tokens"
-                  className="w-full sm:w-auto px-8 py-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border border-gray-300 dark:border-gray-700 text-center"
-                >
-                  Browse Tokens
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Features Section */}
         <section className="px-4 sm:px-6 lg:px-8 py-20">
