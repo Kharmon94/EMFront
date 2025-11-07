@@ -87,20 +87,10 @@ export default function GlobalShopPage() {
     <>
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-20">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Hero Section with Featured Products */}
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
-                  <FiShoppingBag className="w-10 h-10 text-blue-600" />
-                  Shop
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Official merchandise from your favorite artists
-                </p>
-              </div>
-              
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 py-8">
+          {/* Wishlist Link (Desktop only) */}
+          <div className="mb-8">
+            <div className="flex items-center justify-end">
               <Link 
                 href="/wishlist"
                 className="hidden md:flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
