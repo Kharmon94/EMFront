@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiUpload, FiSave, FiX, FiVideo, FiFilm, FiLink, FiFile } from 'react-icons/fi';
