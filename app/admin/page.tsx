@@ -132,17 +132,7 @@ export default function AdminDashboard() {
           {/* Header with gradient */}
           <div className="mb-8 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-red-600/10 blur-3xl -z-10" />
-            <div className="flex items-center justify-between gap-4 mb-2">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
-                  <FiShield className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">Admin Control Center</h1>
-                  <p className="text-gray-600 dark:text-gray-400">Platform management and monitoring</p>
-                </div>
-              </div>
-              
+            <div className="flex items-center justify-end gap-4 mb-2">
               {/* Mobile menu button */}
               <button
                 onClick={() => setSidebarOpen(true)}
