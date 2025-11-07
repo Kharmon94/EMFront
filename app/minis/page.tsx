@@ -83,7 +83,7 @@ export default function MinisPage() {
       <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
         <Navigation />
       
-      <div className="container mx-auto px-4 pt-0 md:pt-20 pb-8">
+      <div className="container mx-auto px-4 pt-14 md:pt-20 pb-8">
 
         {/* Tabs */}
         <div className="flex gap-2 mb-8 overflow-x-auto pb-2">

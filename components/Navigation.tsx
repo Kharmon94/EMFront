@@ -337,8 +337,7 @@ export function Navigation() {
             </div>
         </Dialog>
         
-        {/* Spacer for fixed top bar */}
-        <div className="h-12"></div>
+        {/* No spacer needed - content padding handles it */}
 
         {/* Bottom Tab Bar (3 main tabs + Profile) */}
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-800 pb-safe">
