@@ -3,33 +3,37 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { FiPlay, FiEye, FiHeart, FiTrendingUp, FiUsers, FiGlobe, FiLock } from 'react-icons/fi';
+import { FiPlay, FiEye, FiHeart, FiTrendingUp, FiUsers, FiGlobe, FiLock, FiShare2, FiList } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
 import { PermissionGuard } from '@/components/PermissionGuard';
+import { FriendsActivity } from '@/components/discovery/FriendsActivity';
+import { useGesture } from '@/lib/useGesture';
+import { usePullToRefresh } from '@/lib/usePullToRefresh';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function MinisPage() {
   const [activeTab, setActiveTab] = useState<'foryou' | 'trending' | 'following' | 'recent'>('foryou');
   
-  const { data: forYouData } = useQuery({
+  const { data: forYouData, refetch: refetchForYou } = useQuery({
     queryKey: ['minis-foryou'],
     queryFn: () => api.getMiniFeed(),
     enabled: activeTab === 'foryou'
   });
 
-  const { data: trendingData } = useQuery({
+  const { data: trendingData, refetch: refetchTrending } = useQuery({
     queryKey: ['minis-trending'],
     queryFn: () => api.getTrendingMinis(),
     enabled: activeTab === 'trending'
   });
 
-  const { data: followingData } = useQuery({
+  const { data: followingData, refetch: refetchFollowing } = useQuery({
     queryKey: ['minis-following'],
-    queryFn: () => api.getFollowingMinis(),
+    queryFn: () => api.get('/minis/following'),
     enabled: activeTab === 'following'
   });
 
-  const { data: recentData, isLoading } = useQuery({
+  const { data: recentData, isLoading, refetch: refetchRecent } = useQuery({
     queryKey: ['minis-recent'],
     queryFn: () => api.getMinis({ sort: 'recent' }),
     enabled: activeTab === 'recent'
@@ -42,7 +46,7 @@ export default function MinisPage() {
       case 'trending':
         return trendingData?.minis || [];
       case 'following':
-        return followingData?.minis || [];
+        return followingData?.data?.minis || [];
       case 'recent':
         return recentData?.minis || [];
       default:
@@ -51,6 +55,19 @@ export default function MinisPage() {
   };
 
   const minis = getMinis();
+
+  // Pull to refresh
+  const { isPulling, isRefreshing, progress } = usePullToRefresh({
+    onRefresh: async () => {
+      switch (activeTab) {
+        case 'foryou': await refetchForYou(); break;
+        case 'trending': await refetchTrending(); break;
+        case 'following': await refetchFollowing(); break;
+        case 'recent': await refetchRecent(); break;
+      }
+    },
+    enabled: typeof window !== 'undefined' && window.innerWidth < 768
+  });
 
   const getAccessIcon = (accessTier: string) => {
     switch (accessTier) {
@@ -83,150 +100,267 @@ export default function MinisPage() {
       <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
         <Navigation />
       
-      <div className="container mx-auto px-4 pt-14 md:pt-20 pb-8">
-
-        {/* Tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-          <button
-            onClick={() => setActiveTab('foryou')}
-            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
-              activeTab === 'foryou'
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
-            }`}
+        {/* Pull to refresh indicator */}
+        {(isPulling || isRefreshing) && (
+          <div 
+            className="fixed top-12 left-0 right-0 flex justify-center z-40 transition-all"
+            style={{ transform: `translateY(${Math.min(progress * 60, 60)}px)` }}
           >
-            <FiPlay /> For You
-          </button>
-          <button
-            onClick={() => setActiveTab('trending')}
-            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
-              activeTab === 'trending'
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
-            }`}
-          >
-            <FiTrendingUp /> Trending
-          </button>
-          <button
-            onClick={() => setActiveTab('following')}
-            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
-              activeTab === 'following'
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
-            }`}
-          >
-            <FiUsers /> Following
-          </button>
-          <button
-            onClick={() => setActiveTab('recent')}
-            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
-              activeTab === 'recent'
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
-            }`}
-          >
-            <FiGlobe /> New
-          </button>
-        </div>
-
-        {/* Loading */}
-        {isLoading && (
-          <div className="text-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto"></div>
-            <p className="text-gray-400 mt-4">Loading Mini's...</p>
+            <div className={`px-4 py-2 bg-purple-600 text-white rounded-full text-sm ${isRefreshing ? 'animate-spin' : ''}`}>
+              {isRefreshing ? '↻ Refreshing...' : progress >= 1 ? 'Release to refresh' : '↓ Pull to refresh'}
+            </div>
           </div>
         )}
+        
+        <div className="max-w-[1800px] mx-auto px-4 pt-14 md:pt-20 pb-8">
+          <div className="flex gap-8">
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              {/* Tabs */}
+              <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+                <button
+                  onClick={() => setActiveTab('foryou')}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
+                    activeTab === 'foryou'
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                      : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <FiPlay /> For You
+                </button>
+                <button
+                  onClick={() => setActiveTab('trending')}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
+                    activeTab === 'trending'
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                      : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <FiTrendingUp /> Trending
+                </button>
+                <button
+                  onClick={() => setActiveTab('following')}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
+                    activeTab === 'following'
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                      : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <FiUsers /> Following
+                </button>
+                <button
+                  onClick={() => setActiveTab('recent')}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
+                    activeTab === 'recent'
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                      : 'bg-gray-200 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <FiEye /> Recent
+                </button>
+              </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-          {minis.map((mini: any, index: number) => (
-            <Link
-              key={mini.id}
-              href={`/minis/${mini.id}`}
-              className="group relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-purple-500 transition-all"
-            >
-              {/* Thumbnail */}
-              {mini.thumbnail_url ? (
-                <img
-                  src={mini.thumbnail_url}
-                  alt={mini.title}
-                  className="w-full h-full object-cover"
-                />
+              {/* Gesture Hint (Mobile only, first time) */}
+              <div className="md:hidden bg-purple-600/10 dark:bg-purple-600/20 border border-purple-600/30 rounded-lg p-4 mb-6">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  💡 <strong>Tip:</strong> Swipe left to like, right to share, double-tap to favorite!
+                </p>
+              </div>
+
+              {/* Minis Grid */}
+              {isLoading ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {[...Array(10)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="aspect-[9/16] bg-gray-300 dark:bg-gray-800 rounded-lg mb-2" />
+                      <div className="h-4 bg-gray-300 dark:bg-gray-800 rounded w-3/4 mb-1" />
+                      <div className="h-3 bg-gray-300 dark:bg-gray-800 rounded w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              ) : minis.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {minis.map((mini: any) => (
+                    <MiniCard key={mini.id} mini={mini} />
+                  ))}
+                </div>
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-purple-900 to-pink-900 flex items-center justify-center">
-                  <FiPlay size={48} className="text-white/50" />
+                <div className="text-center py-20">
+                  <FiPlay className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-600 dark:text-gray-400">No minis available</p>
                 </div>
               )}
+            </div>
 
-              {/* Play overlay on hover */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="bg-purple-500 rounded-full p-4">
-                  <FiPlay size={32} className="text-white" />
-                </div>
+            {/* Sidebar - Friends Activity (Desktop only) */}
+            <div className="hidden xl:block w-80 flex-shrink-0">
+              <div className="sticky top-24">
+                <FriendsActivity />
               </div>
-
-              {/* Duration badge */}
-              <div className="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-xs text-white font-semibold">
-                {formatDuration(mini.duration)}
-              </div>
-
-              {/* Access tier badge */}
-              <div className="absolute top-2 left-2 bg-black/80 p-1.5 rounded">
-                {getAccessIcon(mini.access_tier)}
-              </div>
-
-              {/* Info overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3">
-                <div className="text-white">
-                  <p className="font-semibold text-sm line-clamp-2 mb-2">{mini.title}</p>
-                  
-                  {/* Stats */}
-                  <div className="flex items-center gap-3 text-xs text-white/80">
-                    <div className="flex items-center gap-1">
-                      <FiEye size={12} />
-                      {formatCount(mini.views_count)}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <FiHeart size={12} />
-                      {formatCount(mini.likes_count)}
-                    </div>
-                  </div>
-
-                  {/* Artist */}
-                  <div className="mt-2 flex items-center gap-1">
-                    {mini.artist.avatar_url ? (
-                      <img
-                        src={mini.artist.avatar_url}
-                        alt={mini.artist.name}
-                        className="w-4 h-4 rounded-full"
-                      />
-                    ) : (
-                      <div className="w-4 h-4 rounded-full bg-purple-600" />
-                    )}
-                    <span className="text-xs text-white/70 truncate">{mini.artist.name}</span>
-                    {mini.artist.verified && <span className="text-blue-500 text-xs">✓</span>}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Empty state */}
-        {!isLoading && minis.length === 0 && (
-          <div className="text-center py-20">
-            <FiPlay size={64} className="text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Mini's yet</h3>
-            <p className="text-gray-400">
-              {activeTab === 'following'
-                ? 'Follow some artists to see their Minis here'
-                : 'Check back soon for new content!'}
-            </p>
+            </div>
           </div>
-        )}
-      </div>
+        </div>
       </div>
     </PermissionGuard>
   );
 }
 
+function MiniCard({ mini }: { mini: any }) {
+  const [liked, setLiked] = useState(false);
+
+  const handleLike = async () => {
+    try {
+      await api.post(`/minis/${mini.id}/like`);
+      setLiked(true);
+      toast.success('Liked!', { duration: 1000 });
+    } catch (error) {
+      toast.error('Failed to like');
+    }
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: mini.title,
+        text: `Check out this mini by ${mini.artist?.name}!`,
+        url: window.location.origin + `/minis/${mini.id}`
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.origin + `/minis/${mini.id}`);
+      toast.success('Link copied to clipboard!');
+    }
+  };
+
+  const handleSaveToPlaylist = () => {
+    // TODO: Implement save to playlist modal
+    toast('Save to playlist coming soon!');
+  };
+
+  // Mobile gestures
+  const gestureHandlers = useGesture({
+    onSwipeLeft: handleLike,
+    onSwipeRight: handleShare,
+    onDoubleTap: handleLike,
+    onLongPress: handleSaveToPlaylist
+  });
+
+  return (
+    <div
+      className="group relative cursor-pointer"
+      {...gestureHandlers}
+    >
+      <Link href={`/minis/${mini.id}`}>
+        {/* Thumbnail */}
+        <div className="aspect-[9/16] rounded-lg overflow-hidden bg-gray-700 relative">
+          {mini.thumbnail_url ? (
+            <img
+              src={mini.thumbnail_url}
+              alt={mini.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-600 to-pink-600">
+              <FiPlay className="w-12 h-12 text-white" />
+            </div>
+          )}
+          
+          {/* Duration */}
+          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-xs rounded">
+            {formatDuration(mini.duration)}
+          </div>
+          
+          {/* Access Tier */}
+          {mini.access_tier && mini.access_tier !== 'free' && (
+            <div className="absolute top-2 right-2">
+              {getAccessIcon(mini.access_tier)}
+            </div>
+          )}
+          
+          {/* Play Icon Overlay */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <FiPlay className="w-16 h-16 text-white" />
+          </div>
+        </div>
+      </Link>
+      
+      {/* Info */}
+      <div className="mt-2">
+        <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
+          {mini.title}
+        </h3>
+        <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
+          {mini.artist?.name}
+        </p>
+        <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-500">
+          {mini.views_count > 0 && (
+            <span className="flex items-center gap-1">
+              <FiEye size={12} /> {formatCount(mini.views_count)}
+            </span>
+          )}
+          {mini.likes_count > 0 && (
+            <span className="flex items-center gap-1">
+              <FiHeart size={12} /> {formatCount(mini.likes_count)}
+            </span>
+          )}
+        </div>
+      </div>
+      
+      {/* Quick Actions (Desktop) */}
+      <div className="hidden md:flex absolute top-2 left-2 gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleLike();
+          }}
+          className="p-2 rounded-full bg-black/80 hover:bg-red-600 text-white transition-colors"
+        >
+          <FiHeart className="w-4 h-4" />
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleShare();
+          }}
+          className="p-2 rounded-full bg-black/80 hover:bg-blue-600 text-white transition-colors"
+        >
+          <FiShare2 className="w-4 h-4" />
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleSaveToPlaylist();
+          }}
+          className="p-2 rounded-full bg-black/80 hover:bg-purple-600 text-white transition-colors"
+        >
+          <FiList className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function getAccessIcon(accessTier: string) {
+  switch (accessTier) {
+    case 'free':
+      return <FiGlobe className="text-green-500" size={16} />;
+    case 'preview_only':
+    case 'paid':
+      return <span className="text-yellow-500 font-bold text-xs">{accessTier === 'paid' ? '💰' : '👀'}</span>;
+    case 'nft_required':
+      return <FiLock className="text-purple-500" size={16} />;
+    default:
+      return null;
+  }
+}
+
+function formatCount(count: number) {
+  if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+  if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
+  return count.toString();
+}
+
+function formatDuration(seconds: number) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}s`;
+}
