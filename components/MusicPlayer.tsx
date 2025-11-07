@@ -1,9 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { FiPlay, FiPause, FiSkipBack, FiSkipForward, FiVolume2, FiShuffle, FiRepeat } from 'react-icons/fi';
+import { useEffect, useRef, useState } from 'react';
+import { FiPlay, FiPause, FiSkipBack, FiSkipForward, FiVolume2, FiShuffle, FiRepeat, FiList, FiSettings, FiFileText } from 'react-icons/fi';
 import { formatDuration } from '@/lib/utils';
 import { usePlayerStore } from '@/lib/store/playerStore';
+import { QueueDrawer } from './QueueDrawer';
+import { AudioSettings } from './AudioSettings';
+import { LyricsPanel } from './LyricsPanel';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
@@ -16,6 +19,8 @@ export function MusicPlayer() {
     volume,
     isShuffle,
     repeatMode,
+    playbackSpeed,
+    queue,
     setIsPlaying,
     setCurrentTime,
     setDuration,
@@ -29,6 +34,9 @@ export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const streamLogTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const streamLoggedRef = useRef(false);
+  const [queueOpen, setQueueOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
 
   // Initialize audio element
   useEffect(() => {
@@ -153,6 +161,13 @@ export function MusicPlayer() {
       audioRef.current.volume = volume;
     }
   }, [volume]);
+  
+  // Playback speed control
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
 
   // Log stream after 30 seconds (threshold for payout)
   useEffect(() => {
@@ -366,17 +381,49 @@ export function MusicPlayer() {
             {/* Repeat (desktop only) */}
             <button
               onClick={toggleRepeat}
-              className={`hidden sm:block p-2 rounded-full transition-colors ${
+              className={`hidden sm:block p-2 rounded-full transition-colors relative ${
                 repeatMode !== 'off' ? 'text-purple-500' : 'text-gray-400 hover:text-white'
               }`}
               aria-label="Repeat"
             >
               <FiRepeat className="w-4 h-4" />
               {repeatMode === 'one' && (
-                <span className="absolute top-0 right-0 text-xs">1</span>
+                <span className="absolute -top-1 -right-1 text-xs bg-purple-600 text-white rounded-full w-4 h-4 flex items-center justify-center">1</span>
+              )}
+            </button>
+            
+            {/* Queue Button */}
+            <button
+              onClick={() => setQueueOpen(true)}
+              className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors relative"
+              aria-label="Queue"
+            >
+              <FiList className="w-4 h-4" />
+              {queue.length > 1 && (
+                <span className="absolute -top-1 -right-1 text-xs bg-purple-600 text-white rounded-full w-4 h-4 flex items-center justify-center">
+                  {queue.length}
+                </span>
               )}
             </button>
           </div>
+
+          {/* Lyrics Button */}
+          <button
+            onClick={() => setLyricsOpen(true)}
+            className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Lyrics"
+          >
+            <FiFileText className="w-4 h-4" />
+          </button>
+          
+          {/* Settings Button (desktop only) */}
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Audio Settings"
+          >
+            <FiSettings className="w-4 h-4" />
+          </button>
 
           {/* Volume (desktop only) */}
           <div className="hidden lg:flex items-center gap-2 w-32">
@@ -393,6 +440,21 @@ export function MusicPlayer() {
           </div>
         </div>
       </div>
+      
+      {/* Queue Drawer */}
+      <QueueDrawer isOpen={queueOpen} onClose={() => setQueueOpen(false)} />
+      
+      {/* Audio Settings */}
+      <AudioSettings isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      
+      {/* Lyrics Panel */}
+      {currentTrack && (
+        <LyricsPanel
+          trackId={currentTrack.id}
+          isOpen={lyricsOpen}
+          onClose={() => setLyricsOpen(false)}
+        />
+      )}
     </div>
   );
 }
