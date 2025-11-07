@@ -189,7 +189,7 @@ export default function ArtistDashboard() {
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiUsers className="w-5 h-5 text-blue-400" />
-                <span className="text-2xl font-bold text-white">{stats.followers_count.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-white">{(Number(stats.followers_count) || 0).toLocaleString()}</span>
               </div>
               <p className="text-sm text-gray-400">Followers</p>
             </div>
@@ -197,7 +197,7 @@ export default function ArtistDashboard() {
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiActivity className="w-5 h-5 text-green-400" />
-                <span className="text-2xl font-bold text-white">{stats.total_streams.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-white">{(Number(stats.total_streams) || 0).toLocaleString()}</span>
               </div>
               <p className="text-sm text-gray-400">Total Streams</p>
             </div>
@@ -205,7 +205,7 @@ export default function ArtistDashboard() {
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiUsers className="w-5 h-5 text-purple-400" />
-                <span className="text-2xl font-bold text-white">{stats.monthly_listeners.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-white">{(Number(stats.monthly_listeners) || 0).toLocaleString()}</span>
               </div>
               <p className="text-sm text-gray-400">Monthly Listeners</p>
             </div>
@@ -238,15 +238,15 @@ export default function ArtistDashboard() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Current Price</p>
-                  <p className="text-lg font-bold text-white">{token.current_price.toFixed(6)} SOL</p>
+                  <p className="text-lg font-bold text-white">{(Number(token.current_price) || 0).toFixed(6)} SOL</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Market Cap</p>
-                  <p className="text-lg font-bold text-white">{formatCurrency(token.market_cap)}</p>
+                  <p className="text-lg font-bold text-white">{formatCurrency(Number(token.market_cap) || 0)}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Holders</p>
-                  <p className="text-lg font-bold text-white">{token.holders_count}</p>
+                  <p className="text-lg font-bold text-white">{Number(token.holders_count) || 0}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">24h Change</p>
