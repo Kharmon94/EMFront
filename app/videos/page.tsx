@@ -41,7 +41,7 @@ export default function VideosPage() {
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-16 md:pt-20 py-8">
+      <div className="container mx-auto px-4 pt-14 md:pt-20 py-8">
         <div className="flex justify-end items-center mb-8">
           {/* Sort */}
           <select

@@ -50,15 +50,14 @@ const mainNavItems = [
       { href: '/minis', label: "Mini's", icon: FiFilm },
       { href: '/livestreams', label: 'Live', icon: FiRadio },
       { href: '/events', label: 'Events', icon: FiCalendar },
+      { href: '/shop', label: 'Shop', icon: FiShoppingBag },
+      { href: '/playlists', label: 'Playlists', icon: FiList },
     ]
   },
   { href: '/tokens', label: 'Tokens', icon: FiTrendingUp, mobile: true },
-  { href: '/shop', label: 'Shop', icon: FiShoppingBag, mobile: true },
 ];
 
-const moreNavItems = [
-  { href: '/playlists', label: 'Playlists', icon: FiList },
-];
+const moreNavItems: any[] = [];
 
 export function Navigation() {
   const pathname = usePathname();
@@ -341,7 +340,7 @@ export function Navigation() {
         {/* Spacer for fixed top bar */}
         <div className="h-12"></div>
 
-        {/* Bottom Tab Bar */}
+        {/* Bottom Tab Bar (3 main tabs + Profile) */}
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-800 pb-safe">
           <div className="flex items-center justify-around h-16">
             {mainNavItems.filter(item => item.mobile).map((item, index) => {
@@ -655,6 +654,27 @@ export function Navigation() {
                               <div className="h-px bg-gray-300 dark:bg-gray-800 my-4" />
                             </>
                           )}
+
+                          {/* Cart Link (Mobile Only) */}
+                          <Link
+                            href="/cart"
+                            onClick={() => setProfileMenuOpen(false)}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                              isActive('/cart')
+                                ? 'bg-blue-600 text-white'
+                                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
+                            }`}
+                          >
+                            <FiShoppingCart className="w-5 h-5" />
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">Cart</span>
+                              {mounted && itemCount > 0 && (
+                                <span className="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                  {itemCount > 9 ? '9+' : itemCount}
+                                </span>
+                              )}
+                            </div>
+                          </Link>
 
                           {/* Messages Link (if authenticated) */}
                           {user && (
