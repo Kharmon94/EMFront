@@ -16,7 +16,7 @@ export default function FeedPage() {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  const { data, isLoading, refetch, hasNextPage } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['discovery-feed', page],
     queryFn: () => api.get(`/discovery/feed?limit=${limit * page}`)
   });
