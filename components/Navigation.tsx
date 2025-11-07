@@ -50,11 +50,11 @@ const mainNavItems = [
       { href: '/minis', label: "Mini's", icon: FiFilm },
       { href: '/livestreams', label: 'Live', icon: FiRadio },
       { href: '/events', label: 'Events', icon: FiCalendar },
+      { href: '/tokens', label: 'Tokens', icon: FiTrendingUp },
       { href: '/shop', label: 'Shop', icon: FiShoppingBag },
       { href: '/playlists', label: 'Playlists', icon: FiList },
     ]
   },
-  { href: '/tokens', label: 'Tokens', icon: FiTrendingUp, mobile: true },
 ];
 
 const moreNavItems: any[] = [];
