@@ -48,17 +48,16 @@ const mainNavItems = [
       { href: '/music', label: 'Music', icon: FiMusic },
       { href: '/videos', label: 'Videos', icon: FiVideo },
       { href: '/minis', label: "Mini's", icon: FiFilm },
+      { href: '/livestreams', label: 'Live', icon: FiRadio },
       { href: '/events', label: 'Events', icon: FiCalendar },
     ]
   },
   { href: '/tokens', label: 'Tokens', icon: FiTrendingUp, mobile: true },
+  { href: '/shop', label: 'Shop', icon: FiShoppingBag, mobile: true },
 ];
 
 const moreNavItems = [
-  { href: '/livestreams', label: 'Live', icon: FiRadio },
-  { href: '/shop', label: 'Shop', icon: FiShoppingBag },
   { href: '/playlists', label: 'Playlists', icon: FiList },
-  { href: '/messages', label: 'Messages', icon: FiMessageCircle, authRequired: true },
 ];
 
 export function Navigation() {
@@ -263,7 +262,10 @@ export function Navigation() {
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="hidden lg:block min-w-[280px]">
+                <GlobalSearchDropdown />
+              </div>
               <Link href="/cart" className="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-colors">
                 <FiShoppingCart className="w-5 h-5" />
                 {mounted && itemCount > 0 && (
@@ -272,9 +274,6 @@ export function Navigation() {
                   </span>
                 )}
               </Link>
-              <div className="hidden md:block min-w-[300px]">
-                <GlobalSearchDropdown />
-              </div>
               {mounted && (
                 <button
                   onClick={handleToggleTheme}
@@ -284,7 +283,7 @@ export function Navigation() {
                   {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
                 </button>
               )}
-              <NotificationBell />
+              {user && <NotificationBell />}
               <AccountButton />
             </div>
           </div>
@@ -661,6 +660,22 @@ export function Navigation() {
                               </div>
                               <div className="h-px bg-gray-300 dark:bg-gray-800 my-4" />
                             </>
+                          )}
+
+                          {/* Messages Link (if authenticated) */}
+                          {user && (
+                            <Link
+                              href="/messages"
+                              onClick={() => setProfileMenuOpen(false)}
+                              className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
+                                isActive('/messages')
+                                  ? 'bg-blue-600 text-white'
+                                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
+                              }`}
+                            >
+                              <FiMessageCircle className="w-5 h-5" />
+                              <span className="font-medium">Messages</span>
+                            </Link>
                           )}
 
                           {/* Theme Toggle */}
