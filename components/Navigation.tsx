@@ -44,6 +44,7 @@ export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
+  const { theme, toggleTheme } = useTheme(); // Use theme from context
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -79,52 +80,15 @@ export function Navigation() {
     },
   ];
   
-  // Local theme state (synced with ThemeContext via events)
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', newTheme);
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
-    }
-  };
-  
   useEffect(() => {
     setMounted(true);
     
-    // Load theme from localStorage
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      const initialTheme = savedTheme || systemTheme;
-      setTheme(initialTheme);
-      if (initialTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-
     // Listen for auth modal open events
     const handleOpenAuthModal = () => setShowAuthModal(true);
     window.addEventListener('open-auth-modal', handleOpenAuthModal);
     
-    // Listen for theme changes from ThemeContext
-    const handleThemeChange = (e: CustomEvent<{ theme: 'light' | 'dark' }>) => {
-      setTheme(e.detail.theme);
-    };
-    window.addEventListener('theme-change', handleThemeChange as EventListener);
-    
     return () => {
       window.removeEventListener('open-auth-modal', handleOpenAuthModal);
-      window.removeEventListener('theme-change', handleThemeChange as EventListener);
     };
   }, []);
 
