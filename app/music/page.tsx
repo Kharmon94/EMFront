@@ -5,87 +5,204 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
-import { FiPlay, FiSearch, FiMusic, FiCheckCircle } from 'react-icons/fi';
+import { RecommendationSection } from '@/components/discovery/RecommendationSection';
+import { ContentCard } from '@/components/discovery/ContentCard';
+import { FriendsActivity } from '@/components/discovery/FriendsActivity';
+import { FiPlay, FiSearch, FiMusic, FiCheckCircle, FiTrendingUp, FiUsers, FiClock, FiHeart } from 'react-icons/fi';
 import Link from 'next/link';
 import { formatDuration } from '@/lib/utils';
 
+type Tab = 'for-you' | 'following' | 'trending' | 'new-releases' | 'all';
+
 export default function MusicPage() {
+  const [activeTab, setActiveTab] = useState<Tab>('for-you');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState('all');
   const { playTrack } = usePlayerStore();
 
-  const { data: albumsData, isLoading: albumsLoading } = useQuery({
-    queryKey: ['albums', filter, searchQuery],
-    queryFn: () => api.getAlbums({ 
-      released: filter === 'released' ? 'true' : undefined,
-      upcoming: filter === 'upcoming' ? 'true' : undefined,
-      sort: filter === 'trending' ? 'streams' : undefined,
-      q: searchQuery || undefined,
-    }),
+  // For You Tab
+  const { data: forYouData, isLoading: forYouLoading } = useQuery({
+    queryKey: ['recommendations', 'albums'],
+    queryFn: () => api.get('/recommendations/albums?limit=30'),
+    enabled: activeTab === 'for-you'
   });
 
-  const albums = albumsData?.albums || [];
+  // Following Tab  
+  const { data: followingData, isLoading: followingLoading } = useQuery({
+    queryKey: ['albums', 'following'],
+    queryFn: () => api.get('/albums?following=true&limit=30'),
+    enabled: activeTab === 'following'
+  });
+
+  // Trending Tab
+  const { data: trendingData, isLoading: trendingLoading } = useQuery({
+    queryKey: ['albums', 'trending'],
+    queryFn: () => api.get('/albums?sort=popular&limit=30'),
+    enabled: activeTab === 'trending'
+  });
+
+  // New Releases Tab
+  const { data: newReleasesData, isLoading: newReleasesLoading } = useQuery({
+    queryKey: ['albums', 'new-releases'],
+    queryFn: () => api.get('/albums?sort=release_date&from_date=' + new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
+    enabled: activeTab === 'new-releases'
+  });
+
+  // All Albums
+  const { data: albumsData, isLoading: albumsLoading } = useQuery({
+    queryKey: ['albums', searchQuery],
+    queryFn: () => api.getAlbums({ q: searchQuery || undefined }),
+    enabled: activeTab === 'all'
+  });
+
+  // Recently Played
+  const { data: recentlyPlayedData } = useQuery({
+    queryKey: ['discovery', 'recently-played'],
+    queryFn: () => api.get('/discovery/recently_played?limit=10')
+  });
+
+  const getAlbums = () => {
+    switch (activeTab) {
+      case 'for-you': return forYouData?.data?.albums || [];
+      case 'following': return followingData?.data?.albums || [];
+      case 'trending': return trendingData?.data?.albums || [];
+      case 'new-releases': return newReleasesData?.data?.albums || [];
+      case 'all': return albumsData?.albums || [];
+      default: return [];
+    }
+  };
+
+  const isLoading = forYouLoading || followingLoading || trendingLoading || newReleasesLoading || albumsLoading;
+  const albums = getAlbums();
+  const recentlyPlayed = recentlyPlayedData?.data?.recently_played || [];
+
+  const tabs = [
+    { id: 'for-you' as Tab, label: 'For You', icon: <FiHeart /> },
+    { id: 'following' as Tab, label: 'Following', icon: <FiUsers /> },
+    { id: 'trending' as Tab, label: 'Trending', icon: <FiTrendingUp /> },
+    { id: 'new-releases' as Tab, label: 'New Releases', icon: <FiClock /> },
+    { id: 'all' as Tab, label: 'All Albums', icon: <FiMusic /> },
+  ];
 
   return (
     <>
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-8">
-
-          {/* Search Bar */}
-          <div className="mb-8">
-            <div className="relative max-w-2xl">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search for artists, albums, or tracks..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
-              />
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
-            {['all', 'released', 'upcoming', 'trending'].map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${
-                  filter === f
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
-                }`}
-              >
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Albums Grid */}
-          {albumsLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {[...Array(10)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="aspect-square bg-gray-800 rounded-lg mb-3" />
-                  <div className="h-4 bg-gray-800 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-gray-800 rounded w-1/2" />
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-8">
+          <div className="flex gap-8">
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              {/* Search Bar */}
+              <div className="mb-8">
+                <div className="relative max-w-2xl">
+                  <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search for artists, albums, or tracks..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setActiveTab('all');
+                    }}
+                    className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                  />
                 </div>
-              ))}
+              </div>
+
+              {/* Tabs */}
+              <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
+                      activeTab === tab.id
+                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                        : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {tab.icon}
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Recently Played - Show on For You tab */}
+              {activeTab === 'for-you' && recentlyPlayed.length > 0 && (
+                <RecommendationSection
+                  title="Continue Listening"
+                  subtitle="Pick up where you left off"
+                  icon={<FiPlay />}
+                >
+                  <div className="flex gap-4 overflow-x-auto pb-4">
+                    {recentlyPlayed.map((item: any) => (
+                      <div key={item.id} className="flex-shrink-0 w-48">
+                        <ContentCard
+                          item={item.content}
+                          type={item.type}
+                          onPlay={(content) => {
+                            if (content.tracks) {
+                              playTrack(content.tracks[0], content.tracks);
+                            }
+                          }}
+                          showArtist={true}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </RecommendationSection>
+              )}
+
+              {/* Albums Grid */}
+              {isLoading ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                  {[...Array(12)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="aspect-square bg-gray-300 dark:bg-gray-800 rounded-lg mb-3" />
+                      <div className="h-4 bg-gray-300 dark:bg-gray-800 rounded w-3/4 mb-2" />
+                      <div className="h-3 bg-gray-300 dark:bg-gray-800 rounded w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              ) : albums.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+                  {albums.map((album: any) => (
+                    <ContentCard
+                      key={album.id}
+                      item={album}
+                      type="album"
+                      onPlay={async (album) => {
+                        // Fetch album tracks and play first one
+                        try {
+                          const response = await api.get(`/albums/${album.id}`);
+                          const tracks = response.data.tracks || [];
+                          if (tracks.length > 0) {
+                            playTrack(tracks[0], tracks);
+                          }
+                        } catch (error) {
+                          console.error('Failed to load album tracks:', error);
+                        }
+                      }}
+                      showArtist={true}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20">
+                  <FiMusic className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-600 dark:text-gray-400 text-lg">
+                    {searchQuery ? 'No albums found' : 'No albums available'}
+                  </p>
+                </div>
+              )}
             </div>
-          ) : albums.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-              {albums.map((album: any) => (
-                <AlbumCard key={album.id} album={album} onPlayClick={playTrack} />
-              ))}
+
+            {/* Sidebar - Friends Activity (Desktop only) */}
+            <div className="hidden xl:block w-80 flex-shrink-0">
+              <div className="sticky top-24">
+                <FriendsActivity />
+              </div>
             </div>
-          ) : (
-            <div className="text-center py-20">
-              <FiMusic className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No albums found</p>
-            </div>
-          )}
+          </div>
         </div>
       </main>
       
@@ -93,90 +210,3 @@ export default function MusicPage() {
     </>
   );
 }
-
-function AlbumCard({ album, onPlayClick }: { album: any; onPlayClick: (track: any, queue?: any[]) => void }) {
-  const handlePlayClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    try {
-      // Fetch album tracks
-      const response = await api.getAlbum(album.id);
-      const tracks = response.tracks || [];
-      
-      if (tracks.length > 0) {
-        // Play first track with full album as queue
-        const firstTrack = {
-          ...tracks[0],
-          album: {
-            id: album.id,
-            title: album.title,
-            cover_url: album.cover_url,
-          },
-          artist: album.artist,
-        };
-        
-        const queue = tracks.map((t: any) => ({
-          ...t,
-          album: {
-            id: album.id,
-            title: album.title,
-            cover_url: album.cover_url,
-          },
-          artist: album.artist,
-        }));
-        
-        onPlayClick(firstTrack, queue);
-      }
-    } catch (error) {
-      console.error('Failed to load album tracks:', error);
-    }
-  };
-  
-  return (
-    <Link href={`/albums/${album.id}`} className="group">
-      <div className="relative aspect-square bg-gray-800 rounded-lg overflow-hidden mb-3">
-        {album.cover_url ? (
-          <img 
-            src={album.cover_url} 
-            alt={album.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900 to-pink-900">
-            <FiMusic className="w-12 h-12 text-white/50" />
-          </div>
-        )}
-        
-        {/* Play button on hover */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <button 
-            onClick={handlePlayClick}
-            className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-105 transition-transform"
-          >
-            <FiPlay className="w-6 h-6 ml-0.5" />
-          </button>
-        </div>
-      </div>
-
-      {/* Album Info */}
-      <div>
-        <h3 className="text-sm sm:text-base font-medium text-white truncate group-hover:text-purple-400 transition-colors">
-          {album.title}
-        </h3>
-        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-          <span className="truncate">{album.artist.name}</span>
-          {album.artist.verified && (
-            <FiCheckCircle className="w-3 h-3 text-blue-500 flex-shrink-0" />
-          )}
-        </div>
-        {album.tracks_count && (
-          <p className="text-xs text-gray-500 mt-1">
-            {album.tracks_count} tracks
-          </p>
-        )}
-      </div>
-    </Link>
-  );
-}
-
