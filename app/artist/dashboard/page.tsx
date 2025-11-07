@@ -96,6 +96,12 @@ export default function ArtistDashboard() {
   const { artist, stats, token, content_counts, recent_activity, upcoming_schedule } = data.data;
 
   const quickActions = [
+    !token && { 
+      label: 'Launch Token', 
+      icon: FiTrendingUp, 
+      href: '/artist/token/launch',
+      color: 'gradient'
+    },
     { 
       label: 'Upload Album', 
       icon: FiMusic, 
@@ -123,7 +129,7 @@ export default function ArtistDashboard() {
     { 
       label: 'Upload Mini', 
       icon: FiFilm, 
-      href: '/artist/minis',
+      href: '/artist/videos/upload?type=mini',
       color: 'pink'
     },
     { 
@@ -132,7 +138,7 @@ export default function ArtistDashboard() {
       href: '/artist/fan-passes/create',
       color: 'yellow'
     },
-  ];
+  ].filter(Boolean);
 
   const getColorClass = (color: string) => {
     const colors: Record<string, string> = {
@@ -142,6 +148,7 @@ export default function ArtistDashboard() {
       purple: 'from-purple-600 to-purple-400',
       pink: 'from-pink-600 to-pink-400',
       yellow: 'from-yellow-600 to-yellow-400',
+      gradient: 'from-blue-600 to-purple-600',
     };
     return colors[color] || 'from-gray-600 to-gray-400';
   };
@@ -283,56 +290,74 @@ export default function ArtistDashboard() {
               <div>
                 <h2 className="text-2xl font-bold text-white mb-4">Your Content</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/albums"
+                    className="bg-gray-900 border border-gray-800 hover:border-blue-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiMusic className="w-5 h-5 text-blue-400" />
+                      <FiMusic className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.albums}</span>
                     </div>
                     <p className="text-sm text-gray-400 mb-1">Albums</p>
                     <p className="text-xs text-gray-500">{content_counts.tracks} total tracks</p>
-                  </div>
+                  </Link>
 
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/events"
+                    className="bg-gray-900 border border-gray-800 hover:border-green-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiCalendar className="w-5 h-5 text-green-400" />
+                      <FiCalendar className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.upcoming_events}</span>
                     </div>
                     <p className="text-sm text-gray-400 mb-1">Upcoming Events</p>
                     <p className="text-xs text-gray-500">{content_counts.events} total</p>
-                  </div>
+                  </Link>
 
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/livestreams"
+                    className="bg-gray-900 border border-gray-800 hover:border-red-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiRadio className="w-5 h-5 text-red-400" />
+                      <FiRadio className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.upcoming_livestreams}</span>
                     </div>
                     <p className="text-sm text-gray-400 mb-1">Scheduled Streams</p>
                     <p className="text-xs text-gray-500">{content_counts.livestreams} total</p>
-                  </div>
+                  </Link>
 
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/videos"
+                    className="bg-gray-900 border border-gray-800 hover:border-purple-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiVideo className="w-5 h-5 text-purple-400" />
+                      <FiVideo className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.videos}</span>
                     </div>
                     <p className="text-sm text-gray-400">Videos</p>
-                  </div>
+                  </Link>
 
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/minis"
+                    className="bg-gray-900 border border-gray-800 hover:border-pink-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiFilm className="w-5 h-5 text-pink-400" />
+                      <FiFilm className="w-5 h-5 text-pink-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.minis}</span>
                     </div>
                     <p className="text-sm text-gray-400">Mini's</p>
-                  </div>
+                  </Link>
 
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <Link
+                    href="/artist/fan-passes"
+                    className="bg-gray-900 border border-gray-800 hover:border-yellow-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                  >
                     <div className="flex items-center justify-between mb-2">
-                      <FiGift className="w-5 h-5 text-yellow-400" />
+                      <FiGift className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
                       <span className="text-2xl font-bold text-white">{content_counts.fan_passes}</span>
                     </div>
                     <p className="text-sm text-gray-400">Active Fan Passes</p>
-                  </div>
+                  </Link>
                 </div>
               </div>
 
