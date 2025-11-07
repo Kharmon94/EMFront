@@ -137,7 +137,7 @@ export default function TrackAccessManagerPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-black py-20 px-4">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
