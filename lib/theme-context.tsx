@@ -30,6 +30,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    
+    // Listen for theme changes from Navigation component
+    const handleThemeChangeEvent = (e: CustomEvent<{ theme: Theme }>) => {
+      const newTheme = e.detail.theme;
+      setThemeState(newTheme);
+    };
+    window.addEventListener('theme-change', handleThemeChangeEvent as EventListener);
+    
+    return () => {
+      window.removeEventListener('theme-change', handleThemeChangeEvent as EventListener);
+    };
   }, []);
 
   const setTheme = (newTheme: Theme) => {
