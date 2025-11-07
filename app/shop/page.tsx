@@ -86,8 +86,8 @@ export default function GlobalShopPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-20">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-8">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Wishlist Link (Desktop only) */}
           <div className="mb-8">
             <div className="flex items-center justify-end">

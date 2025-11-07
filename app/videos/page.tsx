@@ -92,8 +92,8 @@ export default function VideosPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
       <Navigation />
-      
-      <div className="max-w-[1800px] mx-auto px-4 pt-14 md:pt-20 pb-8">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
+        <div className="max-w-[1800px] mx-auto px-4">
         <div className="flex gap-8">
           {/* Main Content */}
           <div className="flex-1 min-w-0">
@@ -236,7 +236,8 @@ export default function VideosPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

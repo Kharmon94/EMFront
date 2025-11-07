@@ -76,7 +76,7 @@ export default function LivestreamsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pt-14 md:pt-20 pb-8 px-4">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6 px-4">
         <div className="max-w-[1800px] mx-auto">
           <div className="flex gap-8">
             {/* Main Content */}

@@ -81,7 +81,7 @@ export default function TrackPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-32">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Track Header */}
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 mb-12">

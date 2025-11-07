@@ -97,13 +97,12 @@ export default function MinisPage() {
 
   return (
     <PermissionGuard require="auth" redirectTo="/">
-      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
-        <Navigation />
-      
+      <Navigation />
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 pt-16 md:pt-24 pb-24 md:pb-6">
         {/* Pull to refresh indicator */}
         {(isPulling || isRefreshing) && (
           <div 
-            className="fixed top-12 left-0 right-0 flex justify-center z-40 transition-all"
+            className="fixed top-16 md:top-24 left-0 right-0 flex justify-center z-40 transition-all"
             style={{ transform: `translateY(${Math.min(progress * 60, 60)}px)` }}
           >
             <div className={`px-4 py-2 bg-purple-600 text-white rounded-full text-sm ${isRefreshing ? 'animate-spin' : ''}`}>
@@ -112,7 +111,7 @@ export default function MinisPage() {
           </div>
         )}
         
-        <div className="max-w-[1800px] mx-auto px-4 pt-14 md:pt-20 pb-8">
+        <div className="max-w-[1800px] mx-auto px-4">
           <div className="flex gap-8">
             {/* Main Content */}
             <div className="flex-1 min-w-0">
@@ -200,7 +199,8 @@ export default function MinisPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
+      <MusicPlayer />
     </PermissionGuard>
   );
 }

@@ -114,7 +114,7 @@ export default function EventDetailPage() {
   return (
     <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
         {/* Hero Section */}
         <div className="relative h-96 sm:h-[500px] overflow-hidden">
           {/* Background Image */}

@@ -38,8 +38,8 @@ export default function WrappedPage() {
   return (
     <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-red-900 pb-32">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-8">
+      <main className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-red-900 pt-16 md:pt-24 pb-24 md:pb-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Year Selector */}
           <div className="flex items-center justify-between mb-12">
             <button

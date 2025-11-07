@@ -116,7 +116,7 @@ export default function PlaylistDetailPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-purple-900/10 dark:to-black pb-32">
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-purple-900/10 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
         {/* Header */}
         <div className="relative bg-gradient-to-b from-purple-900/20 to-transparent">
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-8">
