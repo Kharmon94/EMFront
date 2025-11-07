@@ -46,7 +46,7 @@ export default function PlaylistsPage() {
 
   const getPlaylists = () => {
     switch (activeTab) {
-      case 'your-playlists': return yourPlaylistsData?.playlists || [];
+      case 'your-playlists': return yourPlaylistsData?.data?.playlists || [];
       case 'collaborative': return collaborativeData?.data?.playlists || [];
       case 'discover': return [...(discoverData?.data?.genre_playlists || []), ...(discoverData?.data?.curator_playlists || [])];
       case 'community': return communityData?.data?.playlists || [];
