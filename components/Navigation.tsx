@@ -98,11 +98,17 @@ export function Navigation() {
   useEffect(() => {
     setMounted(true);
     
-    // Load theme from localStorage
+    // Load theme from localStorage and apply it to DOM
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
       if (savedTheme) {
         setTheme(savedTheme);
+        // Apply the theme class to HTML element
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       }
     }
     
