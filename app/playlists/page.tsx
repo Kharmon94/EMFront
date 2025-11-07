@@ -30,17 +30,9 @@ export default function PlaylistsPage() {
     <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-                My Playlists
-              </h1>
-              <p className="text-gray-400 text-lg">
-                Create and manage your personal music collections
-              </p>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 py-8">
+          {/* Create Playlist Button */}
+          <div className="flex items-center justify-end mb-8">
             <button
               onClick={handleCreatePlaylist}
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors flex items-center gap-2"
