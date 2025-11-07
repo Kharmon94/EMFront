@@ -53,7 +53,7 @@ export default function Home() {
       <Navigation />
       <main className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-black dark:via-gray-900 dark:to-black">
         {/* Hero Section */}
-        <section className="relative px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+        <section className="relative px-4 sm:px-6 lg:px-8 pt-4 md:pt-20 pb-16 md:pb-32">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6">
