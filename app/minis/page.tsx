@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { FiPlay, FiEye, FiHeart, FiTrendingUp, FiUsers, FiGlobe, FiLock, FiShare2, FiList } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
+import { MusicPlayer } from '@/components/MusicPlayer';
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { FriendsActivity } from '@/components/discovery/FriendsActivity';
 import { useGesture } from '@/lib/useGesture';
