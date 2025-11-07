@@ -171,7 +171,7 @@ export default function ArtistDashboard() {
                   />
                 )}
                 <div>
-                  <h1 className="text-3xl font-bold text-white">Welcome back, {artist.name}</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome back, {artist.name}</h1>
                   {artist.verified && (
                     <span className="inline-flex items-center gap-1 text-sm text-blue-400">
                       <FiActivity className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default function ArtistDashboard() {
               </div>
               <Link
                 href={`/artists/${artist.id}`}
-                className="px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
               >
                 <FiUser className="w-4 h-4" />
                 Preview Profile

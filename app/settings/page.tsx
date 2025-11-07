@@ -141,14 +141,14 @@ export default function SettingsPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Settings</h1>
-            <p className="text-gray-400">Manage your account settings and preferences</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">Settings</h1>
+            <p className="text-gray-600 dark:text-gray-400">Manage your account settings and preferences</p>
           </div>
 
           <div className="flex flex-col md:flex-row gap-6">
             {/* Sidebar Navigation - Desktop */}
             <div className="hidden md:block w-64 flex-shrink-0">
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-2 sticky top-20">
+              <div className="bg-white dark:bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-2 sticky top-20">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   return (
@@ -158,7 +158,7 @@ export default function SettingsPage() {
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white'
-                          : 'text-gray-300 hover:bg-gray-800'
+                          : 'text-gray-700 dark:text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -181,7 +181,7 @@ export default function SettingsPage() {
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-900 text-gray-300'
+                          : 'bg-gray-200 dark:bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -194,7 +194,7 @@ export default function SettingsPage() {
 
             {/* Content Area */}
             <div className="flex-1 min-w-0">
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <div className="bg-white dark:bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-6">
                 {/* Render active tab content */}
                 {activeTab === 'profile' && <ProfileSection />}
                 {activeTab === 'account' && <AccountSection />}
@@ -255,21 +255,21 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Profile Settings</h2>
-          <p className="text-gray-400">Update your public profile information</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">Profile Settings</h2>
+          <p className="text-gray-600 dark:text-gray-400">Update your public profile information</p>
         </div>
 
         {/* Avatar Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
             Profile Picture
           </label>
           <div className="flex items-center gap-4">
-            <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-800 border-2 border-gray-700">
+            <div className="relative w-24 h-24 rounded-full overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-700">
               {profileData.avatar_url ? (
                 <img src={profileData.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-white text-3xl font-bold">
+                <div className="w-full h-full flex items-center justify-center text-gray-900 dark:text-white text-3xl font-bold">
                   {profileData.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || '?'}
                 </div>
               )}
@@ -283,7 +283,7 @@ export default function SettingsPage() {
             <div>
               <button
                 onClick={() => handleImageUpload('avatar_url')}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors"
+                className="px-4 py-2 bg-white dark:bg-gray-800 hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm font-medium transition-colors"
               >
                 Change Picture
               </button>
@@ -295,10 +295,10 @@ export default function SettingsPage() {
         {/* Banner Upload (Artists only) */}
         {user?.role === 'artist' && (
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
               Banner Image
             </label>
-            <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-800 border-2 border-gray-700">
+            <div className="relative w-full h-40 rounded-lg overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-700">
               {profileData.banner_url ? (
                 <img src={profileData.banner_url} alt="Banner" className="w-full h-full object-cover" />
               ) : (
@@ -320,7 +320,7 @@ export default function SettingsPage() {
         {/* Name Field (Artists only) */}
         {user?.role === 'artist' && (
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
               Artist Name
             </label>
             <input
@@ -328,7 +328,7 @@ export default function SettingsPage() {
               type="text"
               value={profileData.name}
               onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="Your artist name"
             />
           </div>
@@ -337,7 +337,7 @@ export default function SettingsPage() {
         {/* Bio Field (Artists only) */}
         {user?.role === 'artist' && (
           <div>
-            <label htmlFor="bio" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="bio" className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
               Bio
             </label>
             <textarea
@@ -345,7 +345,7 @@ export default function SettingsPage() {
               value={profileData.bio}
               onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
               rows={4}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none"
               placeholder="Tell us about yourself..."
             />
             <p className="text-xs text-gray-500 mt-1">{profileData.bio.length}/500 characters</p>
@@ -355,7 +355,7 @@ export default function SettingsPage() {
         {/* Location Field (Artists only) */}
         {user?.role === 'artist' && (
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Location
             </label>
             <input
@@ -363,7 +363,7 @@ export default function SettingsPage() {
               type="text"
               value={profileData.location}
               onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="City, Country"
             />
           </div>
@@ -371,7 +371,7 @@ export default function SettingsPage() {
 
         {/* Email (Read-only) */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Email Address
           </label>
           <input
@@ -379,7 +379,7 @@ export default function SettingsPage() {
             type="email"
             value={profileData.email}
             disabled
-            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-gray-500 cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-500 cursor-not-allowed"
           />
           <p className="text-xs text-gray-500 mt-1">Email cannot be changed here. Manage in Account settings.</p>
         </div>
@@ -389,7 +389,7 @@ export default function SettingsPage() {
           <button
             onClick={handleProfileSave}
             disabled={saving}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors flex items-center gap-2"
           >
             {saving ? (
               <>
@@ -458,16 +458,16 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Account Settings</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Account Settings</h2>
           <p className="text-gray-400">Manage your authentication methods and security</p>
         </div>
 
         {/* Connected Methods */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Connected Methods</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Connected Methods</h3>
           <div className="space-y-3">
             {/* Email Status */}
-            <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   user?.has_email_auth ? 'bg-green-900/30' : 'bg-gray-700'
@@ -475,7 +475,7 @@ export default function SettingsPage() {
                   <FiMail className={`w-5 h-5 ${user?.has_email_auth ? 'text-green-400' : 'text-gray-500'}`} />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Email & Password</p>
+                  <p className="text-gray-900 dark:text-white font-medium">Email & Password</p>
                   <p className="text-sm text-gray-400">
                     {user?.has_email_auth ? user.email : 'Not connected'}
                   </p>
@@ -487,14 +487,14 @@ export default function SettingsPage() {
                   Connected
                 </div>
               ) : (
-                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors">
+                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-gray-900 dark:text-white text-sm rounded-lg transition-colors">
                   Link Email
                 </button>
               )}
             </div>
 
             {/* Wallet Status */}
-            <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   user?.has_wallet_auth ? 'bg-blue-900/30' : 'bg-gray-700'
@@ -502,7 +502,7 @@ export default function SettingsPage() {
                   <FiKey className={`w-5 h-5 ${user?.has_wallet_auth ? 'text-blue-400' : 'text-gray-500'}`} />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Solana Wallet</p>
+                  <p className="text-gray-900 dark:text-white font-medium">Solana Wallet</p>
                   <p className="text-sm text-gray-400">
                     {user?.has_wallet_auth 
                       ? `${user.wallet_address.slice(0, 4)}...${user.wallet_address.slice(-4)}`
@@ -517,7 +517,7 @@ export default function SettingsPage() {
                   Connected
                 </div>
               ) : (
-                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors">
+                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-gray-900 dark:text-white text-sm rounded-lg transition-colors">
                   Link Wallet
                 </button>
               )}
@@ -528,19 +528,19 @@ export default function SettingsPage() {
         {/* Password Change (Email users only) */}
         {user?.has_email_auth && (
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Change Password</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Change Password</h3>
             {!showPasswordForm ? (
               <button
                 onClick={() => setShowPasswordForm(true)}
-                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-white dark:bg-gray-800 hover:bg-gray-700 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors"
               >
                 Change Password
               </button>
             ) : (
-              <div className="space-y-4 p-4 bg-gray-800 border border-gray-700 rounded-lg">
+              <div className="space-y-4 p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
                 {/* Current Password */}
                 <div>
-                  <label htmlFor="current_password" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="current_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Current Password
                   </label>
                   <input
@@ -548,14 +548,14 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.current_password}
                     onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Enter current password"
                   />
                 </div>
 
                 {/* New Password */}
                 <div>
-                  <label htmlFor="new_password" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="new_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     New Password
                   </label>
                   <input
@@ -563,7 +563,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.new_password}
                     onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Enter new password"
                   />
                   {/* Password Strength Indicator */}
@@ -588,7 +588,7 @@ export default function SettingsPage() {
 
                 {/* Confirm Password */}
                 <div>
-                  <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Confirm New Password
                   </label>
                   <input
@@ -596,7 +596,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.confirm_password}
                     onChange={(e) => setPasswordData({ ...passwordData, confirm_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Confirm new password"
                   />
                   {passwordData.confirm_password && passwordData.new_password !== passwordData.confirm_password && (
@@ -609,7 +609,7 @@ export default function SettingsPage() {
                   <button
                     onClick={handlePasswordChange}
                     disabled={saving || !passwordData.current_password || !passwordData.new_password || passwordData.new_password !== passwordData.confirm_password}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white rounded-lg transition-colors"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors"
                   >
                     {saving ? 'Changing...' : 'Change Password'}
                   </button>
@@ -618,7 +618,7 @@ export default function SettingsPage() {
                       setShowPasswordForm(false);
                       setPasswordData({ current_password: '', new_password: '', confirm_password: '' });
                     }}
-                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
@@ -666,15 +666,15 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Notification Preferences</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Notification Preferences</h2>
           <p className="text-gray-400">Control what notifications you want to receive</p>
         </div>
 
         {/* Email Notifications Master Toggle */}
-        <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <h3 className="text-white font-medium">Email Notifications</h3>
+              <h3 className="text-gray-900 dark:text-white font-medium">Email Notifications</h3>
               <p className="text-sm text-gray-400">Receive notifications via email</p>
             </div>
             <ToggleSwitch
@@ -689,9 +689,9 @@ export default function SettingsPage() {
           <h3 className="text-lg font-semibold text-white">Notification Categories</h3>
 
           {/* Purchases */}
-          <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
-              <p className="text-white font-medium">Purchases</p>
+              <p className="text-gray-900 dark:text-white font-medium">Purchases</p>
               <p className="text-sm text-gray-400">When someone purchases your content</p>
             </div>
             <ToggleSwitch
@@ -701,9 +701,9 @@ export default function SettingsPage() {
           </div>
 
           {/* New Followers */}
-          <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
-              <p className="text-white font-medium">New Followers</p>
+              <p className="text-gray-900 dark:text-white font-medium">New Followers</p>
               <p className="text-sm text-gray-400">When someone follows you</p>
             </div>
             <ToggleSwitch
@@ -713,9 +713,9 @@ export default function SettingsPage() {
           </div>
 
           {/* Comments */}
-          <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
-              <p className="text-white font-medium">Comments</p>
+              <p className="text-gray-900 dark:text-white font-medium">Comments</p>
               <p className="text-sm text-gray-400">When someone comments on your content</p>
             </div>
             <ToggleSwitch
@@ -725,9 +725,9 @@ export default function SettingsPage() {
           </div>
 
           {/* Likes */}
-          <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
-              <p className="text-white font-medium">Likes</p>
+              <p className="text-gray-900 dark:text-white font-medium">Likes</p>
               <p className="text-sm text-gray-400">When someone likes your content</p>
             </div>
             <ToggleSwitch
@@ -737,9 +737,9 @@ export default function SettingsPage() {
           </div>
 
           {/* Livestreams */}
-          <div className="flex items-center justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
-              <p className="text-white font-medium">Livestreams</p>
+              <p className="text-gray-900 dark:text-white font-medium">Livestreams</p>
               <p className="text-sm text-gray-400">When artists you follow go live</p>
             </div>
             <ToggleSwitch
@@ -771,13 +771,13 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Messaging Preferences</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">Messaging Preferences</h2>
           <p className="text-gray-600 dark:text-gray-400">Control who can send you direct messages</p>
         </div>
 
         {/* Who can message you */}
-        <div className="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-6">
-          <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Who can send you messages</h3>
+        <div className="bg-gray-100 dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg p-6">
+          <h3 className="text-gray-900 dark:text-gray-900 dark:text-white font-semibold mb-4">Who can send you messages</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
               <input
@@ -789,7 +789,7 @@ export default function SettingsPage() {
                 className="w-4 h-4 text-blue-600"
               />
               <div>
-                <p className="text-gray-900 dark:text-white font-medium">Everyone</p>
+                <p className="text-gray-900 dark:text-gray-900 dark:text-white font-medium">Everyone</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Anyone can send you messages</p>
               </div>
             </label>
@@ -804,7 +804,7 @@ export default function SettingsPage() {
                 className="w-4 h-4 text-blue-600"
               />
               <div>
-                <p className="text-gray-900 dark:text-white font-medium">People You Follow</p>
+                <p className="text-gray-900 dark:text-gray-900 dark:text-white font-medium">People You Follow</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Only people you follow can message you</p>
               </div>
             </label>
@@ -819,7 +819,7 @@ export default function SettingsPage() {
                 className="w-4 h-4 text-blue-600"
               />
               <div>
-                <p className="text-gray-900 dark:text-white font-medium">No One</p>
+                <p className="text-gray-900 dark:text-gray-900 dark:text-white font-medium">No One</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Turn off direct messages completely</p>
               </div>
             </label>
@@ -890,24 +890,24 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Artist Settings</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Artist Settings</h2>
           <p className="text-gray-400">Manage your artist profile and verification</p>
         </div>
 
         {/* Social Links */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Social Links</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Social Links</h3>
           <div className="space-y-4">
             {/* Twitter */}
             <div>
-              <label htmlFor="twitter" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
                   <FiTwitter className="w-4 h-4 text-blue-400" />
                   Twitter Username
                 </div>
               </label>
               <div className="flex">
-                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-700 bg-gray-800 text-gray-400">
+                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
                   @
                 </span>
                 <input
@@ -915,7 +915,7 @@ export default function SettingsPage() {
                   type="text"
                   value={artistData.twitter}
                   onChange={(e) => setArtistData({ ...artistData, twitter: e.target.value })}
-                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-r-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                   placeholder="yourusername"
                 />
               </div>
@@ -923,14 +923,14 @@ export default function SettingsPage() {
 
             {/* Instagram */}
             <div>
-              <label htmlFor="instagram" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
                   <FiInstagram className="w-4 h-4 text-pink-400" />
                   Instagram Username
                 </div>
               </label>
               <div className="flex">
-                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-700 bg-gray-800 text-gray-400">
+                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
                   @
                 </span>
                 <input
@@ -938,7 +938,7 @@ export default function SettingsPage() {
                   type="text"
                   value={artistData.instagram}
                   onChange={(e) => setArtistData({ ...artistData, instagram: e.target.value })}
-                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-r-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                   placeholder="yourusername"
                 />
               </div>
@@ -946,7 +946,7 @@ export default function SettingsPage() {
 
             {/* Website */}
             <div>
-              <label htmlFor="website" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="website" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
                   <FiGlobe className="w-4 h-4 text-green-400" />
                   Website
@@ -957,7 +957,7 @@ export default function SettingsPage() {
                 type="url"
                 value={artistData.website}
                 onChange={(e) => setArtistData({ ...artistData, website: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 placeholder="https://yourwebsite.com"
               />
             </div>
@@ -966,8 +966,8 @@ export default function SettingsPage() {
 
         {/* Genres */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-2">Genres</h3>
-          <p className="text-sm text-gray-400 mb-4">Select up to 5 genres that describe your music</p>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Genres</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select up to 5 genres that describe your music</p>
           <div className="flex flex-wrap gap-2">
             {availableGenres.map((genre) => (
               <button
@@ -976,7 +976,7 @@ export default function SettingsPage() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   artistData.genres.includes(genre)
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-700'
                 } ${artistData.genres.length >= 5 && !artistData.genres.includes(genre) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {genre}
@@ -987,14 +987,14 @@ export default function SettingsPage() {
         </div>
 
         {/* Verification */}
-        <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-blue-900/30 flex items-center justify-center flex-shrink-0">
               <FiStar className="w-5 h-5 text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-white font-medium mb-1">Artist Verification</h3>
-              <p className="text-sm text-gray-400 mb-3">
+              <h3 className="text-gray-900 dark:text-white font-medium mb-1">Artist Verification</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                 Verified artists get a blue checkmark, increased visibility, and access to exclusive features.
               </p>
               {artistData.verification_requested ? (
@@ -1005,7 +1005,7 @@ export default function SettingsPage() {
               ) : (
                 <button
                   onClick={handleRequestVerification}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-gray-900 dark:text-white text-sm rounded-lg transition-colors"
                 >
                   Request Verification
                 </button>
@@ -1019,7 +1019,7 @@ export default function SettingsPage() {
           <button
             onClick={handleArtistSave}
             disabled={saving}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors flex items-center gap-2"
           >
             {saving ? (
               <>
@@ -1042,14 +1042,14 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Privacy & Security</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Privacy & Security</h2>
           <p className="text-gray-400">Manage your privacy and data</p>
         </div>
 
         {/* Account Visibility */}
-        <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg">
-          <h3 className="text-white font-medium mb-2">Profile Visibility</h3>
-          <p className="text-sm text-gray-400 mb-3">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <h3 className="text-gray-900 dark:text-white font-medium mb-2">Profile Visibility</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             Your profile is currently public and visible to everyone.
           </p>
           <p className="text-xs text-gray-500">
@@ -1058,19 +1058,19 @@ export default function SettingsPage() {
         </div>
 
         {/* Data Export */}
-        <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg">
-          <h3 className="text-white font-medium mb-2">Export Your Data</h3>
-          <p className="text-sm text-gray-400 mb-3">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <h3 className="text-gray-900 dark:text-white font-medium mb-2">Export Your Data</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             Download a copy of your account data, including profile info, content, and activity.
           </p>
-          <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors">
+          <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-900 dark:text-white text-sm rounded-lg transition-colors">
             Request Data Export
           </button>
         </div>
 
         {/* Two-Factor Authentication (Future) */}
-        <div className="p-4 bg-gray-800/50 border border-gray-700 rounded-lg">
-          <h3 className="text-gray-400 font-medium mb-2">Two-Factor Authentication</h3>
+        <div className="p-4 bg-gray-800/50 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <h3 className="text-gray-600 dark:text-gray-400 font-medium mb-2">Two-Factor Authentication</h3>
           <p className="text-sm text-gray-500 mb-3">
             Coming soon: Add an extra layer of security to your account.
           </p>
@@ -1098,11 +1098,11 @@ export default function SettingsPage() {
                 <FiTrash2 className="w-6 h-6 text-red-500" />
               </div>
               <div className="flex-1">
-                <h3 className="text-white font-bold text-lg mb-2">Delete Account</h3>
-                <p className="text-gray-300 text-sm mb-4">
+                <h3 className="text-gray-900 dark:text-white font-bold text-lg mb-2">Delete Account</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
                   Permanently delete your account and all associated data. This action cannot be undone and will result in the permanent loss of:
                 </p>
-                <ul className="text-sm text-gray-400 space-y-1 mb-4 ml-4">
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 mb-4 ml-4">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                     All uploaded content (albums, tracks, videos, minis)
@@ -1126,7 +1126,7 @@ export default function SettingsPage() {
                 </ul>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors flex items-center gap-2"
+                  className="px-6 py-3 bg-red-600 hover:bg-red-700 text-gray-900 dark:text-white rounded-lg font-bold transition-colors flex items-center gap-2"
                 >
                   <FiAlertTriangle className="w-4 h-4" />
                   Delete My Account
@@ -1137,7 +1137,7 @@ export default function SettingsPage() {
 
           <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
             <p className="text-yellow-400 font-medium mb-2">⚠️ Need Help?</p>
-            <p className="text-gray-300 text-sm">
+            <p className="text-gray-700 dark:text-gray-300 text-sm">
               If you're experiencing issues or have concerns, please contact our support team before deleting your account. We're here to help.
             </p>
           </div>
