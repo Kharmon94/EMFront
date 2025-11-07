@@ -30,7 +30,7 @@ export default function MusicPage() {
     <>
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-20 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 md:pt-20 pb-8">
 
           {/* Search Bar */}
           <div className="mb-8">
