@@ -63,6 +63,7 @@ export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -70,55 +71,15 @@ export function Navigation() {
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   
-  // Theme management - safe for SSR
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  
-  const handleToggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', newTheme);
-      // Update the document class
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      // Dispatch event for other components listening to theme changes
-      window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
-    }
-  };
-  
   useEffect(() => {
     setMounted(true);
-    
-    // Load theme from localStorage
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      const initialTheme = savedTheme || systemTheme;
-      setTheme(initialTheme);
-      // Update document class
-      if (initialTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
 
     // Listen for auth modal open events
     const handleOpenAuthModal = () => setShowAuthModal(true);
     window.addEventListener('open-auth-modal', handleOpenAuthModal);
     
-    // Listen for theme change events from other components
-    const handleThemeChange = (e: CustomEvent) => {
-      setTheme(e.detail.theme);
-    };
-    window.addEventListener('theme-change', handleThemeChange as EventListener);
-    
     return () => {
       window.removeEventListener('open-auth-modal', handleOpenAuthModal);
-      window.removeEventListener('theme-change', handleThemeChange as EventListener);
     };
   }, []);
 
@@ -275,7 +236,7 @@ export function Navigation() {
               </Link>
               {mounted && (
                 <button
-                  onClick={handleToggleTheme}
+                  onClick={toggleTheme}
                   className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
                   title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
@@ -694,7 +655,7 @@ export function Navigation() {
                           {/* Theme Toggle */}
                           {mounted && (
                             <button
-                              onClick={handleToggleTheme}
+                              onClick={toggleTheme}
                               className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
                             >
                               {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
