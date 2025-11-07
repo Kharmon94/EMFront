@@ -82,24 +82,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-  if (loading) {
-    return (
-      <>
-        <Navigation />
-        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-black dark:via-gray-900 dark:to-black">
-        {/* Hero Section */}
-        <section className="relative px-4 sm:px-6 lg:px-8 pt-20 pb-32">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6">
