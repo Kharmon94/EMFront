@@ -791,10 +791,6 @@ export function Navigation() {
           window.dispatchEvent(new Event('auth-change'));
         }}
       />
-
-      {/* Mobile Spacer */}
-      <div className="md:hidden h-14" />
-      <div className="md:hidden h-16" />
     </>
   );
 }
