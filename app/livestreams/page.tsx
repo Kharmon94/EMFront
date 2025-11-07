@@ -24,18 +24,8 @@ export default function LivestreamsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-black py-20 px-4">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-20 py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-white mb-4 flex items-center gap-3">
-              <FiVideo className="w-10 h-10 text-red-500" />
-              Livestreams
-            </h1>
-            <p className="text-xl text-gray-400">
-              Watch your favorite artists perform live
-            </p>
-          </div>
 
           {/* Live Streams */}
           {liveStreams.length > 0 && (

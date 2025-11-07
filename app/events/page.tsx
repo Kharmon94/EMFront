@@ -24,17 +24,8 @@ export default function EventsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-              Events
-            </h1>
-            <p className="text-gray-400 text-lg">
-              Discover live performances and buy NFT tickets with Solana
-            </p>
-          </div>
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 py-8">
 
           {/* Filters */}
           <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
