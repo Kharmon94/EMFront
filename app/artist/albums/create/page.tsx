@@ -13,7 +13,6 @@ interface Track {
   duration: number;
   track_number: number;
   audio_file?: File;
-  audio_url?: string;
   explicit: boolean;
   access_tier: 'free' | 'preview_only' | 'nft_required';
   price?: number;
@@ -83,6 +82,34 @@ export default function CreateAlbumPage() {
     setTracks(updated);
   };
 
+  const handleAudioFileChange = (index: number, file: File | null) => {
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('audio/')) {
+        toast.error('Please select an audio file');
+        return;
+      }
+      // Validate file size (max 50MB)
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error('Audio file must be less than 50MB');
+        return;
+      }
+
+      // Create audio element to get duration
+      const audio = new Audio();
+      const url = URL.createObjectURL(file);
+      audio.src = url;
+      
+      audio.addEventListener('loadedmetadata', () => {
+        const duration = Math.floor(audio.duration);
+        updateTrack(index, 'duration', duration);
+        URL.revokeObjectURL(url);
+      });
+
+      updateTrack(index, 'audio_file', file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -121,7 +148,7 @@ export default function CreateAlbumPage() {
         formData.append(`tracks[${index}][explicit]`, track.explicit.toString());
         formData.append(`tracks[${index}][access_tier]`, track.access_tier);
         if (track.price) formData.append(`tracks[${index}][price]`, track.price.toString());
-        if (track.audio_url) formData.append(`tracks[${index}][audio_url]`, track.audio_url);
+        if (track.audio_file) formData.append(`tracks[${index}][audio_file]`, track.audio_file);
       });
 
       const response = await api.post('/albums', formData, {
@@ -321,18 +348,66 @@ export default function CreateAlbumPage() {
                         />
                       </div>
 
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Audio File *
+                        </label>
+                        <div className="flex items-center gap-4">
+                          {track.audio_file ? (
+                            <div className="flex-1 flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                              <div className="flex-shrink-0 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                                <FiMusic className="w-5 h-5 text-white" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                  {track.audio_file.name}
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                  {(track.audio_file.size / (1024 * 1024)).toFixed(2)} MB
+                                  {track.duration > 0 && ` • ${Math.floor(track.duration / 60)}:${String(track.duration % 60).padStart(2, '0')}`}
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  updateTrack(index, 'audio_file', undefined);
+                                  updateTrack(index, 'duration', 0);
+                                }}
+                                className="flex-shrink-0 text-red-500 hover:text-red-600"
+                              >
+                                <FiX className="w-5 h-5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <label className="flex-1 cursor-pointer">
+                              <div className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+                                <FiUpload className="w-5 h-5 text-gray-400" />
+                                <span className="text-sm text-gray-600 dark:text-gray-400">
+                                  Click to upload audio file (MP3, WAV, FLAC)
+                                </span>
+                              </div>
+                              <input
+                                type="file"
+                                accept="audio/*"
+                                onChange={(e) => handleAudioFileChange(index, e.target.files?.[0] || null)}
+                                className="hidden"
+                              />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Duration (seconds)
+                          Duration
                         </label>
                         <input
-                          type="number"
-                          value={track.duration}
-                          onChange={(e) => updateTrack(index, 'duration', parseInt(e.target.value))}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
-                          placeholder="180"
-                          min="0"
+                          type="text"
+                          value={track.duration > 0 ? `${Math.floor(track.duration / 60)}:${String(track.duration % 60).padStart(2, '0')}` : 'Auto-detected'}
+                          disabled
+                          className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 cursor-not-allowed"
                         />
+                        <p className="text-xs text-gray-500 mt-1">Automatically detected from audio file</p>
                       </div>
 
                       <div>
@@ -348,19 +423,6 @@ export default function CreateAlbumPage() {
                           <option value="preview_only">Preview Only (30s)</option>
                           <option value="nft_required">NFT Required</option>
                         </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Audio URL (IPFS/CDN)
-                        </label>
-                        <input
-                          type="url"
-                          value={track.audio_url || ''}
-                          onChange={(e) => updateTrack(index, 'audio_url', e.target.value)}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
-                          placeholder="https://ipfs.io/..."
-                        />
                       </div>
 
                       <div className="flex items-center gap-6">
@@ -416,7 +478,8 @@ export default function CreateAlbumPage() {
             </h3>
             <ul className="text-sm text-blue-800 dark:text-blue-400 space-y-1">
               <li>• Cover art should be at least 3000x3000px for best quality</li>
-              <li>• Upload audio files to IPFS first and paste the URL</li>
+              <li>• Upload audio files directly (MP3, WAV, FLAC up to 50MB per track)</li>
+              <li>• Track duration is automatically detected from the audio file</li>
               <li>• Set access tiers per track (free, preview, or NFT-gated)</li>
               <li>• You can add more tracks later from the album management page</li>
             </ul>
