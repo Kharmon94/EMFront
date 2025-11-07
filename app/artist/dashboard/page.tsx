@@ -15,6 +15,8 @@ import { formatCurrency } from '@/lib/utils';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function ArtistDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);

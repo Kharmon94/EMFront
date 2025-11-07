@@ -6,6 +6,8 @@ import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function LivestreamsPage() {
   const { data: liveData } = useQuery({
     queryKey: ['livestreams', 'live'],
