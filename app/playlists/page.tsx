@@ -19,7 +19,7 @@ export default function PlaylistsPage() {
   // Your Playlists
   const { data: yourPlaylistsData, isLoading: yourLoading, refetch } = useQuery({
     queryKey: ['playlists'],
-    queryFn: () => api.getPlaylists(),
+    queryFn: () => api.get('/playlists'),
     enabled: activeTab === 'your-playlists'
   });
 
