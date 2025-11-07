@@ -71,19 +71,29 @@ export function Navigation() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
+  
+  // Theme management - safe for SSR
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [toggleTheme, setToggleTheme] = useState<() => void>(() => () => {});
+  
+  const handleToggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', newTheme);
+      document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    }
+  };
   
   useEffect(() => {
     setMounted(true);
     
-    // Initialize theme after mounting on client
-    try {
-      const { theme: currentTheme, toggleTheme: toggle } = useTheme();
-      setTheme(currentTheme);
-      setToggleTheme(() => toggle);
-    } catch (e) {
-      // SSR or ThemeProvider not available
+    // Load theme from localStorage
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const initialTheme = savedTheme || systemTheme;
+      setTheme(initialTheme);
+      document.documentElement.classList.toggle('dark', initialTheme === 'dark');
     }
 
     // Listen for auth modal open events
@@ -245,7 +255,7 @@ export function Navigation() {
               </div>
               {mounted && (
                 <button
-                  onClick={toggleTheme}
+                  onClick={handleToggleTheme}
                   className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all duration-200"
                   title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
@@ -634,7 +644,7 @@ export function Navigation() {
                           {/* Theme Toggle */}
                           {mounted && (
                             <button
-                              onClick={toggleTheme}
+                              onClick={handleToggleTheme}
                               className="flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900 w-full"
                             >
                               {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
