@@ -253,7 +253,7 @@ export function Navigation() {
       {/* Mobile Navigation */}
       <div className="md:hidden">
         {/* Top Bar */}
-        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800">
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800 mb-0.5">
           <div className="flex items-center justify-between h-12 px-4">
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
