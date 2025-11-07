@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tantml:invoke>
-<parameter name="name">react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Navigation } from '@/components/Navigation';
 import { MessageModal } from '@/components/MessageModal';
 import { 
