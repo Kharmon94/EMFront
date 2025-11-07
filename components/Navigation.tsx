@@ -294,7 +294,7 @@ export function Navigation() {
       <div className="md:hidden">
         {/* Top Bar */}
         <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800">
-          <div className="flex items-center justify-between h-14 px-4">
+          <div className="flex items-center justify-between h-12 px-4">
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
                 <FiMusic className="w-5 h-5 text-white dark:text-black" />
@@ -338,14 +338,8 @@ export function Navigation() {
             </div>
         </Dialog>
         
-        {/* Keep the closing div from next section */}
-        <div className="h-14"></div>
-        {/* Rest of mobile navigation content */}
-        <div>
-          <div className="h-14">
-          {/* Rest stays the same */}
-          </div>
-        </div>
+        {/* Spacer for fixed top bar */}
+        <div className="h-12"></div>
 
         {/* Bottom Tab Bar */}
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-800 pb-safe">

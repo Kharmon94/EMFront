@@ -38,22 +38,16 @@ export default function VideosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Videos</h1>
-            <p className="text-gray-400">Discover music videos from your favorite artists</p>
-          </div>
-          
+      <div className="container mx-auto px-4 pt-16 md:pt-20 py-8">
+        <div className="flex justify-end items-center mb-8">
           {/* Sort */}
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-purple-500"
+            className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
           >
             <option value="recent">Recent</option>
             <option value="popular">Popular</option>
