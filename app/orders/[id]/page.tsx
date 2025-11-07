@@ -55,7 +55,7 @@ export default function OrderDetailPage() {
   return (
     <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pt-6 pb-24 md:pb-6">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Success Message */}
           <div className="bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-800 rounded-lg p-6 mb-8">

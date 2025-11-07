@@ -56,7 +56,7 @@ export default function UserProfilePage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pb-24 md:pb-6">
+      <main className="min-h-screen bg-white dark:bg-black pt-12 md:pt-16 pb-24 md:pb-6">
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-900 to-purple-900 dark:from-purple-900 dark:to-pink-900">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

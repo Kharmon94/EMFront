@@ -70,7 +70,7 @@ export default function MessagesPage() {
   return (
     <PermissionGuard require="auth" redirectTo="/">
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pt-6 pb-24 md:pb-6">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-[calc(100vh-200px)] flex gap-4 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden">
             {/* Conversations List */}

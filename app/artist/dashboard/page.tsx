@@ -157,7 +157,7 @@ export default function ArtistDashboard() {
     <PermissionGuard require="artist" redirectTo="/">
       <Navigation />
 
-      <div className="min-h-screen bg-white dark:bg-black pt-6 pb-24 md:pb-6">
+      <div className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
