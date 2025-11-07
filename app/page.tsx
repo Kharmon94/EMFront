@@ -174,7 +174,7 @@ export default function Home() {
         {/* CTA Section */}
         <section className="px-4 sm:px-6 lg:px-8 py-20">
           <div className="max-w-4xl mx-auto text-center bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-sm border border-purple-500/50 rounded-2xl p-8 sm:p-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to Get Started?
             </h2>
             <p className="text-lg text-gray-300 mb-8">
