@@ -213,10 +213,10 @@ export default function ArtistDashboard() {
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiDollarSign className="w-5 h-5 text-green-400" />
-                <span className="text-2xl font-bold text-white">{stats.total_revenue.toFixed(2)} SOL</span>
+                <span className="text-2xl font-bold text-white">{(Number(stats.total_revenue) || 0).toFixed(2)} SOL</span>
               </div>
               <p className="text-sm text-gray-400">Total Revenue</p>
-              <p className="text-xs text-green-400 mt-1">+{stats.this_month_revenue.toFixed(2)} SOL this month</p>
+              <p className="text-xs text-green-400 mt-1">+{(Number(stats.this_month_revenue) || 0).toFixed(2)} SOL this month</p>
             </div>
           </div>
 
