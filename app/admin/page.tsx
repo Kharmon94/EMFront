@@ -288,7 +288,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">Platform Overview</h2>
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Platform Overview</h2>
         <div className="text-sm text-gray-500">
           Last updated: {new Date().toLocaleTimeString()}
         </div>
@@ -342,7 +342,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
 
       {/* Quick Stats */}
       <div>
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
           Last 24 Hours
         </h3>
@@ -350,14 +350,14 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-green-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-green-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
-              <div className="text-3xl font-bold text-white mb-2">{quickStats?.new_users_today}</div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.new_users_today}</div>
               <div className="text-sm text-gray-400">New Users</div>
             </div>
           </div>
           <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
-              <div className="text-3xl font-bold text-white mb-2">{Number(quickStats?.revenue_today || 0).toFixed(2)} SOL</div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{Number(quickStats?.revenue_today || 0).toFixed(2)} SOL</div>
               <div className="text-sm text-gray-400">Revenue</div>
             </div>
           </div>
@@ -375,7 +375,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-red-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
-              <div className="text-3xl font-bold text-white mb-2">{quickStats?.token_trades_24h}</div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.token_trades_24h}</div>
               <div className="text-sm text-gray-400">Token Trades</div>
             </div>
           </div>
@@ -411,13 +411,13 @@ function UsersSection({ usersData, refetchUsers }: any) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
           User Management
         </h2>
-        <div className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg">
+        <div className="px-4 py-2 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg">
           <span className="text-sm text-gray-400">Total: </span>
-          <span className="text-sm font-bold text-white">{users.length}</span>
+          <span className="text-sm font-bold text-gray-900 dark:text-white">{users.length}</span>
         </div>
       </div>
 
@@ -431,7 +431,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
               placeholder="Search by email or wallet..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
             />
           </div>
         </div>
@@ -485,7 +485,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
                         {user.email ? user.email[0].toUpperCase() : user.wallet_address?.[0].toUpperCase()}
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-white">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {user.email || `${user.wallet_address?.slice(0, 4)}...${user.wallet_address?.slice(-4)}`}
                         </div>
                         {user.artist && (
@@ -530,7 +530,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
                   <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => setSelectedUser(user)}
-                      className="px-4 py-2 bg-gray-800 hover:bg-blue-600 border border-gray-700 hover:border-blue-600 text-white text-sm rounded-lg transition-all group-hover:shadow-lg group-hover:shadow-blue-600/20"
+                      className="px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-blue-600 border border-gray-300 dark:border-gray-700 hover:border-blue-600 text-gray-900 dark:text-white text-sm rounded-lg transition-all group-hover:shadow-lg group-hover:shadow-blue-600/20"
                     >
                       Manage
                     </button>
@@ -582,7 +582,7 @@ function ContentSection({ contentData, refetchContent }: any) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+      <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
         <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full" />
         Content Moderation
       </h2>
@@ -590,7 +590,7 @@ function ContentSection({ contentData, refetchContent }: any) {
       {/* Content Stats with gradients */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <div className="bg-gradient-to-br from-blue-900/20 to-gray-900/50 border border-blue-800/30 rounded-xl p-4 hover:border-blue-600/50 transition-all">
-          <div className="text-2xl font-bold text-white mb-1">{contentData?.data?.albums || 0}</div>
+          <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{contentData?.data?.albums || 0}</div>
           <div className="text-xs text-gray-400">Albums</div>
         </div>
         <div className="bg-gradient-to-br from-purple-900/20 to-gray-900/50 border border-purple-800/30 rounded-xl p-4 hover:border-purple-600/50 transition-all">
