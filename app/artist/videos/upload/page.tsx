@@ -158,10 +158,10 @@ export default function UploadVideoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-purple-900 dark:to-black pb-24 md:pb-6">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-purple-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
       <Navigation />
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-black dark:text-white mb-2">

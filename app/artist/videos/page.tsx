@@ -62,10 +62,10 @@ export default function ArtistVideosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 pt-16 md:pt-24 pb-24 md:pb-6">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>

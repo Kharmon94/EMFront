@@ -41,7 +41,7 @@ export default function CreateLivestreamPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-black py-20 px-4">
+      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
