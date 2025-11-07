@@ -96,49 +96,49 @@ export default function ArtistDashboard() {
   const { artist, stats, token, content_counts, recent_activity, upcoming_schedule } = data.data;
 
   const quickActions = [
-    !token && { 
+    ...(!token ? [{ 
       label: 'Launch Token', 
       icon: FiTrendingUp, 
       href: '/artist/token/launch',
-      color: 'gradient'
-    },
+      color: 'gradient' as const
+    }] : []),
     { 
       label: 'Upload Album', 
       icon: FiMusic, 
       href: '/artist/albums/create',
-      color: 'blue'
+      color: 'blue' as const
     },
     { 
       label: 'Create Event', 
       icon: FiCalendar, 
       href: '/artist/events/create',
-      color: 'green'
+      color: 'green' as const
     },
     { 
       label: 'Start Livestream', 
       icon: FiRadio, 
       href: '/artist/livestreams/create',
-      color: 'red'
+      color: 'red' as const
     },
     { 
       label: 'Upload Video', 
       icon: FiVideo, 
       href: '/artist/videos/upload',
-      color: 'purple'
+      color: 'purple' as const
     },
     { 
       label: 'Upload Mini', 
       icon: FiFilm, 
       href: '/artist/videos/upload?type=mini',
-      color: 'pink'
+      color: 'pink' as const
     },
     { 
       label: 'Create Fan Pass', 
       icon: FiGift, 
       href: '/artist/fan-passes/create',
-      color: 'yellow'
+      color: 'yellow' as const
     },
-  ].filter(Boolean);
+  ];
 
   const getColorClass = (color: string) => {
     const colors: Record<string, string> = {
