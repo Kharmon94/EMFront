@@ -24,7 +24,7 @@ export default function LivestreamsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pt-14 md:pt-20 py-8 px-4">
+      <main className="min-h-screen bg-white dark:bg-black pt-4 md:pt-20 pb-8 px-4">
         <div className="max-w-7xl mx-auto">
 
           {/* Live Streams */}
