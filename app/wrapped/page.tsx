@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { FiDownload, FiShare2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
