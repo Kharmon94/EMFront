@@ -186,7 +186,7 @@ export default function TokenTradingPage() {
             {/* Chart and Trades */}
             <div className="lg:col-span-2 space-y-6">
               {/* Chart */}
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
+              <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Price Chart</h2>
                 <div className="h-64 sm:h-80">
                   {chartData?.chart_data && chartData.chart_data.length > 0 ? (
@@ -204,7 +204,7 @@ export default function TokenTradingPage() {
               </div>
 
               {/* Recent Trades */}
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
+              <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Recent Trades</h2>
                 
                 {trades.length > 0 ? (
@@ -212,7 +212,7 @@ export default function TokenTradingPage() {
                     {trades.slice(0, 20).map((trade: any) => (
                       <div 
                         key={trade.id}
-                        className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg"
+                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg"
                       >
                         <div className="flex items-center gap-3">
                           <span className={`px-2 py-1 rounded text-xs font-bold ${
@@ -382,7 +382,7 @@ export default function TokenTradingPage() {
 
               {/* Token Description */}
               {token.description && (
-                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">About</h3>
                   <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                     {token.description}
@@ -391,7 +391,7 @@ export default function TokenTradingPage() {
               )}
 
               {/* Contract Info */}
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
+              <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
                 <h3 className="text-lg font-bold text-white mb-3">Contract</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">

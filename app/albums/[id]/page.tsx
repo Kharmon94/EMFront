@@ -192,7 +192,7 @@ export default function AlbumPage() {
           </div>
 
           {/* Track List */}
-          <div className="bg-gray-800/30 rounded-lg p-4 sm:p-6">
+          <div className="bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Tracks</h2>
             
             {tracks && tracks.length > 0 ? (
@@ -200,7 +200,7 @@ export default function AlbumPage() {
                 {tracks.map((track: any) => (
                   <div
                     key={track.id}
-                    className="group flex items-center gap-3 sm:gap-4 p-3 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
+                    className="group flex items-center gap-3 sm:gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
                     onClick={() => handlePlayTrack(track)}
                   >
                     {/* Track Number / Play Button */}
@@ -275,7 +275,7 @@ export default function AlbumPage() {
 
           {/* Description */}
           {album.description && (
-            <div className="mt-8 bg-gray-800/30 rounded-lg p-6">
+            <div className="mt-8 bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">About this album</h3>
               <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                 {album.description}

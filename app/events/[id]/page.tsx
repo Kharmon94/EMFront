@@ -188,7 +188,7 @@ export default function EventDetailPage() {
             {/* Left Column - Event Details */}
             <div className="lg:col-span-2 space-y-8">
               {/* Key Details */}
-              <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
+              <div className="bg-white dark:bg-gray-800/30 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Event Details</h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
@@ -249,7 +249,7 @@ export default function EventDetailPage() {
 
               {/* Description */}
               {event.description && (
-                <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
+                <div className="bg-white dark:bg-gray-800/30 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">About This Event</h2>
                   <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
                     {event.description}
@@ -259,7 +259,7 @@ export default function EventDetailPage() {
 
               {/* Additional Info */}
               {(event.min_age || event.dress_code) && (
-                <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
+                <div className="bg-white dark:bg-gray-800/30 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
                   <h2 className="text-xl font-bold text-white mb-4">Important Information</h2>
                   <div className="space-y-2 text-gray-300">
                     {event.min_age && (
@@ -276,7 +276,7 @@ export default function EventDetailPage() {
             {/* Right Column - Ticket Tiers */}
             <div className="lg:col-span-1">
               <div className="sticky top-8">
-                <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
+                <div className="bg-white dark:bg-gray-800/30 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
                   <h2 className="text-xl font-bold text-white mb-4">Select Tickets</h2>
                   
                   {ticket_tiers && ticket_tiers.length > 0 ? (
@@ -347,8 +347,8 @@ function TicketTierCard({ tier, onPurchase, isSoldOut }: { tier: any; onPurchase
   return (
     <div className={`border rounded-lg p-4 transition-colors ${
       isSoldOut 
-        ? 'border-gray-700 bg-gray-800/20' 
-        : 'border-gray-700 hover:border-purple-500 bg-gray-800/40'
+        ? 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800/20' 
+        : 'border-gray-200 dark:border-gray-700 hover:border-purple-500 bg-white dark:bg-gray-800/40'
     }`}>
       <div className="flex justify-between items-start mb-3">
         <div>
