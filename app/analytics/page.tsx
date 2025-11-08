@@ -104,7 +104,7 @@ export default function AnalyticsPage() {
                       <Link
                         key={artist.id}
                         href={`/artists/${artist.id}`}
-                        className="flex items-center gap-4 p-4 bg-gray-100 dark:bg-gray-800/50 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                        className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                       >
                         <div className="text-2xl font-bold text-purple-600">#{index + 1}</div>
                         <div className="flex-1">
