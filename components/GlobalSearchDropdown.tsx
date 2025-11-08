@@ -95,9 +95,9 @@ export const GlobalSearchDropdown: React.FC<{
         )}
       </form>
       
-      {isOpen && (
-        <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-2xl 
-                      border border-gray-200 dark:border-gray-700 max-h-[70vh] overflow-y-auto z-50">
+      {isOpen && (query || showRecentSearches) && (
+        <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-900 rounded-lg shadow-2xl 
+                      border border-gray-200 dark:border-gray-700 max-h-[70vh] overflow-y-auto z-[60]">
           {isLoading && (
             <div className="p-6 text-center text-gray-500">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
