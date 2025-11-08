@@ -118,7 +118,7 @@ export default function MiniFeedPage() {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white text-xl mb-4">Mini not found</p>
+          <p className="text-gray-900 dark:text-white text-xl mb-4">Mini not found</p>
           <button
             onClick={() => router.push('/minis')}
             className="text-purple-400 hover:underline"
