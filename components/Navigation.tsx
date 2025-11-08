@@ -210,12 +210,12 @@ export function Navigation() {
                       >
                         <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-xl focus:outline-none">
                           <div className="py-2">
-                            {item.dropdown.map((subItem, index) => (
+                            {item.dropdown.map((subItem: any, index: number) => (
                               subItem.type === 'category' ? (
                                 <div key={`category-${index}`} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ${index > 0 ? 'mt-2 pt-2 border-t border-gray-200 dark:border-gray-800' : ''}`}>
                                   {subItem.label}
                                 </div>
-                              ) : (
+                              ) : subItem.href ? (
                                 <Menu.Item key={subItem.href}>
                                   {({ active }) => (
                                     <Link
@@ -231,7 +231,7 @@ export function Navigation() {
                                     </Link>
                                   )}
                                 </Menu.Item>
-                              )
+                              ) : null
                             ))}
                           </div>
                         </Menu.Items>
@@ -449,7 +449,7 @@ export function Navigation() {
                           {/* Discover submenu items */}
                           {mainNavItems
                             .find(item => item.dropdown)
-                            ?.dropdown?.map((subItem, index) => {
+                            ?.dropdown?.map((subItem: any, index: number) => {
                               if (subItem.type === 'category') {
                                 return (
                                   <div key={`category-${index}`} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ${index > 0 ? 'mt-3 pt-3 border-t border-gray-200 dark:border-gray-800' : ''}`}>
@@ -457,6 +457,7 @@ export function Navigation() {
                                   </div>
                                 );
                               }
+                              if (!subItem.href) return null;
                               const Icon = subItem.icon;
                               return (
                                 <Link
