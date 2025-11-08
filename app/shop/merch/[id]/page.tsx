@@ -74,7 +74,7 @@ export default function MerchDetailPage() {
       <>
         <Navigation />
         <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading...</div>
+          <div className="text-gray-900 dark:text-white">Loading...</div>
         </div>
       </>
     );
@@ -199,7 +199,7 @@ export default function MerchDetailPage() {
               {/* Description */}
               {merch_item.description && (
                 <div className="border-t border-gray-800 pt-6">
-                  <h2 className="text-lg font-semibold text-white mb-3">Description</h2>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Description</h2>
                   <p className="text-gray-300 whitespace-pre-wrap">
                     {merch_item.description}
                   </p>
@@ -240,7 +240,7 @@ export default function MerchDetailPage() {
           {/* Related Products */}
           {related_products.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-2xl font-bold text-white mb-6">You May Also Like</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">You May Also Like</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {related_products.map((item: any) => (
                   <Link
@@ -262,8 +262,8 @@ export default function MerchDetailPage() {
                       )}
                     </div>
                     <div className="p-3">
-                      <h3 className="text-sm font-semibold text-white truncate">{item.title}</h3>
-                      <p className="text-base font-bold text-white mt-1">{formatCurrency(item.price)}</p>
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate">{item.title}</h3>
+                      <p className="text-base font-bold text-gray-900 dark:text-white mt-1">{formatCurrency(item.price)}</p>
                     </div>
                   </Link>
                 ))}
@@ -274,7 +274,7 @@ export default function MerchDetailPage() {
           {/* Reviews Section */}
           <div className="mt-12">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Customer Reviews</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Customer Reviews</h2>
               {user && (
                 <button
                   onClick={() => setShowReviewForm(!showReviewForm)}
@@ -290,7 +290,7 @@ export default function MerchDetailPage() {
               <div className="bg-gray-800/30 border border-gray-700 rounded-lg p-6 mb-6">
                 <div className="flex items-center gap-6">
                   <div className="text-center">
-                    <p className="text-5xl font-bold text-white">{merch_item.rating_average?.toFixed(1)}</p>
+                    <p className="text-5xl font-bold text-gray-900 dark:text-white">{merch_item.rating_average?.toFixed(1)}</p>
                     <div className="flex items-center justify-center gap-1 mt-2">
                       {[...Array(5)].map((_, i) => (
                         <FiStar
@@ -323,7 +323,7 @@ export default function MerchDetailPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="font-semibold text-white">{review.user.name}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{review.user.name}</p>
                         {review.verified_purchase && (
                           <span className="px-2 py-0.5 bg-green-600 text-white text-xs rounded">
                             Verified Purchase
