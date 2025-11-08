@@ -75,7 +75,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
   
-  // Perform search API call
+  // Perform search API call (without saving to recent searches)
   const performSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) {
       setResults(null);
@@ -96,14 +96,14 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       console.log('Search API Response:', data);
       console.log('Search Results:', data.results);
       setResults(data.results);
-      addRecentSearch(searchQuery);
+      // Don't save to recent searches here - only when user actually selects/submits
     } catch (error) {
       console.error('Search error:', error);
       setResults(null);
     } finally {
       setIsLoading(false);
     }
-  }, [addRecentSearch]);
+  }, []);
   
   // Auto-search when debounced query changes
   useEffect(() => {

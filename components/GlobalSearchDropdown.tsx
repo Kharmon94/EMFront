@@ -10,7 +10,7 @@ export const GlobalSearchDropdown: React.FC<{
   isMobile?: boolean;
 }> = ({ onClose, isMobile = false }) => {
   const router = useRouter();
-  const { query, setQuery, results, isLoading, recentSearches, clearRecentSearches } = useSearch();
+  const { query, setQuery, results, isLoading, recentSearches, addRecentSearch, clearRecentSearches } = useSearch();
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,6 +40,7 @@ export const GlobalSearchDropdown: React.FC<{
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
+      addRecentSearch(query.trim()); // Save to recent searches when submitting
       router.push(`/search?q=${encodeURIComponent(query)}`);
       setIsOpen(false);
       onClose?.();
@@ -47,6 +48,10 @@ export const GlobalSearchDropdown: React.FC<{
   };
   
   const handleResultClick = (type: string, id: number) => {
+    if (query.trim()) {
+      addRecentSearch(query.trim()); // Save to recent searches when clicking a result
+    }
+    
     const routes: Record<string, string> = {
       artists: `/artists/${id}`,
       albums: `/albums/${id}`,
@@ -276,6 +281,9 @@ export const GlobalSearchDropdown: React.FC<{
               <div className="p-4">
                 <button
                   onClick={() => {
+                    if (query.trim()) {
+                      addRecentSearch(query.trim()); // Save when clicking "See All Results"
+                    }
                     router.push(`/search?q=${encodeURIComponent(query)}`);
                     setIsOpen(false);
                     onClose?.();
@@ -284,7 +292,7 @@ export const GlobalSearchDropdown: React.FC<{
                            font-medium flex items-center justify-center gap-2"
                 >
                   <FiTrendingUp className="w-4 h-4" />
-                  See All Results
+                  See All Results for "{query}"
                 </button>
               </div>
             </div>
