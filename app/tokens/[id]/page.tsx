@@ -131,12 +131,12 @@ export default function TokenTradingPage() {
                 )}
               </div>
               
-              <div className="flex items-center gap-2 text-gray-400 mb-4">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-4">
                 <span className="font-mono text-lg">${token.symbol}</span>
                 <span>•</span>
                 <Link 
                   href={`/artists/${token.artist.id}`}
-                  className="flex items-center gap-1 hover:text-white transition-colors"
+                  className="flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   {token.artist.name}
                   {token.artist.verified && (
@@ -148,28 +148,28 @@ export default function TokenTradingPage() {
               {/* Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
-                  <div className="text-xs text-gray-400 mb-1">Market Cap</div>
-                  <div className="text-white font-semibold text-lg">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Market Cap</div>
+                  <div className="text-gray-900 dark:text-white font-semibold text-lg">
                     {formatCurrency(token.market_cap || 0)}
                   </div>
                 </div>
                 
                 <div>
-                  <div className="text-xs text-gray-400 mb-1">Holders</div>
-                  <div className="text-white font-semibold text-lg">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Holders</div>
+                  <div className="text-gray-900 dark:text-white font-semibold text-lg">
                     {formatNumber(stats?.unique_traders || 0, 0)}
                   </div>
                 </div>
                 
                 <div>
-                  <div className="text-xs text-gray-400 mb-1">Volume</div>
-                  <div className="text-white font-semibold text-lg">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Volume</div>
+                  <div className="text-gray-900 dark:text-white font-semibold text-lg">
                     {formatCurrency(stats?.total_volume || 0)}
                   </div>
                 </div>
                 
                 <div>
-                  <div className="text-xs text-gray-400 mb-1">24h Change</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">24h Change</div>
                   <div className={`font-semibold text-lg ${
                     (stats?.price_change_24h || 0) >= 0 ? 'text-green-500' : 'text-red-500'
                   }`}>
@@ -283,7 +283,7 @@ export default function TokenTradingPage() {
 
                 {/* Amount Input */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
                     Amount
                   </label>
                   <div className="relative">
@@ -302,7 +302,7 @@ export default function TokenTradingPage() {
 
                 {/* Slippage */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
                     Slippage Tolerance
                   </label>
                   <div className="flex gap-2">
@@ -326,25 +326,25 @@ export default function TokenTradingPage() {
                 {amount && parseFloat(amount) > 0 && (
                   <div className="mb-6 p-4 bg-gray-900 rounded-lg space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Price per token</span>
+                      <span className="text-gray-700 dark:text-gray-400">Price per token</span>
                       <span className="text-white font-semibold">
                         {formatCurrency(chartData?.current_price || 0)}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Total cost</span>
+                      <span className="text-gray-700 dark:text-gray-400">Total cost</span>
                       <span className="text-white font-semibold">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount))}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Platform fee (0.5%)</span>
+                      <span className="text-gray-700 dark:text-gray-400">Platform fee (0.5%)</span>
                       <span className="text-white">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount) * 0.005)}
                       </span>
                     </div>
                     <div className="border-t border-gray-700 pt-2 flex justify-between">
-                      <span className="text-gray-400 font-semibold">Total</span>
+                      <span className="text-gray-700 dark:text-gray-400 font-semibold">Total</span>
                       <span className="text-white font-bold text-lg">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount) * 1.005)}
                       </span>
@@ -384,7 +384,7 @@ export default function TokenTradingPage() {
               {token.description && (
                 <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
                   <h3 className="text-lg font-bold text-white mb-3">About</h3>
-                  <p className="text-gray-300 whitespace-pre-wrap">
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                     {token.description}
                   </p>
                 </div>
@@ -395,17 +395,17 @@ export default function TokenTradingPage() {
                 <h3 className="text-lg font-bold text-white mb-3">Contract</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Mint Address</span>
+                    <span className="text-gray-700 dark:text-gray-400">Mint Address</span>
                     <code className="text-purple-400 font-mono text-xs">
                       {token.mint_address?.slice(0, 8)}...{token.mint_address?.slice(-8)}
                     </code>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Total Supply</span>
+                    <span className="text-gray-700 dark:text-gray-400">Total Supply</span>
                     <span className="text-white">{formatNumber(token.supply || 0, 0)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Authorities</span>
+                    <span className="text-gray-700 dark:text-gray-400">Authorities</span>
                     <span className="text-green-500">Revoked ✓</span>
                   </div>
                 </div>
