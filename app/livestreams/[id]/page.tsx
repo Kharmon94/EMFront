@@ -47,7 +47,7 @@ export default function LivestreamViewPage() {
             {isLive && hlsUrl ? (
               <>
                 {!isFree && !isAuthenticated ? (
-                  <div className="bg-gray-900 rounded-lg border border-gray-800 aspect-video flex items-center justify-center relative overflow-hidden">
+                  <div className="bg-gray-200 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 aspect-video flex items-center justify-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900/40 backdrop-blur-sm" />
                     <div className="relative text-center z-10 p-8">
                       <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mx-auto mb-6">
@@ -74,7 +74,7 @@ export default function LivestreamViewPage() {
                 )}
               </>
             ) : (
-              <div className="bg-gray-900 rounded-lg border border-gray-800 aspect-video flex items-center justify-center">
+              <div className="bg-gray-200 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 aspect-video flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                     <FiClock className="w-8 h-8 text-gray-600" />

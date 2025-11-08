@@ -242,7 +242,7 @@ export default function ArtistProfilePage() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left divide-y divide-gray-800 rounded-lg bg-gray-900 border border-gray-800 shadow-lg focus:outline-none z-10">
+                      <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left divide-y divide-gray-300 dark:divide-gray-800 rounded-lg bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 shadow-lg focus:outline-none z-10">
                         <div className="px-1 py-1">
                           <Menu.Item>
                             {({ active }) => (
@@ -317,7 +317,7 @@ export default function ArtistProfilePage() {
         </div>
 
         {/* Stats Bar */}
-        <div className="bg-gray-900 border-b border-gray-800">
+        <div className="bg-gray-100 dark:bg-gray-900 border-b border-gray-300 dark:border-gray-800">
           <div className="max-w-7xl mx-auto px-4 py-6">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <StatCard
@@ -402,7 +402,7 @@ export default function ArtistProfilePage() {
 // Sub-components
 function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+    <div className="flex items-center gap-3 p-4 bg-gray-200 dark:bg-gray-800 rounded-lg">
       <div className="flex-shrink-0">{icon}</div>
       <div>
         <div className="text-2xl font-bold text-white">{value}</div>
@@ -433,7 +433,7 @@ function OverviewTab({ artist, albums, upcoming_events, token, fan_passes }: any
     <div className="space-y-8">
       {/* Bio */}
       {artist.bio && (
-        <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
+        <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
           <h2 className="text-xl font-semibold text-white mb-4">About</h2>
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{artist.bio}</p>
         </section>
@@ -630,7 +630,7 @@ function AlbumCard({ album }: any) {
 function EventCard({ event }: any) {
   return (
     <Link href={`/events/${event.id}`}>
-      <div className="p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-purple-600 transition-all">
+      <div className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 hover:border-purple-600 transition-all">
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <h3 className="text-xl font-bold text-white mb-2">{event.title}</h3>
@@ -657,7 +657,7 @@ function EventCard({ event }: any) {
 function StreamCard({ stream, upcoming }: any) {
   return (
     <Link href={`/livestreams/${stream.id}`}>
-      <div className="p-4 bg-gray-900 rounded-lg border border-gray-800 hover:border-purple-600 transition-all">
+      <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 hover:border-purple-600 transition-all">
         <div className="flex items-start justify-between mb-2">
           <h3 className="font-bold text-white">{stream.title}</h3>
           {!upcoming && (
