@@ -222,7 +222,7 @@ function SearchPageContent() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${
                   type === contentType.value
                     ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
                 }`}
               >
                 {contentType.label}

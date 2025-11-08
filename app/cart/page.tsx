@@ -66,7 +66,7 @@ export default function CartPage() {
                 const sellerTotal = seller.items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
                 
                 return (
-                  <div key={seller.artist_id} className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6">
+                  <div key={seller.artist_id} className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
                     <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                       Sold by: {seller.artist_name}
                     </h2>
@@ -75,7 +75,7 @@ export default function CartPage() {
                       {seller.items.map((item) => (
                         <div key={`${item.merch_item_id}-${item.variant_id || 0}`} className="flex gap-4">
                           {/* Image */}
-                          <div className="w-24 h-24 bg-gray-200 dark:bg-gray-800 rounded flex-shrink-0">
+                          <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded flex-shrink-0">
                             {item.image && (
                               <img src={item.image} alt={item.title} className="w-full h-full object-cover rounded" />
                             )}
@@ -92,7 +92,7 @@ export default function CartPage() {
                             <div className="flex items-center gap-2 mt-2">
                               <button
                                 onClick={() => updateQuantity(item.merch_item_id, item.quantity - 1, item.variant_id)}
-                                className="w-8 h-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
+                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
                               >
                                 <FiMinus className="w-4 h-4" />
                               </button>
@@ -101,7 +101,7 @@ export default function CartPage() {
                               </span>
                               <button
                                 onClick={() => updateQuantity(item.merch_item_id, item.quantity + 1, item.variant_id)}
-                                className="w-8 h-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
+                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
                               >
                                 <FiPlus className="w-4 h-4" />
                               </button>
@@ -119,7 +119,7 @@ export default function CartPage() {
                       ))}
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-gray-300 dark:border-gray-700 flex justify-between">
+                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between">
                       <span className="font-medium text-gray-900 dark:text-white">Seller Subtotal:</span>
                       <span className="font-bold text-gray-900 dark:text-white">{formatCurrency(sellerTotal)}</span>
                     </div>
@@ -130,7 +130,7 @@ export default function CartPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6 sticky top-24">
+              <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6 sticky top-24">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Order Summary</h2>
 
                 <div className="space-y-3 mb-4">
@@ -144,7 +144,7 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-300 dark:border-gray-700 mb-6">
+                <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mb-6">
                   <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white">
                     <span>Estimated Total</span>
                     <span>{formatCurrency(cartTotal)}</span>

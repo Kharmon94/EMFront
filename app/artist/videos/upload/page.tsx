@@ -177,7 +177,7 @@ export default function UploadVideoPage() {
         </div>
 
         {/* Content Type Toggle */}
-        <div className="mb-6 flex gap-3 p-1 bg-gray-200 dark:bg-gray-800/50 rounded-lg w-fit">
+        <div className="mb-6 flex gap-3 p-1 bg-white dark:bg-gray-800/50 rounded-lg w-fit">
           <button
             type="button"
             onClick={() => {
@@ -226,7 +226,7 @@ export default function UploadVideoPage() {
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
                 placeholder={contentType === 'mini' ? 'My Amazing Mini' : 'My Music Video Title'}
                 required
               />
@@ -240,7 +240,7 @@ export default function UploadVideoPage() {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={4}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 resize-none"
+                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 resize-none"
                 placeholder="Tell viewers about this content..."
               />
             </div>
@@ -319,7 +319,7 @@ export default function UploadVideoPage() {
                   </div>
                 ) : (
                   <label className="cursor-pointer block">
-                    <div className="flex flex-col items-center justify-center gap-3 p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
+                    <div className="flex flex-col items-center justify-center gap-3 p-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
                       <FiUpload className="w-12 h-12 text-gray-400" />
                       <div className="text-center">
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -355,7 +355,7 @@ export default function UploadVideoPage() {
                     value={formData.video_url}
                     onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
                     placeholder="ipfs://... or https://..."
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
                     required
                   />
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -372,7 +372,7 @@ export default function UploadVideoPage() {
                     value={formData.duration}
                     onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) || 0 })}
                     min="0"
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
                     placeholder="180"
                     required
                   />
@@ -405,7 +405,7 @@ export default function UploadVideoPage() {
                 </div>
               ) : (
                 <label className="cursor-pointer block">
-                  <div className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
+                  <div className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
                     <FiUpload className="w-8 h-8 text-gray-400" />
                     <div>
                       <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -435,7 +435,7 @@ export default function UploadVideoPage() {
                     value={formData.thumbnail_url}
                     onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
                     placeholder="https://..."
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
                   />
                 </div>
               )}
@@ -471,7 +471,7 @@ export default function UploadVideoPage() {
               <select
                 value={formData.access_tier}
                 onChange={(e) => setFormData({ ...formData, access_tier: e.target.value })}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
+                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
               >
                 <option value="free">Free - Everyone can watch</option>
                 <option value="preview_only">Preview Only - Purchase required after preview</option>
@@ -492,7 +492,7 @@ export default function UploadVideoPage() {
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                     min="0"
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
                     placeholder="0.50"
                   />
                 </div>
@@ -508,7 +508,7 @@ export default function UploadVideoPage() {
                       onChange={(e) => setFormData({ ...formData, preview_duration: parseInt(e.target.value) || 60 })}
                       min="10"
                       max="300"
-                      className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
                       placeholder="60"
                     />
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">

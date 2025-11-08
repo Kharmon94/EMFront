@@ -142,7 +142,7 @@ export default function LaunchTokenPage() {
                     type="text"
                     value={tokenData.name}
                     onChange={(e) => setTokenData({ ...tokenData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 text-lg"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 text-lg"
                     placeholder="Artist Token"
                     required
                   />
@@ -157,7 +157,7 @@ export default function LaunchTokenPage() {
                     type="text"
                     value={tokenData.symbol}
                     onChange={(e) => setTokenData({ ...tokenData, symbol: e.target.value.toUpperCase() })}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 text-lg font-mono uppercase"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 text-lg font-mono uppercase"
                     placeholder="ARTIST"
                     maxLength={10}
                     required
@@ -173,7 +173,7 @@ export default function LaunchTokenPage() {
                     value={tokenData.description}
                     onChange={(e) => setTokenData({ ...tokenData, description: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 resize-none"
                     placeholder="Tell your fans why they should invest in your token..."
                   />
                 </div>
@@ -187,7 +187,7 @@ export default function LaunchTokenPage() {
                       type="number"
                       value={tokenData.initial_supply}
                       onChange={(e) => setTokenData({ ...tokenData, initial_supply: e.target.value })}
-                      className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                       min="1000"
                       step="1000"
                     />
@@ -203,7 +203,7 @@ export default function LaunchTokenPage() {
                       step="0.0001"
                       value={tokenData.initial_price}
                       onChange={(e) => setTokenData({ ...tokenData, initial_price: e.target.value })}
-                      className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                       min="0.0001"
                     />
                     <p className="text-xs text-gray-500 mt-1">Initial token price in USD</p>
@@ -236,7 +236,7 @@ export default function LaunchTokenPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
+                className="px-8 py-4 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
               >
                 Cancel
               </button>

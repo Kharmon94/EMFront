@@ -71,7 +71,7 @@ export default function WishlistPage() {
             {wishlist && wishlist.item_count > 0 && (
               <button
                 onClick={handleShare}
-                className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
               >
                 <FiShare2 className="w-4 h-4" />
                 <span className="hidden sm:inline text-gray-900 dark:text-white">Share</span>
@@ -89,7 +89,7 @@ export default function WishlistPage() {
                 return (
                   <div
                     key={wishlistItem.id}
-                    className="group bg-white dark:bg-gray-800/30 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
+                    className="group bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
                   >
                     <Link href={`/shop/merch/${item.id}`} className="block">
                       <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative">
@@ -127,7 +127,7 @@ export default function WishlistPage() {
                     <div className="px-3 pb-3 flex gap-2">
                       <button
                         onClick={() => removeItemMutation.mutate(wishlistItem.id)}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-900 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 rounded-lg text-sm font-medium transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-white dark:bg-gray-900 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 rounded-lg text-sm font-medium transition-colors"
                         disabled={removeItemMutation.isPending}
                       >
                         <FiTrash2 className="w-4 h-4" />

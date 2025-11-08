@@ -82,7 +82,7 @@ export default function EventsPage() {
                     className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                        : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
                     }`}
                   >
                     {tab.icon}
@@ -108,7 +108,7 @@ export default function EventsPage() {
                     <Link
                       key={event.id}
                       href={`/events/${event.id}`}
-                      className="group bg-white dark:bg-gray-800/50 backdrop-blur rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 transition-all"
+                      className="group bg-white dark:bg-gray-800/50 backdrop-blur rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 transition-all"
                     >
                       {/* Event Image/Cover */}
                       <div className="relative aspect-video bg-gradient-to-br from-purple-600 to-pink-600">

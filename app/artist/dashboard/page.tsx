@@ -182,7 +182,7 @@ export default function ArtistDashboard() {
               </div>
               <Link
                 href={`/artists/${artist.id}`}
-                className="px-4 py-2 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
               >
                 <FiUser className="w-4 h-4" />
                 Preview Profile
@@ -339,7 +339,7 @@ export default function ArtistDashboard() {
 
                   <Link
                     href="/artist/minis"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-pink-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-pink-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiFilm className="w-5 h-5 text-pink-400 group-hover:scale-110 transition-transform" />
@@ -350,7 +350,7 @@ export default function ArtistDashboard() {
 
                   <Link
                     href="/artist/fan-passes"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-yellow-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-yellow-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiGift className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
@@ -364,7 +364,7 @@ export default function ArtistDashboard() {
               {/* Recent Activity */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
-                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
+                <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   {recent_activity && recent_activity.length > 0 ? (
                     recent_activity.map((activity: any, index: number) => (
                       <div key={index} className="p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors">
@@ -405,7 +405,7 @@ export default function ArtistDashboard() {
               {/* Upcoming Schedule */}
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Schedule</h2>
-                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
+                <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   {upcoming_schedule && upcoming_schedule.length > 0 ? (
                     upcoming_schedule.map((item: any, index: number) => (
                       <Link
@@ -453,7 +453,7 @@ export default function ArtistDashboard() {
               {/* Quick Links */}
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Manage</h2>
-                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
+                <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   <Link 
                     href="/artist/albums"
                     className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"

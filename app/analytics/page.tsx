@@ -51,7 +51,7 @@ export default function AnalyticsPage() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${
                   timeframe === tf.id
                     ? 'bg-purple-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
                 }`}
               >
                 {tf.label}
@@ -62,7 +62,7 @@ export default function AnalyticsPage() {
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-200 dark:bg-gray-800 rounded-lg p-6 h-32" />
+                <div key={i} className="animate-pulse bg-white dark:bg-gray-800 rounded-lg p-6 h-32" />
               ))}
             </div>
           ) : (
@@ -175,7 +175,7 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800/50 border border-gray-300 dark:border-gray-700 rounded-lg p-6">
+    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
       <div className={`inline-flex p-3 rounded-lg mb-4 ${colorClasses[color as keyof typeof colorClasses]}`}>
         {icon}
       </div>

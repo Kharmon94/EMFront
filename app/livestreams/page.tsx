@@ -90,7 +90,7 @@ export default function LivestreamsPage() {
                     className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                        : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
                     }`}
                   >
                     {tab.icon}
@@ -158,7 +158,7 @@ export default function LivestreamsPage() {
 function LivestreamCard({ stream, isLive }: { stream: any; isLive: boolean }) {
   return (
     <Link href={`/livestreams/${stream.id}`}>
-      <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-800 hover:border-purple-600 dark:hover:border-purple-600 transition-all group">
+      <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-purple-600 dark:hover:border-purple-600 transition-all group">
         {/* Thumbnail */}
         <div className="relative aspect-video bg-gray-700">
           {stream.thumbnail_url ? (

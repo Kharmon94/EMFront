@@ -213,7 +213,7 @@ export default function CreateAlbumPage() {
                       </button>
                     </div>
                   ) : (
-                    <label className="w-32 h-32 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors">
+                    <label className="w-32 h-32 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors">
                       <FiUpload className="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" />
                       <span className="text-xs text-gray-500">Upload Cover</span>
                       <input
@@ -242,7 +242,7 @@ export default function CreateAlbumPage() {
                     type="text"
                     value={albumData.title}
                     onChange={(e) => setAlbumData({ ...albumData, title: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter album title"
                     required
                   />
@@ -256,7 +256,7 @@ export default function CreateAlbumPage() {
                     type="date"
                     value={albumData.release_date}
                     onChange={(e) => setAlbumData({ ...albumData, release_date: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -271,7 +271,7 @@ export default function CreateAlbumPage() {
                     min="0"
                     value={albumData.price}
                     onChange={(e) => setAlbumData({ ...albumData, price: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="0.00"
                   />
                   <p className="text-xs text-gray-500 mt-1">Leave empty for free album</p>
@@ -285,7 +285,7 @@ export default function CreateAlbumPage() {
                     type="text"
                     value={albumData.upc}
                     onChange={(e) => setAlbumData({ ...albumData, upc: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="012345678905"
                   />
                 </div>
@@ -299,7 +299,7 @@ export default function CreateAlbumPage() {
                   value={albumData.description}
                   onChange={(e) => setAlbumData({ ...albumData, description: e.target.value })}
                   rows={4}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   placeholder="Tell listeners about this album..."
                 />
               </div>
@@ -382,7 +382,7 @@ export default function CreateAlbumPage() {
                             </div>
                           ) : (
                             <label className="flex-1 cursor-pointer">
-                              <div className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+                              <div className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
                                 <FiUpload className="w-5 h-5 text-gray-400" />
                                 <span className="text-sm text-gray-600 dark:text-gray-400">
                                   Click to upload audio file (MP3, WAV, FLAC)
@@ -449,7 +449,7 @@ export default function CreateAlbumPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
+                className="px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
               >
                 Cancel
               </button>

@@ -164,7 +164,7 @@ export default function CheckoutPage() {
             {/* Left Column - Forms */}
             <div className="lg:col-span-2">
               {step === 'shipping' && (
-                <form onSubmit={handleShippingSubmit} className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6">
+                <form onSubmit={handleShippingSubmit} className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-6">
                     <FiTruck className="w-6 h-6 text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Shipping Information</h2>
@@ -178,7 +178,7 @@ export default function CheckoutPage() {
                         required
                         value={shippingAddress.name}
                         onChange={(e) => setShippingAddress({ ...shippingAddress, name: e.target.value })}
-                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                       />
                     </div>
 
@@ -189,7 +189,7 @@ export default function CheckoutPage() {
                         required
                         value={shippingAddress.address_line1}
                         onChange={(e) => setShippingAddress({ ...shippingAddress, address_line1: e.target.value })}
-                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                       />
                     </div>
 
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
                         type="text"
                         value={shippingAddress.address_line2}
                         onChange={(e) => setShippingAddress({ ...shippingAddress, address_line2: e.target.value })}
-                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                       />
                     </div>
 
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
                           required
                           value={shippingAddress.city}
                           onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
@@ -221,7 +221,7 @@ export default function CheckoutPage() {
                           required
                           value={shippingAddress.state}
                           onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
@@ -234,7 +234,7 @@ export default function CheckoutPage() {
                           required
                           value={shippingAddress.postal_code}
                           onChange={(e) => setShippingAddress({ ...shippingAddress, postal_code: e.target.value })}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
@@ -242,7 +242,7 @@ export default function CheckoutPage() {
                         <select
                           value={shippingAddress.country}
                           onChange={(e) => setShippingAddress({ ...shippingAddress, country: e.target.value })}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                         >
                           <option value="US">United States</option>
                           <option value="CA">Canada</option>
@@ -259,7 +259,7 @@ export default function CheckoutPage() {
                         required
                         value={shippingAddress.phone}
                         onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
-                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                        className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                       />
                     </div>
 
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
               )}
 
               {step === 'payment' && (
-                <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6">
+                <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-6">
                     <FiCreditCard className="w-6 h-6 text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Payment</h2>
@@ -308,7 +308,7 @@ export default function CheckoutPage() {
                       ))}
                     </div>
 
-                    <div className="pt-4 border-t border-gray-300 dark:border-gray-700">
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                       <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white mb-4">
                         <span>Total Payment</span>
                         <span>{totalAmount.toFixed(4)} SOL</span>
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
 
             {/* Right Column - Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6 sticky top-24">
+              <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6 sticky top-24">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Order Summary</h2>
                 <div className="space-y-3">
                   {cart.map((item) => (

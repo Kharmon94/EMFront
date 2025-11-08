@@ -36,7 +36,7 @@ export default function ArtistShopAnalyticsPage() {
             </div>
             <button
               onClick={() => window.open('/artist/shop_analytics/export', '_blank')}
-              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
             >
               <FiDownload className="w-4 h-4" />
               <span className="text-gray-900 dark:text-white">Export Data</span>
@@ -109,9 +109,9 @@ export default function ArtistShopAnalyticsPage() {
           {products.best_sellers && products.best_sellers.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Best Sellers</h2>
-              <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden">
+              <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
                 <table className="w-full">
-                  <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-300 dark:border-gray-700">
+                  <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Product</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Sales</th>
@@ -213,7 +213,7 @@ function AnalyticsCard({ icon: Icon, label, value, color }: {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6">
+    <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
       <div className="flex items-center gap-3 mb-3">
         <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${colors[color]} flex items-center justify-center`}>
           <Icon className="w-6 h-6 text-white" />

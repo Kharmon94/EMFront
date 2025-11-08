@@ -196,8 +196,8 @@ export default function AdminDashboard() {
                         leaveTo="-translate-x-full"
                       >
                         <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                          <div className="flex h-full flex-col bg-white dark:bg-black border-r border-gray-300 dark:border-gray-800">
-                            <div className="p-4 border-b border-gray-300 dark:border-gray-800">
+                          <div className="flex h-full flex-col bg-white dark:bg-black border-r border-gray-200 dark:border-gray-800">
+                            <div className="p-4 border-b border-gray-200 dark:border-gray-800">
                               <div className="flex items-center justify-between">
                                 <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                                   <FiShield className="w-5 h-5 text-blue-500" />
@@ -347,21 +347,21 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           Last 24 Hours
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-green-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-green-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-green-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.new_users_today}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">New Users</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{Number(quickStats?.revenue_today || 0).toFixed(2)} SOL</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Revenue</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-purple-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-purple-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -372,7 +372,7 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
               <div className="text-sm text-gray-600 dark:text-gray-400">Content Uploads</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-red-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-red-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.token_trades_24h}</div>
@@ -431,7 +431,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
               placeholder="Search by email or wallet..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
             />
           </div>
         </div>

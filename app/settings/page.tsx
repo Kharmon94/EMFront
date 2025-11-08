@@ -150,7 +150,7 @@ export default function SettingsPage() {
           <div className="flex flex-col md:flex-row gap-6">
             {/* Sidebar Navigation - Desktop */}
             <div className="hidden md:block w-64 flex-shrink-0">
-              <div className="bg-white dark:bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-2 sticky top-20">
+              <div className="bg-white dark:bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-2 sticky top-20">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   return (
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-200 dark:bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300'
+                          : 'bg-gray-200 dark:bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -196,7 +196,7 @@ export default function SettingsPage() {
 
             {/* Content Area */}
             <div className="flex-1 min-w-0">
-              <div className="bg-white dark:bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-6">
+              <div className="bg-white dark:bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-200 dark:border-gray-800 rounded-xl p-6">
                 {/* Render active tab content */}
                 {activeTab === 'profile' && <ProfileSection />}
                 {activeTab === 'account' && <AccountSection />}
@@ -330,7 +330,7 @@ export default function SettingsPage() {
               type="text"
               value={profileData.name}
               onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="Your artist name"
             />
           </div>
@@ -347,7 +347,7 @@ export default function SettingsPage() {
               value={profileData.bio}
               onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
               rows={4}
-              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none"
               placeholder="Tell us about yourself..."
             />
             <p className="text-xs text-gray-500 mt-1">{profileData.bio.length}/500 characters</p>
@@ -365,7 +365,7 @@ export default function SettingsPage() {
               type="text"
               value={profileData.location}
               onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
-              className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
               placeholder="City, Country"
             />
           </div>
@@ -381,7 +381,7 @@ export default function SettingsPage() {
             type="email"
             value={profileData.email}
             disabled
-            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-500 cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 cursor-not-allowed"
           />
           <p className="text-xs text-gray-500 mt-1">Email cannot be changed here. Manage in Account settings.</p>
         </div>
@@ -469,7 +469,7 @@ export default function SettingsPage() {
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Connected Methods</h3>
           <div className="space-y-3">
             {/* Email Status */}
-            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   user?.has_email_auth ? 'bg-green-900/30' : 'bg-gray-700'
@@ -496,7 +496,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Wallet Status */}
-            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   user?.has_wallet_auth ? 'bg-blue-900/30' : 'bg-gray-700'
@@ -534,12 +534,12 @@ export default function SettingsPage() {
             {!showPasswordForm ? (
               <button
                 onClick={() => setShowPasswordForm(true)}
-                className="px-4 py-2 bg-white dark:bg-gray-800 hover:bg-gray-700 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-white dark:bg-gray-800 hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors"
               >
                 Change Password
               </button>
             ) : (
-              <div className="space-y-4 p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+              <div className="space-y-4 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
                 {/* Current Password */}
                 <div>
                   <label htmlFor="current_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -550,7 +550,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.current_password}
                     onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Enter current password"
                   />
                 </div>
@@ -565,7 +565,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.new_password}
                     onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Enter new password"
                   />
                   {/* Password Strength Indicator */}
@@ -598,7 +598,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordData.confirm_password}
                     onChange={(e) => setPasswordData({ ...passwordData, confirm_password: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                     placeholder="Confirm new password"
                   />
                   {passwordData.confirm_password && passwordData.new_password !== passwordData.confirm_password && (
@@ -673,7 +673,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Email Notifications Master Toggle */}
-        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <h3 className="text-gray-900 dark:text-white font-medium">Email Notifications</h3>
@@ -691,7 +691,7 @@ export default function SettingsPage() {
           <h3 className="text-lg font-semibold text-white">Notification Categories</h3>
 
           {/* Purchases */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-900 dark:text-white font-medium">Purchases</p>
               <p className="text-sm text-gray-400">When someone purchases your content</p>
@@ -703,7 +703,7 @@ export default function SettingsPage() {
           </div>
 
           {/* New Followers */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-900 dark:text-white font-medium">New Followers</p>
               <p className="text-sm text-gray-400">When someone follows you</p>
@@ -715,7 +715,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Comments */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-900 dark:text-white font-medium">Comments</p>
               <p className="text-sm text-gray-400">When someone comments on your content</p>
@@ -727,7 +727,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Likes */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-900 dark:text-white font-medium">Likes</p>
               <p className="text-sm text-gray-400">When someone likes your content</p>
@@ -739,7 +739,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Livestreams */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-900 dark:text-white font-medium">Livestreams</p>
               <p className="text-sm text-gray-400">When artists you follow go live</p>
@@ -778,7 +778,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Who can message you */}
-        <div className="bg-gray-100 dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-300 dark:border-gray-700 rounded-lg p-6">
+        <div className="bg-gray-100 dark:bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <h3 className="text-gray-900 dark:text-gray-900 dark:text-white font-semibold mb-4">Who can send you messages</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
@@ -909,7 +909,7 @@ export default function SettingsPage() {
                 </div>
               </label>
               <div className="flex">
-                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
+                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
                   @
                 </span>
                 <input
@@ -917,7 +917,7 @@ export default function SettingsPage() {
                   type="text"
                   value={artistData.twitter}
                   onChange={(e) => setArtistData({ ...artistData, twitter: e.target.value })}
-                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                   placeholder="yourusername"
                 />
               </div>
@@ -932,7 +932,7 @@ export default function SettingsPage() {
                 </div>
               </label>
               <div className="flex">
-                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
+                <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400">
                   @
                 </span>
                 <input
@@ -940,7 +940,7 @@ export default function SettingsPage() {
                   type="text"
                   value={artistData.instagram}
                   onChange={(e) => setArtistData({ ...artistData, instagram: e.target.value })}
-                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-r-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                   placeholder="yourusername"
                 />
               </div>
@@ -959,7 +959,7 @@ export default function SettingsPage() {
                 type="url"
                 value={artistData.website}
                 onChange={(e) => setArtistData({ ...artistData, website: e.target.value })}
-                className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 placeholder="https://yourwebsite.com"
               />
             </div>
@@ -989,7 +989,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Verification */}
-        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-blue-900/30 flex items-center justify-center flex-shrink-0">
               <FiStar className="w-5 h-5 text-blue-400" />
@@ -1049,7 +1049,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Account Visibility */}
-        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
           <h3 className="text-gray-900 dark:text-white font-medium mb-2">Profile Visibility</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             Your profile is currently public and visible to everyone.
@@ -1060,7 +1060,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Data Export */}
-        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+        <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
           <h3 className="text-gray-900 dark:text-white font-medium mb-2">Export Your Data</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             Download a copy of your account data, including profile info, content, and activity.
@@ -1071,7 +1071,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Two-Factor Authentication (Future) */}
-        <div className="p-4 bg-gray-800/50 border border-gray-300 dark:border-gray-700 rounded-lg">
+        <div className="p-4 bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg">
           <h3 className="text-gray-600 dark:text-gray-400 font-medium mb-2">Two-Factor Authentication</h3>
           <p className="text-sm text-gray-500 mb-3">
             Coming soon: Add an extra layer of security to your account.

@@ -125,14 +125,14 @@ export default function ArtistOrdersPage() {
                 placeholder="Search orders..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
               />
             </div>
 
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer min-w-[200px]"
+              className="px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer min-w-[200px]"
             >
               <option value="">All Statuses</option>
               <option value="paid">Paid</option>
@@ -146,7 +146,7 @@ export default function ArtistOrdersPage() {
               onClick={() => {
                 window.open(`/artist/orders/export?status=${statusFilter}`, '_blank');
               }}
-              className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
+              className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
             >
               <FiDownload className="w-5 h-5" />
               <span className="hidden sm:inline text-gray-900 dark:text-white">Export CSV</span>
@@ -154,10 +154,10 @@ export default function ArtistOrdersPage() {
           </div>
 
           {/* Orders Table */}
-          <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden">
+          <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-300 dark:border-gray-700">
+                <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Order</th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Customer</th>
@@ -172,13 +172,13 @@ export default function ArtistOrdersPage() {
                   {isLoading ? (
                     [...Array(5)].map((_, i) => (
                       <tr key={i} className="animate-pulse">
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-20" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-32" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-24" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-12" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-16" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-20" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-24" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-20" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-32" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-24" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-12" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-16" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-20" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-24" /></td>
                       </tr>
                     ))
                   ) : orders.length > 0 ? (
@@ -285,7 +285,7 @@ function StatCard({ icon: Icon, label, value, color }: {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-4">
+    <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
       <div className="flex items-center gap-3 mb-2">
         <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${colors[color]} flex items-center justify-center`}>
           <Icon className="w-5 h-5 text-white" />
@@ -312,7 +312,7 @@ function OrderDetailModal({ order, onClose, onUpdate, trackingNumber, setTrackin
     <div className="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-900 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="p-6 border-b border-gray-300 dark:border-gray-800 flex items-center justify-between">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{order.order_number}</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">{formatDate(order.created_at)}</p>
@@ -375,12 +375,12 @@ function OrderDetailModal({ order, onClose, onUpdate, trackingNumber, setTrackin
                   placeholder="Tracking Number"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
                 />
                 <select
                   value={carrier}
                   onChange={(e) => setCarrier(e.target.value)}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer"
                 >
                   <option value="">Select Carrier</option>
                   <option value="USPS">USPS</option>

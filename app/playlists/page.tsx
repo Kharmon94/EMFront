@@ -112,7 +112,7 @@ export default function PlaylistsPage() {
                     className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                        : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700'
                     }`}
                   >
                     {tab.icon}

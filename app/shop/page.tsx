@@ -95,7 +95,7 @@ export default function GlobalShopPage() {
             <div className="flex items-center justify-end">
               <Link 
                 href="/wishlist"
-                className="hidden md:flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
+                className="hidden md:flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
               >
                 <FiHeart className="w-5 h-5" />
                 <span className="font-medium text-gray-900 dark:text-white">Wishlist</span>
@@ -116,7 +116,7 @@ export default function GlobalShopPage() {
                     <Link
                       key={item.id}
                       href={`/shop/merch/${item.id}`}
-                      className="flex-shrink-0 w-48 bg-white dark:bg-gray-800/30 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
+                      className="flex-shrink-0 w-48 bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
                     >
                       <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative">
                         {item.images?.[0] ? (
@@ -148,7 +148,7 @@ export default function GlobalShopPage() {
                 placeholder="Search for products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
 
@@ -156,7 +156,7 @@ export default function GlobalShopPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors cursor-pointer min-w-[200px]"
+              className="px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors cursor-pointer min-w-[200px]"
             >
               <option value="newest">Newest</option>
               <option value="popular">Most Popular</option>
@@ -167,7 +167,7 @@ export default function GlobalShopPage() {
             </select>
 
             {/* View Toggle */}
-            <div className="hidden lg:flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-1">
+            <div className="hidden lg:flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded transition-colors ${
@@ -193,7 +193,7 @@ export default function GlobalShopPage() {
             {/* Mobile Filters Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white hover:border-blue-500 transition-colors"
+              className="lg:hidden flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white hover:border-blue-500 transition-colors"
             >
               <FiFilter className="w-5 h-5" />
               <span className="font-medium">Filters</span>
@@ -209,9 +209,9 @@ export default function GlobalShopPage() {
             {/* Filters Sidebar */}
             <aside className="hidden lg:block lg:w-64 lg:flex-shrink-0">
               <div className="sticky top-20">
-                <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-4 space-y-6">
+                <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-4 space-y-6">
                   {/* Mobile Header */}
-                  <div className="lg:hidden flex items-center justify-between mb-4 pb-4 border-b border-gray-300 dark:border-gray-800">
+                  <div className="lg:hidden flex items-center justify-between mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
                     <h2 className="text-lg font-bold text-gray-900 dark:text-white">Filters</h2>
                     <button
                       onClick={() => setShowFilters(false)}
@@ -273,7 +273,7 @@ export default function GlobalShopPage() {
                     <select
                       value={priceRange}
                       onChange={(e) => setPriceRange(e.target.value)}
-                      className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
+                      className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
                     >
                       <option value="">All Prices</option>
                       <option value="under25">Under $25</option>
@@ -346,7 +346,7 @@ export default function GlobalShopPage() {
                 <div className="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white dark:bg-black overflow-y-auto">
                   <div className="p-4 space-y-6">
                     {/* Mobile Header */}
-                    <div className="flex items-center justify-between pb-4 border-b border-gray-300 dark:border-gray-800">
+                    <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800">
                       <h2 className="text-lg font-bold text-gray-900 dark:text-white">Filters</h2>
                       <button
                         onClick={() => setShowFilters(false)}
@@ -394,7 +394,7 @@ export default function GlobalShopPage() {
                       <select
                         value={priceRange}
                         onChange={(e) => setPriceRange(e.target.value)}
-                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white cursor-pointer"
                       >
                         <option value="">All Prices</option>
                         <option value="under25">Under $25</option>
@@ -419,7 +419,7 @@ export default function GlobalShopPage() {
                     </div>
 
                     {/* Mobile Apply Button */}
-                    <div className="pt-4 border-t border-gray-300 dark:border-gray-800">
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
                       <button
                         onClick={() => setShowFilters(false)}
                         className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
@@ -453,9 +453,9 @@ export default function GlobalShopPage() {
                 }>
                   {[...Array(12)].map((_, i) => (
                     <div key={i} className="animate-pulse">
-                      <div className={viewMode === 'grid' ? "aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg mb-3" : "h-48 bg-gray-200 dark:bg-gray-800 rounded-lg"} />
-                      <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-3/4 mb-2" />
-                      <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/2" />
+                      <div className={viewMode === 'grid' ? "aspect-square bg-white dark:bg-gray-800 rounded-lg mb-3" : "h-48 bg-white dark:bg-gray-800 rounded-lg"} />
+                      <div className="h-4 bg-white dark:bg-gray-800 rounded w-3/4 mb-2" />
+                      <div className="h-3 bg-white dark:bg-gray-800 rounded w-1/2" />
                     </div>
                   ))}
                 </div>
@@ -514,7 +514,7 @@ function ProductCard({ item }: { item: any }) {
   return (
     <Link
       href={`/shop/merch/${item.id}`}
-      className="group block bg-white dark:bg-gray-800/30 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all"
+      className="group block bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all"
     >
       {/* Product Image */}
       <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
@@ -623,7 +623,7 @@ function ProductListItem({ item }: { item: any }) {
   return (
     <Link
       href={`/shop/merch/${item.id}`}
-      className="group flex gap-4 bg-white dark:bg-gray-800/30 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all p-4"
+      className="group flex gap-4 bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all p-4"
     >
       {/* Image */}
       <div className="w-32 h-32 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden">

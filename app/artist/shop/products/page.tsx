@@ -81,14 +81,14 @@ export default function ArtistProductsPage() {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
             />
           </div>
 
           {/* Products Table */}
-          <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden">
+          <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
             <table className="w-full">
-              <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-300 dark:border-gray-700">
+              <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Product</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">SKU</th>
@@ -102,12 +102,12 @@ export default function ArtistProductsPage() {
                 {isLoading ? (
                   [...Array(5)].map((_, i) => (
                     <tr key={i} className="animate-pulse">
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-32" /></td>
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-20" /></td>
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-16" /></td>
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-12" /></td>
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-16" /></td>
-                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-24" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-32" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-20" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-16" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-12" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-16" /></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-24" /></td>
                     </tr>
                   ))
                 ) : products.length > 0 ? (

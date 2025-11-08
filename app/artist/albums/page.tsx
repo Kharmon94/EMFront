@@ -95,7 +95,7 @@ export default function ArtistAlbumsPage() {
                   className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-colors group"
                 >
                   {/* Album Cover */}
-                  <div className="relative aspect-square bg-gray-200 dark:bg-gray-800">
+                  <div className="relative aspect-square bg-white dark:bg-gray-800">
                     {album.cover_url ? (
                       <img
                         src={album.cover_url}
@@ -160,7 +160,7 @@ export default function ArtistAlbumsPage() {
                       </Link>
                       <Link
                         href={`/albums/${album.id}`}
-                        className="px-3 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg transition-colors"
+                        className="px-3 py-2 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg transition-colors"
                       >
                         <FiEye className="w-4 h-4" />
                       </Link>

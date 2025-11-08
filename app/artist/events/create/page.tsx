@@ -132,7 +132,7 @@ export default function CreateEventPage() {
                     type="text"
                     value={eventData.title}
                     onChange={(e) => setEventData({ ...eventData, title: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                     placeholder="Summer Concert 2025"
                     required
                   />
@@ -146,7 +146,7 @@ export default function CreateEventPage() {
                     value={eventData.description}
                     onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500 resize-none"
                     placeholder="Tell attendees about this event..."
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function CreateEventPage() {
                       type="text"
                       value={eventData.venue}
                       onChange={(e) => setEventData({ ...eventData, venue: e.target.value })}
-                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                       placeholder="Madison Square Garden"
                       required
                     />
@@ -174,7 +174,7 @@ export default function CreateEventPage() {
                       type="text"
                       value={eventData.location}
                       onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
-                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                       placeholder="New York, NY"
                     />
                   </div>
@@ -189,7 +189,7 @@ export default function CreateEventPage() {
                       type="datetime-local"
                       value={eventData.start_time}
                       onChange={(e) => setEventData({ ...eventData, start_time: e.target.value })}
-                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -202,7 +202,7 @@ export default function CreateEventPage() {
                       type="datetime-local"
                       value={eventData.end_time}
                       onChange={(e) => setEventData({ ...eventData, end_time: e.target.value })}
-                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ export default function CreateEventPage() {
                     type="number"
                     value={eventData.capacity}
                     onChange={(e) => setEventData({ ...eventData, capacity: e.target.value })}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-white focus:ring-2 focus:ring-blue-500"
                     placeholder="500"
                     min="1"
                     required
@@ -323,7 +323,7 @@ export default function CreateEventPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
+                className="px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-black dark:text-white rounded-lg font-medium transition-colors"
               >
                 Cancel
               </button>

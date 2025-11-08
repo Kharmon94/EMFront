@@ -68,7 +68,7 @@ export default function ArtistInventoryPage() {
 
           {/* Alert Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-4">
+            <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
                   <FiPackage className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -112,7 +112,7 @@ export default function ArtistInventoryPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 !stockFilter
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500'
+                  : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500'
               }`}
             >
               All
@@ -122,7 +122,7 @@ export default function ArtistInventoryPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 stockFilter === 'in_stock'
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500'
+                  : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500'
               }`}
             >
               In Stock
@@ -132,7 +132,7 @@ export default function ArtistInventoryPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 stockFilter === 'low'
                   ? 'bg-yellow-600 text-white'
-                  : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-yellow-500'
+                  : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-yellow-500'
               }`}
             >
               Low Stock
@@ -142,7 +142,7 @@ export default function ArtistInventoryPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 stockFilter === 'out'
                   ? 'bg-red-600 text-white'
-                  : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-red-500'
+                  : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-red-500'
               }`}
             >
               Out of Stock
@@ -150,10 +150,10 @@ export default function ArtistInventoryPage() {
           </div>
 
           {/* Inventory Table */}
-          <div className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden">
+          <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-300 dark:border-gray-700">
+                <thead className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Product</th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">SKU</th>
@@ -166,11 +166,11 @@ export default function ArtistInventoryPage() {
                   {isLoading ? (
                     [...Array(5)].map((_, i) => (
                       <tr key={i} className="animate-pulse">
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-32" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-24" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-12" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-20" /></td>
-                        <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-24" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-32" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-24" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-12" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-20" /></td>
+                        <td className="px-4 py-4"><div className="h-4 bg-white dark:bg-gray-800 rounded w-24" /></td>
                       </tr>
                     ))
                   ) : items.length > 0 ? (
@@ -202,7 +202,7 @@ export default function ArtistInventoryPage() {
                                 type="number"
                                 value={newQuantity}
                                 onChange={(e) => setNewQuantity(e.target.value)}
-                                className="w-20 px-2 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+                                className="w-20 px-2 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
                                 placeholder={item.inventory_count}
                               />
                               <button
