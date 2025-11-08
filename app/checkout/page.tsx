@@ -149,7 +149,7 @@ export default function CheckoutPage() {
                 <span className="font-medium">Shipping</span>
               </div>
               <div className="w-24 h-0.5 bg-gray-300 dark:bg-gray-700" />
-              <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-blue-600' : 'text-gray-600 dark:text-gray-400'}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   step === 'payment' ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'
                 } text-white`}>
