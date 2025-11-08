@@ -102,7 +102,7 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                   <div className="flex h-full flex-col bg-white dark:bg-gray-900 shadow-xl">
                     {/* Header */}
-                    <div className="px-6 py-4 border-b border-gray-300 dark:border-gray-700">
+                    <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex items-center justify-between">
                         <Dialog.Title className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                           <FiList /> Queue
@@ -126,7 +126,7 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                     </div>
 
                     {/* Actions */}
-                    <div className="px-6 py-3 border-b border-gray-300 dark:border-gray-700 flex gap-2">
+                    <div className="px-6 py-3 border-b border-gray-200 dark:border-gray-700 flex gap-2">
                       <button
                         onClick={handleSaveAsPlaylist}
                         disabled={queue.length === 0}
@@ -226,7 +226,7 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
 
                       {/* History */}
                       {queueHistory.length > 0 && (
-                        <div className="px-6 py-4 border-t border-gray-300 dark:border-gray-700">
+                        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
                           <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-500 font-semibold mb-3">
                             Recently Played
                           </div>

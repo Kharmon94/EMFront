@@ -125,28 +125,28 @@ export function VariantManager({ merchItemId, variants: initialVariants }: Varia
               placeholder="SKU *"
               value={formData.sku}
               onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
             <input
               type="text"
               placeholder="Size"
               value={formData.size}
               onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
             <input
               type="text"
               placeholder="Color"
               value={formData.color}
               onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
             <input
               type="text"
               placeholder="Material"
               value={formData.material}
               onChange={(e) => setFormData({ ...formData, material: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
             <input
               type="number"
@@ -154,14 +154,14 @@ export function VariantManager({ merchItemId, variants: initialVariants }: Varia
               placeholder="Price Modifier"
               value={formData.price_modifier}
               onChange={(e) => setFormData({ ...formData, price_modifier: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
             <input
               type="number"
               placeholder="Inventory *"
               value={formData.inventory_count}
               onChange={(e) => setFormData({ ...formData, inventory_count: e.target.value })}
-              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
+              className="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded text-sm text-gray-900 dark:text-white"
             />
           </div>
           <div className="flex gap-2">

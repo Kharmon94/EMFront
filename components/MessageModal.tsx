@@ -84,7 +84,7 @@ export function MessageModal({ isOpen, onClose, recipientId, recipientName }: Me
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message..."
               rows={6}
-              className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               autoFocus
             />
           </div>
@@ -93,7 +93,7 @@ export function MessageModal({ isOpen, onClose, recipientId, recipientName }: Me
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors"
+              className="px-6 py-2 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors"
             >
               Cancel
             </button>

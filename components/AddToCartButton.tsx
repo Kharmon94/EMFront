@@ -61,7 +61,7 @@ export function AddToCartButton({ merch_item, variant = 'primary', showQuantity 
 
   const buttonClasses = {
     primary: 'w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2',
-    secondary: 'px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors flex items-center gap-2',
+    secondary: 'px-4 py-2 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors flex items-center gap-2',
     small: 'px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors flex items-center gap-1'
   };
 
@@ -79,7 +79,7 @@ export function AddToCartButton({ merch_item, variant = 'primary', showQuantity 
               const variant = merch_item.product_variants?.find(v => v.id === parseInt(e.target.value));
               setSelectedVariant(variant);
             }}
-            className="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
           >
             <option value="">Choose variant...</option>
             {merch_item.product_variants?.map((variant: any) => (
@@ -99,7 +99,7 @@ export function AddToCartButton({ merch_item, variant = 'primary', showQuantity 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-8 h-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-white transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-white transition-colors"
               disabled={quantity <= 1}
             >
               <FiMinus className="w-4 h-4" />
@@ -107,7 +107,7 @@ export function AddToCartButton({ merch_item, variant = 'primary', showQuantity 
             <span className="w-12 text-center font-semibold text-gray-900 dark:text-white">{quantity}</span>
             <button
               onClick={() => setQuantity(Math.min((merch_item.inventory_count || 99), quantity + 1))}
-              className="w-8 h-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-white transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-white transition-colors"
               disabled={quantity >= (merch_item.inventory_count || 99)}
             >
               <FiPlus className="w-4 h-4" />

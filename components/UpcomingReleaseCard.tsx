@@ -26,7 +26,7 @@ export function UpcomingReleaseCard({ type, id, title, artist, releaseDate, cove
   });
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
       <div className="flex gap-4 p-4">
         {/* Cover */}
         <div className="relative w-32 h-32 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">

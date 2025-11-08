@@ -96,7 +96,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
   return (
     <div className="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-300 dark:border-gray-800 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-900">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-900">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             {product ? 'Edit Product' : 'Add New Product'}
           </h2>
@@ -117,7 +117,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -130,7 +130,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 rows={4}
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -144,7 +144,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 required
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -157,7 +157,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 required
                 value={formData.inventory_count}
                 onChange={(e) => setFormData({ ...formData, inventory_count: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -169,7 +169,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 type="text"
                 value={formData.sku}
                 onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -181,7 +181,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 type="text"
                 value={formData.brand}
                 onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
 
@@ -192,7 +192,7 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
               <select
                 value={formData.product_category_id}
                 onChange={(e) => setFormData({ ...formData, product_category_id: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white cursor-pointer"
               >
                 <option value="">Select a category...</option>
                 {categories.map((cat: any) => (
@@ -211,24 +211,24 @@ export function ProductFormModal({ isOpen, onClose, product, artistId }: Product
                 type="number"
                 value={formData.low_stock_threshold}
                 onChange={(e) => setFormData({ ...formData, low_stock_threshold: e.target.value })}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
               />
             </div>
           </div>
 
           {/* Variants */}
           {product && (
-            <div className="border-t border-gray-300 dark:border-gray-700 pt-6">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
               <VariantManager merchItemId={product.id} variants={product.product_variants || []} />
             </div>
           )}
 
           {/* Actions */}
-          <div className="flex gap-3 pt-6 border-t border-gray-300 dark:border-gray-700">
+          <div className="flex gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold transition-colors"
+              className="flex-1 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold transition-colors"
             >
               Cancel
             </button>

@@ -43,7 +43,7 @@ export function LoadMoreButton({
           px-6 py-3 rounded-lg font-medium transition-all
           ${disabled || loading
             ? 'bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-600 cursor-not-allowed'
-            : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600 shadow-lg hover:shadow-xl'
+            : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600 shadow-lg hover:shadow-xl'
           }
         `}
       >

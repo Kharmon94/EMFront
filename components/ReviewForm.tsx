@@ -51,7 +51,7 @@ export function ReviewForm({ merchItemId, orderId, onSuccess }: ReviewFormProps)
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-lg p-6 space-y-4">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6 space-y-4">
       <h3 className="text-lg font-bold text-gray-900 dark:text-white">Write a Review</h3>
 
       {/* Star Rating */}
@@ -91,7 +91,7 @@ export function ReviewForm({ merchItemId, orderId, onSuccess }: ReviewFormProps)
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Sum up your experience"
-          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
         />
       </div>
 
@@ -106,7 +106,7 @@ export function ReviewForm({ merchItemId, orderId, onSuccess }: ReviewFormProps)
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Tell us what you think about this product"
-          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
         />
       </div>
 

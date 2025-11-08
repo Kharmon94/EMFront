@@ -19,7 +19,7 @@ export function FriendsActivity() {
   }
   
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-6">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
         <FiUsers className="w-5 h-5 text-purple-600" />
         <h3 className="font-bold text-gray-900 dark:text-white">Friends Activity</h3>

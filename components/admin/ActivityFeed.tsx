@@ -31,8 +31,8 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-300 dark:border-gray-800 rounded-2xl overflow-hidden shadow-xl">
-      <div className="p-6 border-b border-gray-300 dark:border-gray-800/50">
+    <div className="bg-white dark:bg-gray-900/50 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-xl">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-800/50">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-blue-500 rounded-full" />
           Recent Activity
@@ -45,7 +45,7 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
             const colorClass = getIconColor(activity.type);
             
             return (
-              <div key={index} className="group p-4 hover:bg-gray-200 dark:hover:bg-gray-800/30 transition-all border-b border-gray-300 dark:border-gray-800/30 last:border-0">
+              <div key={index} className="group p-4 hover:bg-gray-200 dark:hover:bg-gray-800/30 transition-all border-b border-gray-200 dark:border-gray-800/30 last:border-0">
                 <div className="flex items-start gap-4">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-400 dark:border-gray-700 ${colorClass} group-hover:scale-110 transition-transform`}>
                     <Icon className="w-6 h-6" />

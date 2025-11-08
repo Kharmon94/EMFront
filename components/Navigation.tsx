@@ -157,7 +157,7 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Navigation - Horizontal Top Bar */}
-      <nav className="hidden md:block sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800">
+      <nav className="hidden md:block sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -197,7 +197,7 @@ export function Navigation() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-300 dark:border-gray-800 shadow-xl focus:outline-none">
+                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-xl focus:outline-none">
                           <div className="py-1">
                             {item.dropdown.map((subItem) => (
                               <Menu.Item key={subItem.href}>
@@ -291,7 +291,7 @@ export function Navigation() {
       {/* Mobile Navigation */}
       <div className="md:hidden">
         {/* Top Bar */}
-        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300 dark:border-gray-800 mb-0.5">
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 mb-0.5">
           <div className="flex items-center justify-between h-12 px-4">
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
@@ -339,7 +339,7 @@ export function Navigation() {
         {/* No spacer needed - content padding handles it */}
 
         {/* Bottom Tab Bar (3 main tabs + Profile) */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-800 pb-safe">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 pb-safe">
           <div className="flex items-center justify-around h-16">
             {mainNavItems.filter(item => item.mobile).map((item, index) => {
               if (item.dropdown) {
@@ -413,8 +413,8 @@ export function Navigation() {
                     leaveTo="translate-x-full"
                   >
                     <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-300 dark:border-gray-800">
-                        <div className="p-4 border-b border-gray-300 dark:border-gray-800">
+                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-200 dark:border-gray-800">
+                        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
                           <div className="flex items-center justify-between">
                             <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white">
                               Discover
@@ -508,8 +508,8 @@ export function Navigation() {
                     leaveTo="translate-x-full"
                   >
                     <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-300 dark:border-gray-800">
-                        <div className="p-4 border-b border-gray-300 dark:border-gray-800">
+                      <div className="flex h-full flex-col overflow-y-auto bg-white dark:bg-black border-l border-gray-200 dark:border-gray-800">
+                        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
                           <div className="flex items-center justify-between">
                             <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-white">
                               {user ? 'Account' : 'Sign In'}
@@ -527,7 +527,7 @@ export function Navigation() {
                           {/* User Info Section */}
                           {user ? (
                             <>
-                              <div className="bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl p-4 mb-4">
+                              <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-4 mb-4">
                                 <div className="flex items-center gap-3">
                                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                                     {user.email ? user.email[0].toUpperCase() : user.wallet_address?.[0].toUpperCase()}
@@ -637,7 +637,7 @@ export function Navigation() {
                             </>
                           ) : (
                             <>
-                              <div className="bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 rounded-xl p-6 mb-4 text-center">
+                              <div className="bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-6 mb-4 text-center">
                                 <p className="text-gray-600 dark:text-gray-400 mb-4">Sign in to access all features</p>
                                 <button
                                   onClick={() => {

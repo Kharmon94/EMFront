@@ -60,8 +60,8 @@ export function Pagination({
         className={`
           p-2 rounded-lg border transition-all
           ${currentPage === 1
-            ? 'border-gray-300 dark:border-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-            : 'border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
+            ? 'border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+            : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
           }
         `}
         aria-label="Previous page"
@@ -94,7 +94,7 @@ export function Pagination({
                 min-w-[40px] px-3 py-2 rounded-lg font-medium transition-all
                 ${isActive
                   ? 'bg-blue-600 text-white shadow-lg'
-                  : 'border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
+                  : 'border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
                 }
               `}
               aria-label={`Page ${pageNum}`}
@@ -113,8 +113,8 @@ export function Pagination({
         className={`
           p-2 rounded-lg border transition-all
           ${currentPage === totalPages
-            ? 'border-gray-300 dark:border-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-            : 'border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
+            ? 'border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+            : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600'
           }
         `}
         aria-label="Next page"

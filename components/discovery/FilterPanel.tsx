@@ -76,7 +76,7 @@ export function FilterPanel({
       <div className="md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
+          className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
         >
           <FiFilter />
           Filters
@@ -119,7 +119,7 @@ export function FilterPanel({
       
       {/* Desktop: Sidebar */}
       <div className="hidden md:block">
-        <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white">Filters</h3>
             {activeFiltersCount > 0 && (
@@ -195,7 +195,7 @@ function FilterContent({
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   selectedMoods.includes(mood.id)
                     ? 'bg-purple-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
                 }`}
               >
                 {mood.label}

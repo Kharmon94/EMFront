@@ -105,7 +105,7 @@ export function AudioSettings({ isOpen, onClose }: AudioSettingsProps) {
                           className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
                             quality === option.value
                               ? 'border-purple-600 bg-purple-600/10 dark:bg-purple-600/20'
-                              : 'border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
+                              : 'border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
                           }`}
                         >
                           <div className="font-medium text-gray-900 dark:text-white">{option.label}</div>
@@ -128,7 +128,7 @@ export function AudioSettings({ isOpen, onClose }: AudioSettingsProps) {
                           className={`px-4 py-2 rounded-lg font-medium transition-all ${
                             playbackSpeed === speed
                               ? 'bg-purple-600 text-white'
-                              : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
+                              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
                           }`}
                         >
                           {speed}x
