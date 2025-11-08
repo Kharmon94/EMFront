@@ -34,11 +34,14 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy application code
 COPY . .
 
+# CRITICAL: Remove any cached .next folder before building
+RUN rm -rf .next || true
+
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-# Build Next.js application
+# Build Next.js application (will rebuild all chunks from scratch)
 RUN npm run build
 
 # Stage 3: Runner
