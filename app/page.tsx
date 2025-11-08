@@ -74,7 +74,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/tokens"
-                  className="w-full sm:w-auto px-8 py-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border border-gray-300 dark:border-gray-700 text-center"
+                  className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border border-gray-300 dark:border-gray-700 text-center"
                 >
                   Browse Tokens
                 </Link>

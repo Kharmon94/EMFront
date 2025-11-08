@@ -193,7 +193,7 @@ export default function ArtistDashboard() {
 
           {/* Stats Overview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiUsers className="w-5 h-5 text-blue-400" />
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">{(Number(stats.followers_count) || 0).toLocaleString()}</span>
@@ -201,7 +201,7 @@ export default function ArtistDashboard() {
               <p className="text-sm text-gray-600 dark:text-gray-400">Followers</p>
             </div>
 
-            <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiActivity className="w-5 h-5 text-green-400" />
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">{(Number(stats.total_streams) || 0).toLocaleString()}</span>
@@ -209,7 +209,7 @@ export default function ArtistDashboard() {
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Streams</p>
             </div>
 
-            <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiUsers className="w-5 h-5 text-purple-400" />
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">{(Number(stats.monthly_listeners) || 0).toLocaleString()}</span>
@@ -217,7 +217,7 @@ export default function ArtistDashboard() {
               <p className="text-sm text-gray-600 dark:text-gray-400">Monthly Listeners</p>
             </div>
 
-            <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-2">
                 <FiDollarSign className="w-5 h-5 text-green-400" />
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">{(Number(stats.total_revenue) || 0).toFixed(2)} SOL</span>
@@ -276,7 +276,7 @@ export default function ArtistDashboard() {
                     <Link
                       key={index}
                       href={action.href}
-                      className="group relative overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-700 rounded-xl p-6 transition-all hover:scale-105"
+                      className="group relative overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-700 rounded-xl p-6 transition-all hover:scale-105"
                     >
                       <div className={`absolute inset-0 bg-gradient-to-br ${getColorClass(action.color)} opacity-0 group-hover:opacity-10 transition-opacity`} />
                       <action.icon className="w-8 h-8 text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white mb-3 transition-colors" />
@@ -292,7 +292,7 @@ export default function ArtistDashboard() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <Link
                     href="/artist/albums"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-blue-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-blue-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiMusic className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
@@ -304,7 +304,7 @@ export default function ArtistDashboard() {
 
                   <Link
                     href="/artist/events"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-green-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-green-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiCalendar className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
@@ -316,7 +316,7 @@ export default function ArtistDashboard() {
 
                   <Link
                     href="/artist/livestreams"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-red-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-red-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiRadio className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
@@ -328,7 +328,7 @@ export default function ArtistDashboard() {
 
                   <Link
                     href="/artist/videos"
-                    className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-purple-500 rounded-xl p-4 transition-colors cursor-pointer group"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-purple-500 rounded-xl p-4 transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiVideo className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />

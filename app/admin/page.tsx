@@ -136,7 +136,7 @@ export default function AdminDashboard() {
               {/* Mobile menu button */}
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-3 rounded-lg bg-gray-100 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors"
+                className="lg:hidden p-3 rounded-lg bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
                 <FiMenu className="w-6 h-6" />
               </button>
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Desktop Sidebar */}
             <div className="hidden lg:block lg:w-64 flex-shrink-0">
-              <div className="bg-gray-100 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-300 dark:border-gray-800 rounded-2xl p-2 sticky top-20 shadow-xl">
+              <div className="bg-white dark:bg-gray-900/50 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl p-2 sticky top-20 shadow-xl">
                 {sidebarItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeSection === item.id;
@@ -415,7 +415,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
           <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
           User Management
         </h2>
-        <div className="px-4 py-2 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg">
+        <div className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
           <span className="text-sm text-gray-400">Total: </span>
           <span className="text-sm font-bold text-gray-900 dark:text-white">{users.length}</span>
         </div>
@@ -530,7 +530,7 @@ function UsersSection({ usersData, refetchUsers }: any) {
                   <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => setSelectedUser(user)}
-                      className="px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-blue-600 border border-gray-300 dark:border-gray-700 hover:border-blue-600 text-gray-900 dark:text-white text-sm rounded-lg transition-all group-hover:shadow-lg group-hover:shadow-blue-600/20"
+                      className="px-4 py-2 bg-white dark:bg-gray-800 hover:bg-blue-600 border border-gray-200 dark:border-gray-700 hover:border-blue-600 text-gray-900 dark:text-white text-sm rounded-lg transition-all group-hover:shadow-lg group-hover:shadow-blue-600/20"
                     >
                       Manage
                     </button>
