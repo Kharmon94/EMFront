@@ -208,7 +208,7 @@ export default function TrackPage() {
 
           {/* Lyrics/Description */}
           {track.lyrics && (
-            <div className="bg-gray-800/30 rounded-lg p-6 mb-8">
+            <div className="bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800 rounded-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Lyrics</h2>
               <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-sans">
                 {track.lyrics}
@@ -217,7 +217,7 @@ export default function TrackPage() {
           )}
 
           {/* Credits */}
-          <div className="bg-gray-800/30 rounded-lg p-6">
+          <div className="bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Credits</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>

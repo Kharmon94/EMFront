@@ -236,7 +236,7 @@ export default function VideoPage() {
           )}
 
           {/* Video Info */}
-          <div className="mt-6 bg-gray-800/50 backdrop-blur rounded-lg p-6">
+          <div className="mt-6 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 backdrop-blur rounded-lg p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{video.title}</h1>
