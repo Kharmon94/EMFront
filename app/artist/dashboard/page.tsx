@@ -232,8 +232,8 @@ export default function ArtistDashboard() {
             <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-800/30 rounded-xl p-6 mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-white">${token.symbol} Token</h3>
-                  <p className="text-sm text-gray-400">Your artist token performance</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">${token.symbol} Token</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Your artist token performance</p>
                 </div>
                 <Link 
                   href={`/tokens/${token.id}`}
@@ -244,16 +244,16 @@ export default function ArtistDashboard() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Current Price</p>
-                  <p className="text-lg font-bold text-white">{(Number(token.current_price) || 0).toFixed(6)} SOL</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Current Price</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{(Number(token.current_price) || 0).toFixed(6)} SOL</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Market Cap</p>
-                  <p className="text-lg font-bold text-white">{formatCurrency(Number(token.market_cap) || 0)}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Market Cap</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(Number(token.market_cap) || 0)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Holders</p>
-                  <p className="text-lg font-bold text-white">{Number(token.holders_count) || 0}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Holders</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{Number(token.holders_count) || 0}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">24h Change</p>
@@ -270,17 +270,17 @@ export default function ArtistDashboard() {
             <div className="lg:col-span-2 space-y-8">
               {/* Quick Actions */}
               <div>
-                <h2 className="text-2xl font-bold text-white mb-4">Quick Actions</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {quickActions.map((action, index) => (
                     <Link
                       key={index}
                       href={action.href}
-                      className="group relative overflow-hidden bg-gray-900 border border-gray-800 hover:border-gray-700 rounded-xl p-6 transition-all hover:scale-105"
+                      className="group relative overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-700 rounded-xl p-6 transition-all hover:scale-105"
                     >
                       <div className={`absolute inset-0 bg-gradient-to-br ${getColorClass(action.color)} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                      <action.icon className="w-8 h-8 text-gray-400 group-hover:text-white mb-3 transition-colors" />
-                      <p className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{action.label}</p>
+                      <action.icon className="w-8 h-8 text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white mb-3 transition-colors" />
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{action.label}</p>
                     </Link>
                   ))}
                 </div>
@@ -288,7 +288,7 @@ export default function ArtistDashboard() {
 
               {/* Content Summary */}
               <div>
-                <h2 className="text-2xl font-bold text-white mb-4">Your Content</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Your Content</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <Link
                     href="/artist/albums"
@@ -296,10 +296,10 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiMusic className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.albums}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.albums}</span>
                     </div>
-                    <p className="text-sm text-gray-400 mb-1">Albums</p>
-                    <p className="text-xs text-gray-500">{content_counts.tracks} total tracks</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Albums</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">{content_counts.tracks} total tracks</p>
                   </Link>
 
                   <Link
@@ -308,10 +308,10 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiCalendar className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.upcoming_events}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.upcoming_events}</span>
                     </div>
-                    <p className="text-sm text-gray-400 mb-1">Upcoming Events</p>
-                    <p className="text-xs text-gray-500">{content_counts.events} total</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Upcoming Events</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">{content_counts.events} total</p>
                   </Link>
 
                   <Link
@@ -320,10 +320,10 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiRadio className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.upcoming_livestreams}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.upcoming_livestreams}</span>
                     </div>
-                    <p className="text-sm text-gray-400 mb-1">Scheduled Streams</p>
-                    <p className="text-xs text-gray-500">{content_counts.livestreams} total</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Scheduled Streams</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">{content_counts.livestreams} total</p>
                   </Link>
 
                   <Link
@@ -332,9 +332,9 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiVideo className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.videos}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.videos}</span>
                     </div>
-                    <p className="text-sm text-gray-400">Videos</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Videos</p>
                   </Link>
 
                   <Link
@@ -343,9 +343,9 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiFilm className="w-5 h-5 text-pink-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.minis}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.minis}</span>
                     </div>
-                    <p className="text-sm text-gray-400">Mini's</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Mini's</p>
                   </Link>
 
                   <Link
@@ -354,20 +354,20 @@ export default function ArtistDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <FiGift className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-2xl font-bold text-white">{content_counts.fan_passes}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{content_counts.fan_passes}</span>
                     </div>
-                    <p className="text-sm text-gray-400">Active Fan Passes</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Active Fan Passes</p>
                   </Link>
                 </div>
               </div>
 
               {/* Recent Activity */}
               <div>
-                <h2 className="text-2xl font-bold text-white mb-4">Recent Activity</h2>
-                <div className="bg-gray-900 border border-gray-800 rounded-xl divide-y divide-gray-800">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   {recent_activity && recent_activity.length > 0 ? (
                     recent_activity.map((activity: any, index: number) => (
-                      <div key={index} className="p-4 hover:bg-gray-800/50 transition-colors">
+                      <div key={index} className="p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors">
                         <div className="flex items-start gap-3">
                           <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                             activity.type === 'purchase' ? 'bg-green-900/30' :
@@ -379,7 +379,7 @@ export default function ArtistDashboard() {
                              <FiMessageCircle className="w-5 h-5 text-purple-400" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm text-white font-medium">{activity.description}</p>
+                            <p className="text-sm text-gray-900 dark:text-white font-medium">{activity.description}</p>
                             <p className="text-xs text-gray-500 mt-1">
                               {activity.user} • {new Date(activity.created_at).toLocaleString()}
                             </p>
@@ -404,14 +404,14 @@ export default function ArtistDashboard() {
             <div className="space-y-8">
               {/* Upcoming Schedule */}
               <div>
-                <h2 className="text-xl font-bold text-white mb-4">Upcoming Schedule</h2>
-                <div className="bg-gray-900 border border-gray-800 rounded-xl divide-y divide-gray-800">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Schedule</h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   {upcoming_schedule && upcoming_schedule.length > 0 ? (
                     upcoming_schedule.map((item: any, index: number) => (
                       <Link
                         key={index}
                         href={`/${item.type === 'event' ? 'events' : 'livestreams'}/${item.id}`}
-                        className="block p-4 hover:bg-gray-800/50 transition-colors"
+                        className="block p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors"
                       >
                         <div className="flex items-start gap-3">
                           <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
@@ -423,11 +423,11 @@ export default function ArtistDashboard() {
                             }
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">{item.title}</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{item.title}</p>
                             {item.venue && (
                               <p className="text-xs text-gray-500">{item.venue}</p>
                             )}
-                            <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-1">
                               <FiClock className="w-3 h-3" />
                               {new Date(item.time).toLocaleDateString()} at {new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </p>
@@ -452,70 +452,70 @@ export default function ArtistDashboard() {
 
               {/* Quick Links */}
               <div>
-                <h2 className="text-xl font-bold text-white mb-4">Manage</h2>
-                <div className="bg-gray-900 border border-gray-800 rounded-xl divide-y divide-gray-800">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Manage</h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl divide-y divide-gray-300 dark:divide-gray-800">
                   <Link 
                     href="/artist/albums"
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiMusic className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">My Albums</span>
+                      <FiMusic className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-blue-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">My Albums</span>
                     </div>
                     <span className="text-sm text-gray-500">{content_counts.albums}</span>
                   </Link>
                   
                   <Link 
                     href="/artist/videos"
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiVideo className="w-5 h-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">My Videos</span>
+                      <FiVideo className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-purple-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">My Videos</span>
                     </div>
                     <span className="text-sm text-gray-500">{content_counts.videos}</span>
                   </Link>
                   
                   <Link 
                     href="/artist/minis"
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiFilm className="w-5 h-5 text-gray-400 group-hover:text-pink-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">My Mini's</span>
+                      <FiFilm className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-pink-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">My Mini's</span>
                     </div>
                     <span className="text-sm text-gray-500">{content_counts.minis}</span>
                   </Link>
                   
                   <Link 
                     href="/artist/livestreams"
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiRadio className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">Livestreams</span>
+                      <FiRadio className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-red-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Livestreams</span>
                     </div>
                     <span className="text-sm text-gray-500">{content_counts.livestreams}</span>
                   </Link>
                   
                   <Link 
                     href="/artist/fan-passes"
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiGift className="w-5 h-5 text-gray-400 group-hover:text-yellow-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">Fan Passes</span>
+                      <FiGift className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-yellow-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Fan Passes</span>
                     </div>
                     <span className="text-sm text-gray-500">{content_counts.fan_passes}</span>
                   </Link>
                   
                   <Link 
                     href={`/artists/${artist.id}`}
-                    className="flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center justify-between p-4 hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <FiUsers className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
-                      <span className="text-sm text-gray-300 group-hover:text-white">Public Profile</span>
+                      <FiUsers className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-blue-400 transition-colors" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Public Profile</span>
                     </div>
                   </Link>
                 </div>
