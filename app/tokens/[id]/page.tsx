@@ -196,7 +196,7 @@ export default function TokenTradingPage() {
                       currentPrice={chartData.current_price}
                     />
                   ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400">
+                    <div className="h-full flex items-center justify-center text-gray-600 dark:text-gray-400">
                       No trading data yet
                     </div>
                   )}

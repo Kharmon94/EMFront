@@ -260,8 +260,8 @@ export default function EventDetailPage() {
               {/* Additional Info */}
               {(event.min_age || event.dress_code) && (
                 <div className="bg-white dark:bg-gray-800/30 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
-                  <h2 className="text-xl font-bold text-white mb-4">Important Information</h2>
-                  <div className="space-y-2 text-gray-300">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Important Information</h2>
+                  <div className="space-y-2 text-gray-700 dark:text-gray-300">
                     {event.min_age && (
                       <p>• Minimum age: {event.min_age}+</p>
                     )}
