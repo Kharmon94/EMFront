@@ -65,14 +65,18 @@ export const GlobalSearchDropdown: React.FC<{
     onClose?.();
   };
   
-  const hasResults = results && Object.values(results).some(arr => arr.length > 0);
+  const hasResults = results && Object.values(results).some((arr: any) => Array.isArray(arr) && arr.length > 0);
   const showRecentSearches = !query && recentSearches.length > 0;
   
   // Debug logging
   useEffect(() => {
     if (results) {
-      console.log('Results in dropdown:', results);
-      console.log('Has results:', hasResults);
+      console.log('Search Results:', results);
+      console.log('Has Results:', hasResults);
+      console.log('Artists:', results.artists?.length || 0);
+      console.log('Tracks:', results.tracks?.length || 0);
+      console.log('Albums:', results.albums?.length || 0);
+      console.log('Events:', results.events?.length || 0);
     }
   }, [results, hasResults]);
   
@@ -142,10 +146,10 @@ export const GlobalSearchDropdown: React.FC<{
             </div>
           )}
           
-          {hasResults && results && (
+          {!isLoading && hasResults && results && (
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {/* Artists */}
-              {results.artists.length > 0 && (
+              {results.artists && results.artists.length > 0 && (
                 <div className="p-4">
                   <h3 className="text-xs font-semibold text-gray-500 uppercase mb-3">Artists</h3>
                   <div className="space-y-2">
@@ -170,10 +174,38 @@ export const GlobalSearchDropdown: React.FC<{
                 </div>
               )}
               
-              {/* Tracks */}
-              {results.tracks.length > 0 && (
+              {/* Albums */}
+              {results.albums && results.albums.length > 0 && (
                 <div className="p-4">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase mb-3">Tracks</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Albums</h3>
+                  <div className="space-y-2">
+                    {results.albums.map((album: any) => (
+                      <button
+                        key={album.id}
+                        onClick={() => handleResultClick('albums', album.id)}
+                        className="w-full flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+                      >
+                        {album.cover_url && (
+                          <img 
+                            src={album.cover_url} 
+                            alt={album.title}
+                            className="w-10 h-10 rounded object-cover"
+                          />
+                        )}
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900 dark:text-gray-100">{album.title}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-500">{album.artist_name}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Tracks */}
+              {results.tracks && results.tracks.length > 0 && (
+                <div className="p-4">
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Tracks</h3>
                   <div className="space-y-2">
                     {results.tracks.map((track) => (
                       <button
@@ -183,7 +215,7 @@ export const GlobalSearchDropdown: React.FC<{
                       >
                         <div className="flex-1">
                           <p className="font-medium text-gray-900 dark:text-gray-100">{track.title}</p>
-                          <p className="text-sm text-gray-500">{track.artist_name} • {track.album_title}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-500">{track.artist_name} • {track.album_title}</p>
                         </div>
                       </button>
                     ))}
@@ -192,9 +224,9 @@ export const GlobalSearchDropdown: React.FC<{
               )}
               
               {/* Merch */}
-              {results.merch.length > 0 && (
+              {results.merch && results.merch.length > 0 && (
                 <div className="p-4">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase mb-3">Merch</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Merch</h3>
                   <div className="space-y-2">
                     {results.merch.map((item) => (
                       <button
@@ -209,7 +241,7 @@ export const GlobalSearchDropdown: React.FC<{
                         />
                         <div className="flex-1">
                           <p className="font-medium text-gray-900 dark:text-gray-100">{item.title}</p>
-                          <p className="text-sm text-gray-500">${item.price} • {item.artist_name}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-500">${item.price} • {item.artist_name}</p>
                         </div>
                       </button>
                     ))}
@@ -218,9 +250,9 @@ export const GlobalSearchDropdown: React.FC<{
               )}
               
               {/* Events */}
-              {results.events.length > 0 && (
+              {results.events && results.events.length > 0 && (
                 <div className="p-4">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase mb-3">Events</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Events</h3>
                   <div className="space-y-2">
                     {results.events.map((event) => (
                       <button
@@ -230,7 +262,7 @@ export const GlobalSearchDropdown: React.FC<{
                       >
                         <div className="flex-1">
                           <p className="font-medium text-gray-900 dark:text-gray-100">{event.title}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-600 dark:text-gray-500">
                             {event.venue}, {event.location} • {new Date(event.start_time).toLocaleDateString()}
                           </p>
                         </div>
