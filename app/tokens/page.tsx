@@ -57,7 +57,7 @@ export default function TokensPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${
                     filter === f
                       ? 'bg-purple-600 text-white'
-                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   {f === 'active' ? 'Bonding Curve' : f.charAt(0).toUpperCase() + f.slice(1)}
@@ -168,15 +168,15 @@ function TokenCard({ token }: { token: any }) {
         {/* Stats (desktop) */}
         <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
           <div className="text-right">
-            <div className="text-xs text-gray-400 mb-1">Market Cap</div>
-            <div className="text-white font-semibold">
+            <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Market Cap</div>
+            <div className="text-gray-900 dark:text-white font-semibold">
               {formatCurrency(token.market_cap || 0)}
             </div>
           </div>
           
           <div className="text-right">
-            <div className="text-xs text-gray-400 mb-1">Supply</div>
-            <div className="text-white font-semibold">
+            <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Supply</div>
+            <div className="text-gray-900 dark:text-white font-semibold">
               {formatNumber(token.supply || 0, 0)}
             </div>
           </div>
@@ -185,13 +185,13 @@ function TokenCard({ token }: { token: any }) {
             <div className={`text-sm font-semibold ${priceChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {priceChange >= 0 ? '+' : ''}{priceChange}%
             </div>
-            <div className="text-xs text-gray-400">24h</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">24h</div>
           </div>
         </div>
 
         {/* Stats (mobile) */}
         <div className="lg:hidden flex flex-col items-end gap-1 flex-shrink-0">
-          <div className="text-white font-semibold text-sm">
+          <div className="text-gray-900 dark:text-white font-semibold text-sm">
             {formatCurrency(token.market_cap || 0)}
           </div>
           <div className={`text-xs font-semibold ${priceChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>

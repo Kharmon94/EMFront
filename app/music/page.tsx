@@ -96,7 +96,7 @@ export default function MusicPage() {
               {/* Search Bar */}
               <div className="mb-8">
                 <div className="relative max-w-2xl">
-                  <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search for artists, albums, or tracks..."
@@ -119,7 +119,7 @@ export default function MusicPage() {
                     className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     {tab.icon}
