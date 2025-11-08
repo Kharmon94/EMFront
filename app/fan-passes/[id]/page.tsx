@@ -128,13 +128,13 @@ export default function FanPassDetailPage() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                   {fanPass.minted_count}/{fanPass.max_supply}
                 </div>
                 <div className="text-sm text-gray-400">Minted</div>
               </div>
-              <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="text-2xl font-bold text-purple-400 mb-1">
                   {formatCurrency(fanPass.price)}
                 </div>
@@ -148,7 +148,7 @@ export default function FanPassDetailPage() {
                   <div className="text-sm text-purple-300">Dividend</div>
                 </div>
               )}
-              <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{fanPass.total_perks}</div>
                 <div className="text-sm text-gray-400">Perks</div>
               </div>
@@ -190,7 +190,7 @@ export default function FanPassDetailPage() {
               )}
             </div>
           ) : (
-            <div className="mb-6 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+            <div className="mb-6 p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Get this Fan Pass</h3>
@@ -243,7 +243,7 @@ export default function FanPassDetailPage() {
           )}
 
           {/* Perks Breakdown */}
-          <section className="mb-6 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+          <section className="mb-6 p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Included Perks</h2>
             
             {Object.entries(perks).map(([category, perkList]: [string, any]) => {
@@ -261,7 +261,7 @@ export default function FanPassDetailPage() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {perkList.map((perk: string) => (
-                      <div key={perk} className="flex items-center gap-2 p-3 bg-gray-200 dark:bg-gray-800 rounded-lg">
+                      <div key={perk} className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <FiCheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                         <span className="text-sm text-gray-300">{perk}</span>
                       </div>
@@ -274,7 +274,7 @@ export default function FanPassDetailPage() {
 
           {/* Holders (if any) */}
           {fanPass.holders_count > 0 && (
-            <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+            <section className="p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 <FiUsers className="w-5 h-5" />
                 Holders ({fanPass.holders_count})

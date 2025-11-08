@@ -89,7 +89,7 @@ export default function TrackPage() {
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 mb-12">
             {/* Cover Art */}
             <div className="w-full md:w-80 flex-shrink-0">
-              <div className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-2xl">
+              <div className="aspect-square bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-2xl">
                 {track.album?.cover_url ? (
                   <img 
                     src={track.album.cover_url} 

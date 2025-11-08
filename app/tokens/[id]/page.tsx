@@ -324,7 +324,7 @@ export default function TokenTradingPage() {
 
                 {/* Trade Summary */}
                 {amount && parseFloat(amount) > 0 && (
-                  <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg space-y-2 text-sm">
+                  <div className="mb-6 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-700 dark:text-gray-400">Price per token</span>
                       <span className="text-gray-900 dark:text-white font-semibold">

@@ -114,7 +114,7 @@ export default function MerchDetailPage() {
             {/* Left Column - Images */}
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
+              <div className="aspect-square bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                 {images.length > 0 ? (
                   <img
                     src={images[selectedImage]}
@@ -135,7 +135,7 @@ export default function MerchDetailPage() {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden border-2 transition-colors ${
+                      className={`aspect-square bg-white dark:bg-gray-800 rounded-lg overflow-hidden border-2 transition-colors ${
                         selectedImage === index
                           ? 'border-purple-500'
                           : 'border-gray-700 hover:border-gray-600'
@@ -213,14 +213,14 @@ export default function MerchDetailPage() {
                 <div className="flex gap-3">
                   <button
                     onClick={handleLike}
-                    className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <FiHeart className="w-5 h-5" />
                     Save
                   </button>
                   <button
                     onClick={handleShare}
-                    className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <FiShare2 className="w-5 h-5" />
                     Share

@@ -47,7 +47,7 @@ export default function LivestreamViewPage() {
             {isLive && hlsUrl ? (
               <>
                 {!isFree && !isAuthenticated ? (
-                  <div className="bg-gray-200 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 aspect-video flex items-center justify-center relative overflow-hidden">
+                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 aspect-video flex items-center justify-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900/40 backdrop-blur-sm" />
                     <div className="relative text-center z-10 p-8">
                       <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mx-auto mb-6">
@@ -74,7 +74,7 @@ export default function LivestreamViewPage() {
                 )}
               </>
             ) : (
-              <div className="bg-gray-200 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800 aspect-video flex items-center justify-center">
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 aspect-video flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                     <FiClock className="w-8 h-8 text-gray-600" />
@@ -96,7 +96,7 @@ export default function LivestreamViewPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Main Info */}
             <div className="lg:col-span-2 space-y-6">
-              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <section className="p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{livestream.title}</h1>
@@ -126,7 +126,7 @@ export default function LivestreamViewPage() {
               </section>
 
               {/* Chat component - requires auth */}
-              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <section className="p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Live Chat</h3>
                 {!isAuthenticated ? (
                   <div className="text-center py-12">
@@ -153,7 +153,7 @@ export default function LivestreamViewPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Artist Info */}
-              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <section className="p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">ABOUT THE ARTIST</h3>
                 <div className="flex items-center gap-3 mb-4">
                   {livestream.artist.avatar_url && (
@@ -179,7 +179,7 @@ export default function LivestreamViewPage() {
               </section>
 
               {/* Stream Stats */}
-              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
+              <section className="p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">STREAM STATS</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
