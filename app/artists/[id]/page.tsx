@@ -406,7 +406,7 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
       <div className="flex-shrink-0">{icon}</div>
       <div>
         <div className="text-2xl font-bold text-gray-900 dark:text-white">{value}</div>
-        <div className="text-sm text-gray-400">{label}</div>
+        <div className="text-sm text-gray-600 dark:text-gray-400">{label}</div>
       </div>
     </div>
   );

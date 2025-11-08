@@ -122,7 +122,7 @@ export default function FanPassDetailPage() {
               <div className="flex-1">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{fanPass.name}</h1>
                 <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">{fanPass.artist.name}</p>
-                <p className="text-gray-300">{fanPass.description}</p>
+                <p className="text-gray-700 dark:text-gray-300">{fanPass.description}</p>
               </div>
             </div>
 
@@ -132,13 +132,13 @@ export default function FanPassDetailPage() {
                 <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                   {fanPass.minted_count}/{fanPass.max_supply}
                 </div>
-                <div className="text-sm text-gray-400">Minted</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Minted</div>
               </div>
               <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
-                <div className="text-2xl font-bold text-purple-400 mb-1">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">
                   {formatCurrency(fanPass.price)}
                 </div>
-                <div className="text-sm text-gray-400">Price</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Price</div>
               </div>
               {fanPass.dividend_percentage > 0 && (
                 <div className="p-4 bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-600/50 rounded-lg">
@@ -150,7 +150,7 @@ export default function FanPassDetailPage() {
               )}
               <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{fanPass.total_perks}</div>
-                <div className="text-sm text-gray-400">Perks</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Perks</div>
               </div>
             </div>
           </div>
@@ -174,14 +174,14 @@ export default function FanPassDetailPage() {
                   <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Your Dividends</h4>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-400">Total Earned:</span>
+                      <span className="text-gray-600 dark:text-gray-400">Total Earned:</span>
                       <span className="ml-2 text-gray-900 dark:text-white font-semibold">
                         {formatCurrency(ownership.dividend_info.total_earned)}
                       </span>
                     </div>
                     <div>
-                      <span className="text-gray-400">Pending:</span>
-                      <span className="ml-2 text-purple-400 font-semibold">
+                      <span className="text-gray-600 dark:text-gray-400">Pending:</span>
+                      <span className="ml-2 text-purple-600 dark:text-purple-400 font-semibold">
                         {formatCurrency(ownership.dividend_info.pending)}
                       </span>
                     </div>
@@ -199,9 +199,9 @@ export default function FanPassDetailPage() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-purple-400">{formatCurrency(fanPass.price)}</div>
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{formatCurrency(fanPass.price)}</div>
                   {fanPass.price > 0 && (
-                    <div className="text-sm text-gray-500">${(fanPass.price * 150).toFixed(2)} USD</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-500">${(fanPass.price * 150).toFixed(2)} USD</div>
                   )}
                 </div>
               </div>
@@ -263,7 +263,7 @@ export default function FanPassDetailPage() {
                     {perkList.map((perk: string) => (
                       <div key={perk} className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <FiCheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">{perk}</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{perk}</span>
                       </div>
                     ))}
                   </div>
