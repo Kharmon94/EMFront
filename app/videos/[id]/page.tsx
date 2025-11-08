@@ -185,7 +185,7 @@ export default function VideoPage() {
       <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
         <Navigation />
         <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Video not found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Video not found</h1>
           <Link href="/videos" className="text-purple-400 hover:underline">
             ← Back to videos
           </Link>
@@ -221,7 +221,7 @@ export default function VideoPage() {
             <div className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <FiLock size={64} className="text-gray-600 mx-auto mb-4" />
-                <p className="text-white text-xl mb-2">{access?.error || 'Video locked'}</p>
+                <p className="text-gray-900 dark:text-white text-xl mb-2">{access?.error || 'Video locked'}</p>
                 {access?.purchase_required && (
                   <button
                     onClick={handlePurchase}
@@ -239,7 +239,7 @@ export default function VideoPage() {
           <div className="mt-6 bg-gray-800/50 backdrop-blur rounded-lg p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-white mb-2">{video.title}</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{video.title}</h1>
                 {getAccessBadge()}
               </div>
               
@@ -302,7 +302,7 @@ export default function VideoPage() {
               <div className="mt-6 p-4 bg-purple-500/20 border border-purple-500 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-white font-semibold mb-1">Unlock Full Video</h3>
+                    <h3 className="text-gray-900 dark:text-white font-semibold mb-1">Unlock Full Video</h3>
                     <p className="text-gray-700 dark:text-gray-300 text-sm">Get lifetime access to this video</p>
                   </div>
                   <button
