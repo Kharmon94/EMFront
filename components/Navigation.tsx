@@ -83,14 +83,25 @@ export function Navigation() {
       icon: FiCompass,
       mobile: true,
       dropdown: [
-        { href: '/music', label: 'Music', icon: FiMusic },
+        // Music
+        { type: 'category', label: 'Music' },
+        { href: '/music', label: 'Albums & Tracks', icon: FiMusic },
+        { href: '/playlists', label: 'Playlists', icon: FiList },
+        
+        // Video Content
+        { type: 'category', label: 'Video Content' },
         { href: '/videos', label: 'Videos', icon: FiVideo },
         { href: '/minis', label: "Mini's", icon: FiFilm },
-        { href: '/livestreams', label: 'Live', icon: FiRadio },
+        { href: '/livestreams', label: 'Livestreams', icon: FiRadio },
+        
+        // Events & Experiences
+        { type: 'category', label: 'Events & Experiences' },
         { href: '/events', label: 'Events', icon: FiCalendar },
-        { href: '/tokens', label: 'Tokens', icon: FiTrendingUp },
-        { href: '/shop', label: 'Shop', icon: FiShoppingBag },
-        { href: '/playlists', label: 'Playlists', icon: FiList },
+        
+        // Commerce
+        { type: 'category', label: 'Commerce' },
+        { href: '/tokens', label: 'Artist Tokens', icon: FiTrendingUp },
+        { href: '/shop', label: 'Merch Shop', icon: FiShoppingBag },
       ]
     },
   ];
@@ -197,24 +208,30 @@ export function Navigation() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-xl focus:outline-none">
-                          <div className="py-1">
-                            {item.dropdown.map((subItem) => (
-                              <Menu.Item key={subItem.href}>
-                                {({ active }) => (
-                                  <Link
-                                    href={subItem.href}
-                                    className={`${
-                                      active || isActive(subItem.href)
-                                        ? 'bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white'
-                                        : 'text-gray-600 dark:text-gray-300'
-                                    } group flex w-full items-center gap-3 px-4 py-2 text-sm`}
-                                  >
-                                    <subItem.icon className="w-4 h-4" />
-                                    {subItem.label}
-                                  </Link>
-                                )}
-                              </Menu.Item>
+                        <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-xl focus:outline-none">
+                          <div className="py-2">
+                            {item.dropdown.map((subItem, index) => (
+                              subItem.type === 'category' ? (
+                                <div key={`category-${index}`} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ${index > 0 ? 'mt-2 pt-2 border-t border-gray-200 dark:border-gray-800' : ''}`}>
+                                  {subItem.label}
+                                </div>
+                              ) : (
+                                <Menu.Item key={subItem.href}>
+                                  {({ active }) => (
+                                    <Link
+                                      href={subItem.href}
+                                      className={`${
+                                        active || isActive(subItem.href)
+                                          ? 'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white'
+                                          : 'text-gray-700 dark:text-gray-300'
+                                      } group flex w-full items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800`}
+                                    >
+                                      <subItem.icon className="w-4 h-4" />
+                                      {subItem.label}
+                                    </Link>
+                                  )}
+                                </Menu.Item>
+                              )
                             ))}
                           </div>
                         </Menu.Items>
@@ -428,11 +445,18 @@ export function Navigation() {
                           </div>
                         </div>
 
-                        <div className="flex-1 p-4 space-y-2 overflow-y-auto">
+                        <div className="flex-1 p-4 space-y-1 overflow-y-auto">
                           {/* Discover submenu items */}
                           {mainNavItems
                             .find(item => item.dropdown)
-                            ?.dropdown?.map((subItem) => {
+                            ?.dropdown?.map((subItem, index) => {
+                              if (subItem.type === 'category') {
+                                return (
+                                  <div key={`category-${index}`} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ${index > 0 ? 'mt-3 pt-3 border-t border-gray-200 dark:border-gray-800' : ''}`}>
+                                    {subItem.label}
+                                  </div>
+                                );
+                              }
                               const Icon = subItem.icon;
                               return (
                                 <Link
@@ -442,7 +466,7 @@ export function Navigation() {
                                   className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[48px] ${
                                     isActive(subItem.href)
                                       ? 'bg-blue-600 text-white'
-                                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-900'
+                                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900'
                                   }`}
                                 >
                                   <Icon className="w-5 h-5" />
