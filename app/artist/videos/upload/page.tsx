@@ -4,15 +4,27 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiUpload, FiSave, FiX, FiVideo, FiFilm, FiLink, FiFile } from 'react-icons/fi';
 import { Navigation } from '@/components/Navigation';
+import { PermissionGuard } from '@/components/PermissionGuard';
+import { CreationWizard, WizardStep } from '@/components/creation/CreationWizard';
+import { CreationTutorial, TutorialStep } from '@/components/creation/CreationTutorial';
 import api from '@/lib/api';
 import { toast } from 'react-hot-toast';
+import {
+  FiVideo,
+  FiImage,
+  FiUpload,
+  FiLink,
+  FiSettings,
+  FiCheck,
+  FiFileText
+} from 'react-icons/fi';
 
 export default function UploadVideoPage() {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [contentType, setContentType] = useState<'video' | 'mini'>('video');
+  const [loading, setLoading] = useState(false);
+  
+  // Video upload method
   const [uploadMethod, setUploadMethod] = useState<'file' | 'url'>('file');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -27,563 +39,524 @@ export default function UploadVideoPage() {
     access_tier: 'free',
     price: 0,
     preview_duration: 60,
-    aspect_ratio: '16:9'
   });
 
-  const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith('video/')) {
-        toast.error('Please select a video file');
-        return;
-      }
-      
-      // Size limit: 500MB for videos, 50MB for minis
-      const maxSize = contentType === 'mini' ? 50 * 1024 * 1024 : 500 * 1024 * 1024;
-      if (file.size > maxSize) {
-        toast.error(`Video must be less than ${contentType === 'mini' ? '50MB' : '500MB'}`);
-        return;
-      }
+  // Tutorial steps
+  const tutorialSteps: TutorialStep[] = [
+    {
+      target: '[data-tutorial="video-upload"]',
+      title: 'Upload Your Video',
+      content: 'Choose to upload a video file directly or provide a URL if your video is hosted elsewhere (YouTube, Vimeo, etc.).',
+      position: 'bottom',
+    },
+    {
+      target: '[data-tutorial="thumbnail"]',
+      title: 'Add a Thumbnail',
+      content: 'Upload an eye-catching thumbnail that represents your video. This is the first thing viewers will see!',
+      position: 'right',
+    },
+    {
+      target: '[data-tutorial="access-control"]',
+      title: 'Set Access Level',
+      content: 'Control who can watch your video: Free (everyone), Preview Only (limited viewing), or NFT Required (exclusive content).',
+      position: 'top',
+    },
+  ];
 
-      // Create video element to get duration
-      const video = document.createElement('video');
-      const url = URL.createObjectURL(file);
-      video.src = url;
-      
-      video.addEventListener('loadedmetadata', () => {
-        const duration = Math.floor(video.duration);
+  // Step 1: Upload & Basic Info
+  const UploadStep = () => (
+    <div className="space-y-6">
+      {/* Upload Method Selection */}
+      <div data-tutorial="video-upload">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
+          Upload Method
+        </label>
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => setUploadMethod('file')}
+            className={`p-6 rounded-xl border-2 transition-all ${
+              uploadMethod === 'file'
+                ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-purple-600'
+            }`}
+          >
+            <FiUpload className="w-8 h-8 mx-auto mb-3 text-purple-600" />
+            <p className="text-sm font-medium text-gray-900 dark:text-white">Upload File</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Direct video upload</p>
+          </button>
+          <button
+            onClick={() => setUploadMethod('url')}
+            className={`p-6 rounded-xl border-2 transition-all ${
+              uploadMethod === 'url'
+                ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-purple-600'
+            }`}
+          >
+            <FiLink className="w-8 h-8 mx-auto mb-3 text-purple-600" />
+            <p className="text-sm font-medium text-gray-900 dark:text-white">Video URL</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">YouTube, Vimeo, etc.</p>
+          </button>
+        </div>
+      </div>
+
+      {/* File Upload */}
+      {uploadMethod === 'file' ? (
+        <div>
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Video File *
+          </label>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                if (!file.type.startsWith('video/')) {
+                  toast.error('Please select a video file');
+                  return;
+                }
+                if (file.size > 500 * 1024 * 1024) {
+                  toast.error('Video must be less than 500MB');
+                  return;
+                }
+                
+                // Get video duration
+                const video = document.createElement('video');
+                const url = URL.createObjectURL(file);
+                video.src = url;
+                video.addEventListener('loadedmetadata', () => {
+                  setFormData({ ...formData, duration: Math.floor(video.duration) });
+                  URL.revokeObjectURL(url);
+                });
+                
+                setVideoFile(file);
+                toast.success('Video loaded successfully!');
+              }
+            }}
+            className="hidden"
+            id="video-upload"
+          />
+          <label
+            htmlFor="video-upload"
+            className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-600 transition-all bg-gray-50 dark:bg-gray-900/50"
+          >
+            {videoFile ? (
+              <div className="text-center">
+                <FiVideo className="w-12 h-12 text-green-600 mx-auto mb-3" />
+                <span className="text-sm text-gray-900 dark:text-white font-medium">
+                  {videoFile.name}
+                </span>
+                <span className="text-xs text-gray-600 dark:text-gray-400 block mt-1">
+                  {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                  {formData.duration > 0 && ` • ${Math.floor(formData.duration / 60)}:${(formData.duration % 60).toString().padStart(2, '0')}`}
+                </span>
+              </div>
+            ) : (
+              <div className="text-center">
+                <FiVideo className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-3" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  Click to upload video file
+                </span>
+                <span className="text-xs text-gray-500 dark:text-gray-500 block mt-1">
+                  MP4, MOV, or AVI • Max 500MB
+                </span>
+              </div>
+            )}
+          </label>
+        </div>
+      ) : (
+        <div>
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Video URL *
+          </label>
+          <input
+            type="url"
+            value={formData.video_url}
+            onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
+            className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+            placeholder="https://youtube.com/watch?v=..."
+          />
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Supports YouTube, Vimeo, and direct video URLs
+          </p>
+        </div>
+      )}
+
+      {/* Thumbnail Upload */}
+      <div data-tutorial="thumbnail">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Thumbnail *
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              if (!file.type.startsWith('image/')) {
+                toast.error('Please select an image file');
+                return;
+              }
+              if (file.size > 5 * 1024 * 1024) {
+                toast.error('Thumbnail must be less than 5MB');
+                return;
+              }
+              setThumbnailFile(file);
+              setThumbnailPreview(URL.createObjectURL(file));
+            }
+          }}
+          className="hidden"
+          id="thumbnail-upload"
+        />
+        <label
+          htmlFor="thumbnail-upload"
+          className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-600 transition-all bg-gray-50 dark:bg-gray-900/50 overflow-hidden"
+        >
+          {thumbnailPreview ? (
+            <img src={thumbnailPreview} alt="Thumbnail" className="w-full h-full object-cover" />
+          ) : (
+            <div className="text-center">
+              <FiImage className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-3" />
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Click to upload thumbnail
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-500 block mt-1">
+                Recommended: 1920x1080px
+              </span>
+            </div>
+          )}
+        </label>
+      </div>
+
+      {/* Video Title */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Video Title *
+        </label>
+        <input
+          type="text"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+          placeholder="Enter video title"
+        />
+      </div>
+
+      {/* Description */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Description
+        </label>
+        <textarea
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          rows={4}
+          className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white resize-none"
+          placeholder="Tell viewers what this video is about..."
+        />
+      </div>
+    </div>
+  );
+
+  // Step 2: Access & Settings
+  const SettingsStep = () => (
+    <div className="space-y-6">
+      {/* Access Tier */}
+      <div data-tutorial="access-control">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
+          Access Level *
+        </label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => setFormData({ ...formData, access_tier: 'free' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              formData.access_tier === 'free'
+                ? 'border-green-600 bg-green-50 dark:bg-green-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-green-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">🌐</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Free</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              Available to everyone
+            </p>
+          </button>
+          
+          <button
+            onClick={() => setFormData({ ...formData, access_tier: 'preview_only' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              formData.access_tier === 'preview_only'
+                ? 'border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-yellow-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">⏱️</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Preview Only</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              Limited viewing time
+            </p>
+          </button>
+          
+          <button
+            onClick={() => setFormData({ ...formData, access_tier: 'nft_required' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              formData.access_tier === 'nft_required'
+                ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-purple-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">🔒</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">NFT Required</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              Exclusive to NFT holders
+            </p>
+          </button>
+        </div>
+      </div>
+
+      {/* Preview Duration (if preview_only) */}
+      {formData.access_tier === 'preview_only' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Preview Duration (seconds)
+          </label>
+          <input
+            type="number"
+            value={formData.preview_duration}
+            onChange={(e) => setFormData({ ...formData, preview_duration: parseInt(e.target.value) })}
+            className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+            placeholder="60"
+          />
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            How many seconds users can watch before needing to purchase
+          </p>
+        </div>
+      )}
+
+      {/* Price (if NFT required) */}
+      {formData.access_tier === 'nft_required' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Price (SOL)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            value={formData.price}
+            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+            className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+            placeholder="0.00"
+          />
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Fans will mint an NFT to access this video
+          </p>
+        </div>
+      )}
+
+      {/* Additional Settings */}
+      <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 rounded-xl p-6 border border-blue-200 dark:border-blue-900">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+          💡 Pro Tips
+        </h4>
+        <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+          <li className="flex items-start gap-2">
+            <span className="text-green-600">✓</span>
+            <span>Free videos get more views and help grow your audience</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-yellow-600">✓</span>
+            <span>Preview mode is great for teasers and trailers</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-purple-600">✓</span>
+            <span>NFT-gated videos create exclusive experiences for fans</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+
+  // Step 3: Review
+  const ReviewStep = () => (
+    <div className="space-y-6">
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-xl p-6 border border-purple-200 dark:border-purple-900">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+          🎬 Ready to Publish!
+        </h3>
+        <p className="text-gray-700 dark:text-gray-300">
+          Your video is ready to go live. Review the details below and click "Publish Video" when you're ready.
+        </p>
+      </div>
+
+      {/* Preview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          {thumbnailPreview && (
+            <div className="aspect-video rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800">
+              <img src={thumbnailPreview} alt="Thumbnail" className="w-full h-full object-cover" />
+            </div>
+          )}
+        </div>
         
-        // Validate mini duration
-        if (contentType === 'mini' && duration > 120) {
-          toast.error('Minis must be 2 minutes or less. Please select a shorter video.');
-          URL.revokeObjectURL(url);
-          return;
-        }
-        
-        setFormData({ ...formData, duration });
-        URL.revokeObjectURL(url);
-      });
+        <div className="space-y-4">
+          <div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Title</p>
+            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+              {formData.title || 'Untitled Video'}
+            </p>
+          </div>
+          
+          <div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Description</p>
+            <p className="text-gray-900 dark:text-white">
+              {formData.description || 'No description'}
+            </p>
+          </div>
+          
+          <div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Access Level</p>
+            <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+              formData.access_tier === 'free' 
+                ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                : formData.access_tier === 'preview_only'
+                ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'
+                : 'bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400'
+            }`}>
+              {formData.access_tier === 'free' ? '🌐 Free' : formData.access_tier === 'preview_only' ? '⏱️ Preview' : '🔒 NFT Required'}
+            </span>
+          </div>
+          
+          {formData.access_tier === 'nft_required' && formData.price > 0 && (
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Price</p>
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                {formData.price} SOL
+              </p>
+            </div>
+          )}
+          
+          {formData.duration > 0 && (
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Duration</p>
+              <p className="text-gray-900 dark:text-white">
+                {Math.floor(formData.duration / 60)}:{(formData.duration % 60).toString().padStart(2, '0')}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 
-      setVideoFile(file);
-    }
-  };
-
-  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please select an image file');
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('Thumbnail must be less than 5MB');
-        return;
-      }
-      setThumbnailFile(file);
-      setThumbnailPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.title) {
-      toast.error('Please enter a title');
-      return;
-    }
-
-    if (uploadMethod === 'file' && !videoFile) {
-      toast.error('Please upload a video file');
-      return;
-    }
-
-    if (uploadMethod === 'url' && !formData.video_url) {
-      toast.error('Please enter a video URL');
-      return;
-    }
-
-    // Validate Mini duration
-    if (contentType === 'mini' && formData.duration > 120) {
-      toast.error('Mini duration must be 2 minutes or less');
-      return;
-    }
-
-    setIsSubmitting(true);
-
+  const handleSubmit = async () => {
+    setLoading(true);
     try {
-      const submitFormData = new FormData();
+      const formDataToSend = new FormData();
       
-      // Add basic fields
-      const prefix = contentType === 'mini' ? 'mini' : 'video';
-      submitFormData.append(`${prefix}[title]`, formData.title);
-      submitFormData.append(`${prefix}[description]`, formData.description);
-      submitFormData.append(`${prefix}[duration]`, formData.duration.toString());
-      submitFormData.append(`${prefix}[access_tier]`, formData.access_tier);
-      submitFormData.append(`${prefix}[price]`, formData.price.toString());
-      submitFormData.append(`${prefix}[preview_duration]`, formData.preview_duration.toString());
+      formDataToSend.append('video[title]', formData.title);
+      formDataToSend.append('video[description]', formData.description);
+      formDataToSend.append('video[access_tier]', formData.access_tier);
       
-      if (contentType === 'mini') {
-        submitFormData.append('mini[aspect_ratio]', '9:16');
-      } else {
-        submitFormData.append('video[aspect_ratio]', formData.aspect_ratio);
+      if (formData.duration > 0) {
+        formDataToSend.append('video[duration]', formData.duration.toString());
       }
-
-      // Add video file or URL
+      
+      if (formData.access_tier === 'preview_only') {
+        formDataToSend.append('video[preview_duration]', formData.preview_duration.toString());
+      }
+      
+      if (formData.access_tier === 'nft_required' && formData.price > 0) {
+        formDataToSend.append('video[price]', formData.price.toString());
+      }
+      
       if (uploadMethod === 'file' && videoFile) {
-        submitFormData.append('video_file', videoFile);
-      } else if (uploadMethod === 'url' && formData.video_url) {
-        submitFormData.append(`${prefix}[video_url]`, formData.video_url);
+        formDataToSend.append('video[video_file]', videoFile);
+      } else {
+        formDataToSend.append('video[video_url]', formData.video_url);
       }
-
-      // Add thumbnail file or URL
+      
       if (thumbnailFile) {
-        submitFormData.append('thumbnail_file', thumbnailFile);
-      } else if (formData.thumbnail_url) {
-        submitFormData.append(`${prefix}[thumbnail_url]`, formData.thumbnail_url);
+        formDataToSend.append('video[thumbnail]', thumbnailFile);
       }
 
-      const endpoint = contentType === 'mini' ? '/minis' : '/videos';
-      await api.post(endpoint, submitFormData, {
+      const response = await api.post('/artist/videos', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      toast.success(`${contentType === 'mini' ? 'Mini' : 'Video'} created successfully!`);
-      router.push(`/artist/${contentType === 'mini' ? 'minis' : 'videos'}`);
+      toast.success('Video uploaded successfully!');
+      router.push(`/videos/${response.data.video.id}`);
     } catch (error: any) {
-      console.error('Upload error:', error);
-      toast.error(error.response?.data?.error || 'Failed to upload content');
+      console.error('Error uploading video:', error);
+      toast.error(error.response?.data?.error || 'Failed to upload video');
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
+  const wizardSteps: WizardStep[] = [
+    {
+      id: 'upload',
+      title: 'Upload & Info',
+      description: 'Upload your video and add basic information',
+      icon: <FiFileText className="w-6 h-6" />,
+      component: <UploadStep />,
+      validation: async () => {
+        if (!formData.title) {
+          toast.error('Please enter a video title');
+          return false;
+        }
+        if (uploadMethod === 'file' && !videoFile) {
+          toast.error('Please upload a video file');
+          return false;
+        }
+        if (uploadMethod === 'url' && !formData.video_url) {
+          toast.error('Please enter a video URL');
+          return false;
+        }
+        if (!thumbnailFile) {
+          toast.error('Please upload a thumbnail');
+          return false;
+        }
+        return true;
+      },
+    },
+    {
+      id: 'settings',
+      title: 'Access & Settings',
+      description: 'Configure access level and pricing',
+      icon: <FiSettings className="w-6 h-6" />,
+      component: <SettingsStep />,
+    },
+    {
+      id: 'review',
+      title: 'Review',
+      description: 'Review and publish your video',
+      icon: <FiCheck className="w-6 h-6" />,
+      component: <ReviewStep />,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:via-purple-900 dark:to-black pt-16 md:pt-24 pb-24 md:pb-6">
-      <Navigation />
-      
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-black dark:text-white mb-2">
-            {contentType === 'mini' ? 'Create Mini' : 'Upload Video'}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {contentType === 'mini' 
-              ? 'Share short-form content (up to 2 minutes)'
-              : 'Share your music videos with fans'}
-          </p>
-        </div>
+    <PermissionGuard resource="Video" action="create">
+      <div className="min-h-screen bg-white dark:bg-black">
+        <Navigation />
+        
+        <CreationWizard
+          steps={wizardSteps}
+          onComplete={handleSubmit}
+          onCancel={() => router.push('/artist/videos')}
+          title="Upload New Video"
+          subtitle="Share your video content with fans"
+        />
 
-        {/* Content Type Toggle */}
-        <div className="mb-6 flex gap-3 p-1 bg-white dark:bg-gray-800/50 rounded-lg w-fit">
-          <button
-            type="button"
-            onClick={() => {
-              setContentType('video');
-              setFormData(prev => ({ ...prev, aspect_ratio: '16:9', preview_duration: 60 }));
-              setVideoFile(null);
-            }}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2 ${
-              contentType === 'video'
-                ? 'bg-purple-600 text-white shadow-lg'
-                : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
-            }`}
-          >
-            <FiVideo />
-            Regular Video
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setContentType('mini');
-              setFormData(prev => ({ ...prev, aspect_ratio: '9:16', preview_duration: 30 }));
-              setVideoFile(null);
-            }}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2 ${
-              contentType === 'mini'
-                ? 'bg-purple-600 text-white shadow-lg'
-                : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
-            }`}
-          >
-            <FiFilm />
-            Mini
-          </button>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Info */}
-          <div className="bg-white dark:bg-gray-800/50 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-black dark:text-white mb-4">Basic Information</h2>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Title *
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
-                placeholder={contentType === 'mini' ? 'My Amazing Mini' : 'My Music Video Title'}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Description
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={4}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 resize-none"
-                placeholder="Tell viewers about this content..."
-              />
-            </div>
-          </div>
-
-          {/* Video Upload */}
-          <div className="bg-white dark:bg-gray-800/50 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-black dark:text-white">Video Content</h2>
-              
-              {/* Upload Method Toggle (Videos Only) */}
-              {contentType === 'video' && (
-                <div className="flex gap-2 p-1 bg-gray-200 dark:bg-gray-900 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setUploadMethod('file')}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
-                      uploadMethod === 'file'
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
-                    }`}
-                  >
-                    <FiFile className="w-4 h-4" />
-                    Upload File
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setUploadMethod('url')}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
-                      uploadMethod === 'url'
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
-                    }`}
-                  >
-                    <FiLink className="w-4 h-4" />
-                    Use URL
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* File Upload */}
-            {(uploadMethod === 'file' || contentType === 'mini') && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {contentType === 'mini' ? 'Mini Video File *' : 'Video File *'}
-                </label>
-                {videoFile ? (
-                  <div className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
-                    <div className="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
-                      {contentType === 'mini' ? (
-                        <FiFilm className="w-6 h-6 text-white" />
-                      ) : (
-                        <FiVideo className="w-6 h-6 text-white" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                        {videoFile.name}
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
-                        {formData.duration > 0 && ` • ${Math.floor(formData.duration / 60)}:${String(formData.duration % 60).padStart(2, '0')}`}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setVideoFile(null);
-                        setFormData({ ...formData, duration: 0 });
-                      }}
-                      className="flex-shrink-0 text-red-500 hover:text-red-600 transition-colors"
-                    >
-                      <FiX className="w-5 h-5" />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="cursor-pointer block">
-                    <div className="flex flex-col items-center justify-center gap-3 p-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
-                      <FiUpload className="w-12 h-12 text-gray-400" />
-                      <div className="text-center">
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          Click to upload {contentType === 'mini' ? 'mini' : 'video'}
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                          {contentType === 'mini' 
-                            ? 'MP4, WebM (max 50MB, up to 2 minutes)' 
-                            : 'MP4, WebM, MOV (max 500MB)'}
-                        </p>
-                      </div>
-                    </div>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={handleVideoFileChange}
-                      className="hidden"
-                    />
-                  </label>
-                )}
-              </div>
-            )}
-
-            {/* URL Input (Videos Only) */}
-            {uploadMethod === 'url' && contentType === 'video' && (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Video URL * (IPFS or CDN)
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.video_url}
-                    onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                    placeholder="ipfs://... or https://..."
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
-                    required
-                  />
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Upload your video to IPFS or your CDN first, then paste the URL here
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Duration (seconds) *
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.duration}
-                    onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) || 0 })}
-                    min="0"
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
-                    placeholder="180"
-                    required
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Thumbnail */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Thumbnail
-              </label>
-              {thumbnailPreview ? (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-purple-500">
-                  <img 
-                    src={thumbnailPreview} 
-                    alt="Thumbnail preview" 
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setThumbnailFile(null);
-                      setThumbnailPreview('');
-                    }}
-                    className="absolute top-2 right-2 w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white hover:bg-red-700 transition-colors"
-                  >
-                    <FiX className="w-5 h-5" />
-                  </button>
-                </div>
-              ) : (
-                <label className="cursor-pointer block">
-                  <div className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors bg-gray-50 dark:bg-gray-900/50">
-                    <FiUpload className="w-8 h-8 text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Upload Thumbnail
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        JPG, PNG (max 5MB, recommended: 1920x1080)
-                      </p>
-                    </div>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleThumbnailChange}
-                    className="hidden"
-                  />
-                </label>
-              )}
-              
-              {!thumbnailFile && (
-                <div className="mt-3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Or paste thumbnail URL
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.thumbnail_url}
-                    onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-                    placeholder="https://..."
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Duration (auto-detected or manual) */}
-            {uploadMethod === 'file' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Duration {contentType === 'mini' && <span className="text-yellow-600 dark:text-yellow-400">* Max 120 seconds</span>}
-                </label>
-                <input
-                  type="text"
-                  value={formData.duration > 0 ? `${Math.floor(formData.duration / 60)}:${String(formData.duration % 60).padStart(2, '0')}` : 'Auto-detected'}
-                  disabled
-                  className="w-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 cursor-not-allowed"
-                />
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Automatically detected from video file
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Access Control */}
-          <div className="bg-white dark:bg-gray-800/50 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-black dark:text-white mb-4">Access Control</h2>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Access Tier
-              </label>
-              <select
-                value={formData.access_tier}
-                onChange={(e) => setFormData({ ...formData, access_tier: e.target.value })}
-                className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
-              >
-                <option value="free">Free - Everyone can watch</option>
-                <option value="preview_only">Preview Only - Purchase required after preview</option>
-                <option value="nft_required">NFT Required - Only fan pass holders</option>
-                <option value="paid">Paid - Direct purchase required</option>
-              </select>
-            </div>
-
-            {(formData.access_tier === 'preview_only' || formData.access_tier === 'paid') && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Price (SOL)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-                    min="0"
-                    className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
-                    placeholder="0.50"
-                  />
-                </div>
-
-                {formData.access_tier === 'preview_only' && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Preview Duration (seconds)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.preview_duration}
-                      onChange={(e) => setFormData({ ...formData, preview_duration: parseInt(e.target.value) || 60 })}
-                      min="10"
-                      max="300"
-                      className="w-full bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:border-purple-500"
-                      placeholder="60"
-                    />
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Free preview length
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {formData.access_tier === 'nft_required' && (
-              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-500 rounded-lg">
-                <p className="text-sm text-purple-900 dark:text-purple-200">
-                  Only fans who own your Fan Pass NFTs will be able to watch this {contentType}. This is a great way to reward your most dedicated supporters!
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex-1 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  {uploadMethod === 'file' ? 'Uploading...' : 'Creating...'}
-                </>
-              ) : (
-                <>
-                  <FiSave className="w-5 h-5" />
-                  {contentType === 'mini' ? 'Create Mini' : 'Create Video'}
-                </>
-              )}
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-6 py-4 rounded-lg border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-semibold"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-
-        {/* Info Box */}
-        <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-500 rounded-lg">
-          <h3 className="text-black dark:text-white font-semibold mb-3">
-            💡 {contentType === 'mini' ? "Tips for creating Mini's" : 'Tips for uploading videos'}
-          </h3>
-          <ul className="text-sm text-gray-700 dark:text-blue-200 space-y-2">
-            {contentType === 'mini' ? (
-              <>
-                <li>• <strong>Keep it short:</strong> Mini's must be 2 minutes or less</li>
-                <li>• <strong>Vertical format:</strong> 9:16 aspect ratio works best on mobile</li>
-                <li>• <strong>Hook viewers fast:</strong> Grab attention in the first 3 seconds</li>
-                <li>• <strong>File upload:</strong> Upload directly - we'll handle IPFS storage</li>
-                <li>• <strong>Free = Discovery:</strong> Free Mini's get more views and shares</li>
-              </>
-            ) : (
-              <>
-                <li>• <strong>File upload:</strong> Upload directly (we handle IPFS) or use your own URL</li>
-                <li>• <strong>Thumbnails matter:</strong> High-quality thumbnails get more clicks</li>
-                <li>• <strong>Preview strategy:</strong> Preview videos are great for teasing exclusive content</li>
-                <li>• <strong>NFT rewards:</strong> NFT-gated videos reward your fan pass holders</li>
-                <li>• <strong>Draft mode:</strong> Videos start as drafts until you publish them</li>
-              </>
-            )}
-          </ul>
-        </div>
+        <CreationTutorial
+          steps={tutorialSteps}
+          tutorialKey="video-upload"
+          onComplete={() => toast.success('Tutorial completed!')}
+        />
       </div>
-    </div>
+    </PermissionGuard>
   );
 }

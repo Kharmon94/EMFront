@@ -1,11 +1,26 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiCheck, FiDollarSign, FiUsers, FiGift, FiTrendingUp } from 'react-icons/fi';
-import api from '@/lib/api';
-import toast from 'react-hot-toast';
 import { Navigation } from '@/components/Navigation';
+import { PermissionGuard } from '@/components/PermissionGuard';
+import { CreationWizard, WizardStep } from '@/components/creation/CreationWizard';
+import { CreationTutorial, TutorialStep } from '@/components/creation/CreationTutorial';
+import api from '@/lib/api';
+import { toast } from 'react-hot-toast';
+import {
+  FiCheck,
+  FiDollarSign,
+  FiUsers,
+  FiGift,
+  FiTrendingUp,
+  FiImage,
+  FiFileText,
+  FiSettings,
+  FiAward
+} from 'react-icons/fi';
 
 interface FanPassConfig {
   name: string;
@@ -59,26 +74,37 @@ const PERK_OPTIONS = {
     'Tour bus hangout'
   ],
   governance: [
-    'Vote on setlist',
+    'Vote on setlists',
     'Choose next single',
-    'Design merch (submit ideas)',
-    'Name new songs/albums',
-    'Choose collaborators (polls)',
-    'Influence tour cities'
+    'Merch design input',
+    'Tour location voting',
+    'Album art selection',
+    'Collaboration decisions'
   ]
 };
 
+const REVENUE_SOURCES = [
+  { id: 'streaming', label: 'Streaming Revenue', icon: '🎵' },
+  { id: 'merch', label: 'Merchandise Sales', icon: '👕' },
+  { id: 'tickets', label: 'Ticket Sales', icon: '🎫' },
+  { id: 'nft', label: 'NFT Sales', icon: '🖼️' },
+  { id: 'royalties', label: 'Music Royalties', icon: '💰' },
+];
+
 export default function CreateFanPassPage() {
   const router = useRouter();
-  const [creating, setCreating] = useState(false);
-  const [config, setConfig] = useState<FanPassConfig>({
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  
+  const [passConfig, setPassConfig] = useState<FanPassConfig>({
     name: '',
     description: '',
     max_supply: 100,
-    price: 1.0,
+    price: 0.1,
     distribution_type: 'paid',
     dividend_percentage: 10,
-    revenue_sources: ['streaming', 'sales', 'merch'],
+    revenue_sources: ['streaming', 'merch', 'tickets'],
     image_url: '',
     perks: {
       access: [],
@@ -89,344 +115,565 @@ export default function CreateFanPassPage() {
     }
   });
 
-  const createFanPass = async () => {
-    if (!config.name || !config.description) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
+  // Tutorial steps
+  const tutorialSteps: TutorialStep[] = [
+    {
+      target: '[data-tutorial="pass-name"]',
+      title: 'Fan Pass Name',
+      content: 'Give your fan pass a unique name that represents the exclusive community you\'re building!',
+      position: 'bottom',
+    },
+    {
+      target: '[data-tutorial="supply"]',
+      title: 'Limited Supply',
+      content: 'Set how many fan passes will exist. Scarcity creates value - lower supply means more exclusive!',
+      position: 'right',
+    },
+    {
+      target: '[data-tutorial="dividends"]',
+      title: 'Revenue Sharing',
+      content: 'Share a percentage of your revenue with fan pass holders. This creates true fan ownership!',
+      position: 'bottom',
+    },
+    {
+      target: '[data-tutorial="perks"]',
+      title: 'Exclusive Perks',
+      content: 'Select perks that make your fan pass valuable. These are the benefits holders will enjoy!',
+      position: 'left',
+    },
+  ];
 
-    setCreating(true);
+  // Step 1: Basic Info
+  const BasicInfoStep = () => (
+    <div className="space-y-6">
+      {/* Pass Image */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Fan Pass Image *
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              if (!file.type.startsWith('image/')) {
+                toast.error('Please select an image file');
+                return;
+              }
+              if (file.size > 5 * 1024 * 1024) {
+                toast.error('Image must be less than 5MB');
+                return;
+              }
+              setImageFile(file);
+              setImagePreview(URL.createObjectURL(file));
+            }
+          }}
+          className="hidden"
+          id="pass-image"
+        />
+        <label
+          htmlFor="pass-image"
+          className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-600 transition-all bg-gray-50 dark:bg-gray-900/50 overflow-hidden"
+        >
+          {imagePreview ? (
+            <img src={imagePreview} alt="Pass preview" className="w-full h-full object-cover" />
+          ) : (
+            <div className="text-center">
+              <FiImage className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-3" />
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Click to upload fan pass image
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-500 block mt-1">
+                Recommended: 1080x1080px square
+              </span>
+            </div>
+          )}
+        </label>
+      </div>
+
+      {/* Pass Name */}
+      <div data-tutorial="pass-name">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Fan Pass Name *
+        </label>
+        <input
+          type="text"
+          value={passConfig.name}
+          onChange={(e) => setPassConfig({ ...passConfig, name: e.target.value })}
+          className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+          placeholder="e.g., VIP Inner Circle, Founding Members"
+        />
+      </div>
+
+      {/* Description */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Description *
+        </label>
+        <textarea
+          value={passConfig.description}
+          onChange={(e) => setPassConfig({ ...passConfig, description: e.target.value })}
+          rows={5}
+          className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white resize-none"
+          placeholder="What makes this fan pass special? What will holders get?"
+        />
+      </div>
+
+      {/* Supply & Price */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div data-tutorial="supply">
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Maximum Supply *
+          </label>
+          <div className="relative">
+            <FiUsers className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="number"
+              value={passConfig.max_supply}
+              onChange={(e) => setPassConfig({ ...passConfig, max_supply: parseInt(e.target.value) })}
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+              placeholder="100"
+            />
+          </div>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Total number of passes that will ever exist
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+            Price (SOL) *
+          </label>
+          <div className="relative">
+            <FiDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="number"
+              step="0.01"
+              value={passConfig.price}
+              onChange={(e) => setPassConfig({ ...passConfig, price: parseFloat(e.target.value) })}
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+              placeholder="0.10"
+            />
+          </div>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Initial mint price for each pass
+          </p>
+        </div>
+      </div>
+
+      {/* Distribution Type */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
+          Distribution Type *
+        </label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => setPassConfig({ ...passConfig, distribution_type: 'paid' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              passConfig.distribution_type === 'paid'
+                ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-purple-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">💰</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Paid</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              All passes sold at set price
+            </p>
+          </button>
+          
+          <button
+            onClick={() => setPassConfig({ ...passConfig, distribution_type: 'airdrop' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              passConfig.distribution_type === 'airdrop'
+                ? 'border-green-600 bg-green-50 dark:bg-green-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-green-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">🎁</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Airdrop</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              Free distribution to fans
+            </p>
+          </button>
+          
+          <button
+            onClick={() => setPassConfig({ ...passConfig, distribution_type: 'hybrid' })}
+            className={`p-6 rounded-xl border-2 transition-all text-left ${
+              passConfig.distribution_type === 'hybrid'
+                ? 'border-blue-600 bg-blue-50 dark:bg-blue-950/20'
+                : 'border-gray-200 dark:border-gray-800 hover:border-blue-600'
+            }`}
+          >
+            <div className="text-3xl mb-2">🔀</div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Hybrid</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              Mix of paid & airdropped
+            </p>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Step 2: Revenue Sharing
+  const RevenueStep = () => (
+    <div className="space-y-6">
+      {/* Dividend Percentage */}
+      <div data-tutorial="dividends">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Revenue Share Percentage *
+        </label>
+        <div className="relative">
+          <FiTrendingUp className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="number"
+            value={passConfig.dividend_percentage}
+            onChange={(e) => setPassConfig({ ...passConfig, dividend_percentage: parseInt(e.target.value) })}
+            min="0"
+            max="100"
+            className="w-full pl-12 pr-16 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent text-gray-900 dark:text-white"
+            placeholder="10"
+          />
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400">
+            %
+          </span>
+        </div>
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          Percentage of selected revenue sources shared with pass holders
+        </p>
+      </div>
+
+      {/* Revenue Sources */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
+          Revenue Sources to Share *
+        </label>
+        <div className="space-y-3">
+          {REVENUE_SOURCES.map((source) => (
+            <label
+              key={source.id}
+              className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer hover:border-purple-600 transition-all"
+            >
+              <input
+                type="checkbox"
+                checked={passConfig.revenue_sources.includes(source.id)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setPassConfig({
+                      ...passConfig,
+                      revenue_sources: [...passConfig.revenue_sources, source.id]
+                    });
+                  } else {
+                    setPassConfig({
+                      ...passConfig,
+                      revenue_sources: passConfig.revenue_sources.filter(s => s !== source.id)
+                    });
+                  }
+                }}
+                className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-600"
+              />
+              <span className="text-2xl">{source.icon}</span>
+              <span className="flex-1 text-sm font-medium text-gray-900 dark:text-white">
+                {source.label}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Example Calculation */}
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-xl p-6 border border-green-200 dark:border-green-900">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+          💡 Example Calculation
+        </h4>
+        <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+          <p>
+            If you earn <strong>100 SOL</strong> from selected sources:
+          </p>
+          <p className="pl-4">
+            → Pass holders receive: <strong className="text-green-600">{passConfig.dividend_percentage} SOL</strong> ({passConfig.dividend_percentage}%)
+          </p>
+          <p className="pl-4">
+            → Each holder gets: <strong className="text-purple-600">
+              {(passConfig.dividend_percentage / passConfig.max_supply).toFixed(3)} SOL
+            </strong> ({passConfig.max_supply} passes)
+          </p>
+          <p className="pl-4">
+            → You keep: <strong>{100 - passConfig.dividend_percentage} SOL</strong> ({100 - passConfig.dividend_percentage}%)
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Step 3: Perks
+  const PerksStep = () => (
+    <div className="space-y-6" data-tutorial="perks">
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-xl p-6 border border-purple-200 dark:border-purple-900">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+          🎁 Select Fan Pass Perks
+        </h3>
+        <p className="text-sm text-gray-700 dark:text-gray-300">
+          Choose the benefits that pass holders will receive. The more valuable the perks, the more desirable your fan pass!
+        </p>
+      </div>
+
+      {Object.entries(PERK_OPTIONS).map(([category, options]) => (
+        <div key={category}>
+          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide flex items-center gap-2">
+            {category === 'access' && '🔓'}
+            {category === 'discounts' && '💸'}
+            {category === 'content' && '🎬'}
+            {category === 'events' && '🎉'}
+            {category === 'governance' && '🗳️'}
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </h4>
+          <div className="space-y-2">
+            {options.map((perk) => (
+              <label
+                key={perk}
+                className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer hover:border-purple-600 transition-all"
+              >
+                <input
+                  type="checkbox"
+                  checked={passConfig.perks[category as keyof typeof passConfig.perks].includes(perk)}
+                  onChange={(e) => {
+                    const categoryPerks = passConfig.perks[category as keyof typeof passConfig.perks];
+                    if (e.target.checked) {
+                      setPassConfig({
+                        ...passConfig,
+                        perks: {
+                          ...passConfig.perks,
+                          [category]: [...categoryPerks, perk]
+                        }
+                      });
+                    } else {
+                      setPassConfig({
+                        ...passConfig,
+                        perks: {
+                          ...passConfig.perks,
+                          [category]: categoryPerks.filter(p => p !== perk)
+                        }
+                      });
+                    }
+                  }}
+                  className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-600"
+                />
+                <span className="text-sm text-gray-900 dark:text-white">
+                  {perk}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Step 4: Review
+  const ReviewStep = () => {
+    const totalPerks = Object.values(passConfig.perks).flat().length;
+    
+    return (
+      <div className="space-y-8">
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-xl p-6 border border-purple-200 dark:border-purple-900">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            🎉 Fan Pass Ready!
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300">
+            Your fan pass is ready to launch. Review everything and click "Launch Fan Pass" to make it available!
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Pass Preview */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+              Pass Preview
+            </h4>
+            <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
+              {imagePreview && (
+                <img src={imagePreview} alt="Pass" className="w-full aspect-square rounded-lg mb-4 object-cover" />
+              )}
+              <h3 className="text-2xl font-bold mb-2">{passConfig.name || 'Untitled Pass'}</h3>
+              <p className="text-sm text-white/80 mb-4">{passConfig.description || 'No description'}</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/10 rounded-lg p-3">
+                  <p className="text-xs text-white/60">Supply</p>
+                  <p className="text-lg font-bold">{passConfig.max_supply}</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-3">
+                  <p className="text-xs text-white/60">Price</p>
+                  <p className="text-lg font-bold">{passConfig.price} SOL</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
+                Revenue Sharing
+              </h4>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800">
+                <p className="text-2xl font-bold text-purple-600 mb-2">
+                  {passConfig.dividend_percentage}%
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  of {passConfig.revenue_sources.length} revenue source(s)
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
+                Perks ({totalPerks})
+              </h4>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 space-y-2 max-h-64 overflow-y-auto">
+                {Object.entries(passConfig.perks).map(([category, perks]) =>
+                  perks.length > 0 && (
+                    <div key={category}>
+                      <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1">
+                        {category}
+                      </p>
+                      {perks.map((perk) => (
+                        <p key={perk} className="text-sm text-gray-900 dark:text-white flex items-start gap-2">
+                          <span className="text-green-600">✓</span>
+                          {perk}
+                        </p>
+                      ))}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
     try {
-      const response = await api.createFanPass({
-        fan_pass: {
-          ...config,
-          perks: config.perks,
-          revenue_sources: config.revenue_sources
-        }
+      const formData = new FormData();
+      
+      formData.append('fan_pass[name]', passConfig.name);
+      formData.append('fan_pass[description]', passConfig.description);
+      formData.append('fan_pass[max_supply]', passConfig.max_supply.toString());
+      formData.append('fan_pass[price]', passConfig.price.toString());
+      formData.append('fan_pass[distribution_type]', passConfig.distribution_type);
+      formData.append('fan_pass[dividend_percentage]', passConfig.dividend_percentage.toString());
+      formData.append('fan_pass[revenue_sources]', JSON.stringify(passConfig.revenue_sources));
+      formData.append('fan_pass[perks]', JSON.stringify(passConfig.perks));
+      
+      if (imageFile) {
+        formData.append('fan_pass[image]', imageFile);
+      }
+
+      const response = await api.post('/artist/fan_passes', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       toast.success('Fan pass created successfully!');
-      router.push(`/artist/fan-passes/${response.fan_pass.id}`);
+      router.push(`/fan-passes/${response.data.fan_pass.id}`);
     } catch (error: any) {
-      console.error('Create error:', error);
+      console.error('Error creating fan pass:', error);
       toast.error(error.response?.data?.error || 'Failed to create fan pass');
+    } finally {
+      setLoading(false);
     }
-    setCreating(false);
   };
 
-  const togglePerk = (category: keyof typeof PERK_OPTIONS, perk: string) => {
-    const current = config.perks[category];
-    const updated = current.includes(perk)
-      ? current.filter(p => p !== perk)
-      : [...current, perk];
-    
-    setConfig({
-      ...config,
-      perks: { ...config.perks, [category]: updated }
-    });
-  };
-
-  const totalPerks = Object.values(config.perks).flat().length;
-  const estimatedMonthlyPerHolder = config.max_supply > 0 
-    ? (1000 * config.dividend_percentage / 100 / config.max_supply).toFixed(2)
-    : '0';
+  const wizardSteps: WizardStep[] = [
+    {
+      id: 'info',
+      title: 'Basic Info',
+      description: 'Name, image, and pricing details',
+      icon: <FiFileText className="w-6 h-6" />,
+      component: <BasicInfoStep />,
+      validation: async () => {
+        if (!passConfig.name) {
+          toast.error('Please enter a fan pass name');
+          return false;
+        }
+        if (!passConfig.description) {
+          toast.error('Please enter a description');
+          return false;
+        }
+        if (!imageFile) {
+          toast.error('Please upload an image');
+          return false;
+        }
+        if (passConfig.max_supply <= 0) {
+          toast.error('Supply must be greater than 0');
+          return false;
+        }
+        if (passConfig.price <= 0) {
+          toast.error('Price must be greater than 0');
+          return false;
+        }
+        return true;
+      },
+    },
+    {
+      id: 'revenue',
+      title: 'Revenue Share',
+      description: 'Configure dividend distribution',
+      icon: <FiTrendingUp className="w-6 h-6" />,
+      component: <RevenueStep />,
+      validation: async () => {
+        if (passConfig.revenue_sources.length === 0) {
+          toast.error('Please select at least one revenue source');
+          return false;
+        }
+        if (passConfig.dividend_percentage <= 0 || passConfig.dividend_percentage > 100) {
+          toast.error('Dividend percentage must be between 1 and 100');
+          return false;
+        }
+        return true;
+      },
+    },
+    {
+      id: 'perks',
+      title: 'Perks',
+      description: 'Select exclusive benefits for holders',
+      icon: <FiGift className="w-6 h-6" />,
+      component: <PerksStep />,
+    },
+    {
+      id: 'review',
+      title: 'Review',
+      description: 'Review and launch your fan pass',
+      icon: <FiCheck className="w-6 h-6" />,
+      component: <ReviewStep />,
+    },
+  ];
 
   return (
-    <>
-      <Navigation />
-      <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Create Fan Pass NFT
-            </h1>
-            <p className="text-gray-400">
-              Create a limited edition NFT that grants your fans exclusive perks and dividend payments
-            </p>
-          </div>
+    <PermissionGuard resource="FanPass" action="create">
+      <div className="min-h-screen bg-white dark:bg-black">
+        <Navigation />
+        
+        <CreationWizard
+          steps={wizardSteps}
+          onComplete={handleSubmit}
+          onCancel={() => router.push('/artist/fan-passes')}
+          title="Create Fan Pass"
+          subtitle="Build a loyal community with revenue-sharing NFTs"
+        />
 
-          {/* Basic Info */}
-          <section className="mb-6 p-6 bg-gray-900 rounded-lg border border-gray-800">
-            <h2 className="text-xl font-semibold text-white mb-4">Basic Info</h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Fan Pass Name *</label>
-                <input
-                  type="text"
-                  placeholder='e.g., "VIP Club", "Inner Circle", "Founders Pass"'
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                  value={config.name}
-                  onChange={(e) => setConfig({...config, name: e.target.value})}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Description *</label>
-                <textarea
-                  placeholder="Describe the benefits and what makes this fan pass special..."
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                  rows={4}
-                  value={config.description}
-                  onChange={(e) => setConfig({...config, description: e.target.value})}
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Max Supply *</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="10000"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                    value={config.max_supply}
-                    onChange={(e) => setConfig({...config, max_supply: parseInt(e.target.value) || 100})}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Limited edition count</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Price (SOL)</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                    value={config.price}
-                    onChange={(e) => setConfig({...config, price: parseFloat(e.target.value) || 0})}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">0 for free airdrop</p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Distribution</label>
-                  <select
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                    value={config.distribution_type}
-                    onChange={(e) => setConfig({...config, distribution_type: e.target.value as any})}
-                  >
-                    <option value="paid">Paid (Fans buy)</option>
-                    <option value="airdrop">Airdrop (Free)</option>
-                    <option value="hybrid">Hybrid (Both)</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Revenue Sharing */}
-          <section className="mb-6 p-6 bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-600/30 rounded-lg">
-            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
-              <FiDollarSign className="w-5 h-5" />
-              Revenue Sharing (Dividends)
-            </h2>
-            <p className="text-gray-400 text-sm mb-4">
-              Share a percentage of your revenue with fan pass holders as monthly dividends
-            </p>
-            
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-300">
-                  Dividend Percentage
-                </label>
-                <span className="text-3xl font-bold text-purple-400">
-                  {config.dividend_percentage}%
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="50"
-                value={config.dividend_percentage}
-                onChange={(e) => setConfig({...config, dividend_percentage: parseInt(e.target.value)})}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>0% (No dividends)</span>
-                <span>50% (Max share)</span>
-              </div>
-            </div>
-
-            {/* Revenue Sources */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-3">
-                Which revenue streams do holders share in?
-              </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {[
-                  { id: 'streaming', label: 'Streaming Royalties', icon: '🎵' },
-                  { id: 'sales', label: 'Music Sales', icon: '💿' },
-                  { id: 'merch', label: 'Merchandise', icon: '👕' },
-                  { id: 'events', label: 'Ticket Sales', icon: '🎟️' },
-                  { id: 'tokens', label: 'Token Fees', icon: '🪙' },
-                ].map((source) => (
-                  <label key={source.id} className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 border border-gray-700 hover:border-purple-600 transition-colors">
-                    <input
-                      type="checkbox"
-                      checked={config.revenue_sources.includes(source.id)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setConfig({...config, revenue_sources: [...config.revenue_sources, source.id]});
-                        } else {
-                          setConfig({...config, revenue_sources: config.revenue_sources.filter(s => s !== source.id)});
-                        }
-                      }}
-                      className="w-5 h-5 accent-purple-600"
-                    />
-                    <span className="text-xl">{source.icon}</span>
-                    <span className="text-white text-sm">{source.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Calculator */}
-            {config.dividend_percentage > 0 && (
-              <div className="p-4 bg-purple-900/30 border border-purple-600/50 rounded-lg">
-                <h4 className="text-sm font-semibold text-purple-300 mb-3 flex items-center gap-2">
-                  <FiTrendingUp className="w-4 h-4" />
-                  Dividend Calculator
-                </h4>
-                <p className="text-xs text-gray-400 mb-3">
-                  If you earn $1,000/month from selected sources:
-                </p>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between text-gray-300">
-                    <span>Total dividend pool:</span>
-                    <span className="font-semibold text-white">
-                      ${(1000 * config.dividend_percentage / 100).toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Per holder ({config.max_supply} NFTs):</span>
-                    <span className="font-semibold text-purple-400">
-                      ${estimatedMonthlyPerHolder}/month
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Annual per holder:</span>
-                    <span className="font-semibold text-purple-400">
-                      ${(parseFloat(estimatedMonthlyPerHolder) * 12).toFixed(2)}/year
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-green-400 border-t border-gray-700 pt-2 mt-2">
-                    <span>You keep:</span>
-                    <span className="font-bold">
-                      ${(1000 * (100 - config.dividend_percentage) / 100).toFixed(2)} ({100 - config.dividend_percentage}%)
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* Custom Perks */}
-          <section className="mb-6 p-6 bg-gray-900 rounded-lg border border-gray-800">
-            <h2 className="text-xl font-semibold text-white mb-4">Custom Perks</h2>
-            <p className="text-gray-400 text-sm mb-6">
-              Select the benefits fan pass holders will receive
-            </p>
-            
-            {Object.entries(PERK_OPTIONS).map(([category, options]) => (
-              <div key={category} className="mb-6 last:mb-0">
-                <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-                  {category === 'access' && '🔓'}
-                  {category === 'discounts' && '💸'}
-                  {category === 'content' && '🎬'}
-                  {category === 'events' && '🎟️'}
-                  {category === 'governance' && '🗳️'}
-                  <span className="capitalize">{category} Perks</span>
-                  <span className="text-xs text-gray-500">
-                    ({config.perks[category as keyof typeof config.perks].length} selected)
-                  </span>
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {options.map((perk) => (
-                    <label
-                      key={perk}
-                      className="flex items-center gap-2 p-2 bg-gray-800 rounded cursor-pointer hover:bg-gray-750 border border-gray-700 hover:border-purple-600 transition-colors"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={config.perks[category as keyof typeof config.perks].includes(perk)}
-                        onChange={() => togglePerk(category as keyof typeof config.perks, perk)}
-                        className="w-4 h-4 accent-purple-600"
-                      />
-                      <span className="text-sm text-gray-300">{perk}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </section>
-
-          {/* Summary & Submit */}
-          <section className="p-6 bg-gray-800 rounded-lg border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <FiCheck className="w-5 h-5" />
-              Summary
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="p-3 bg-gray-900 rounded-lg">
-                <div className="text-2xl font-bold text-white mb-1">{config.max_supply}</div>
-                <div className="text-xs text-gray-400">NFTs</div>
-              </div>
-              <div className="p-3 bg-gray-900 rounded-lg">
-                <div className="text-2xl font-bold text-white mb-1">
-                  {config.price > 0 ? `${config.price} SOL` : 'Free'}
-                </div>
-                <div className="text-xs text-gray-400">Price</div>
-              </div>
-              <div className="p-3 bg-gray-900 rounded-lg">
-                <div className="text-2xl font-bold text-purple-400 mb-1">{config.dividend_percentage}%</div>
-                <div className="text-xs text-gray-400">Dividend</div>
-              </div>
-              <div className="p-3 bg-gray-900 rounded-lg">
-                <div className="text-2xl font-bold text-white mb-1">{totalPerks}</div>
-                <div className="text-xs text-gray-400">Perks</div>
-              </div>
-            </div>
-
-            <div className="mb-6 p-4 bg-blue-600/20 border border-blue-600/50 rounded-lg">
-              <div className="flex items-start gap-2 text-blue-300 text-sm">
-                <FiGift className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold mb-1">Potential earnings from this pass:</p>
-                  <p className="text-blue-400/80">
-                    {config.max_supply} NFTs × {config.price} SOL = {(config.max_supply * config.price).toFixed(2)} SOL
-                    ({((config.max_supply * config.price) * 150).toFixed(0)} USD at $150/SOL)
-                  </p>
-                  {config.dividend_percentage > 0 && (
-                    <p className="text-blue-400/80 mt-1">
-                      + Holders earn ${estimatedMonthlyPerHolder}/month each (builds loyalty!)
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={createFanPass}
-              disabled={creating || !config.name || !config.description}
-              className="w-full px-6 py-4 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
-            >
-              {creating ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <FiCheck className="w-5 h-5" />
-                  Create Fan Pass NFT Collection
-                </>
-              )}
-            </button>
-          </section>
-        </div>
-      </main>
-    </>
+        <CreationTutorial
+          steps={tutorialSteps}
+          tutorialKey="fan-pass-creation"
+          onComplete={() => toast.success('Tutorial completed!')}
+        />
+      </div>
+    </PermissionGuard>
   );
 }
-
