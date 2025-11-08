@@ -214,7 +214,7 @@ export default function CreateAlbumPage() {
                     </div>
                   ) : (
                     <label className="w-32 h-32 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors">
-                      <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
+                      <FiUpload className="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" />
                       <span className="text-xs text-gray-500">Upload Cover</span>
                       <input
                         type="file"
