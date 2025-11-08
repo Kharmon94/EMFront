@@ -154,7 +154,7 @@ export default function TrackAccessManagerPage() {
                   Track Access Control
                 </h1>
                 <p className="text-xl text-gray-400">
-                  {album.title} <span className="text-gray-600">by</span> {album.artist.name}
+                  {album.title} <span className="text-gray-600">by</span> {album.artist?.name || 'Unknown Artist'}
                 </p>
               </div>
             </div>
