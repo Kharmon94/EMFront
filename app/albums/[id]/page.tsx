@@ -112,7 +112,7 @@ export default function AlbumPage() {
 
             {/* Album Info */}
             <div className="flex-1 flex flex-col justify-end">
-              <p className="text-sm text-gray-400 mb-2">Album</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Album</p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
                 {album.title}
               </h1>
@@ -138,7 +138,7 @@ export default function AlbumPage() {
               </div>
 
               {/* Stats */}
-              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-6">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 {album.release_date && (
                   <span>{formatDate(album.release_date)}</span>
                 )}
@@ -205,7 +205,7 @@ export default function AlbumPage() {
                   >
                     {/* Track Number / Play Button */}
                     <div className="w-8 text-center flex-shrink-0">
-                      <span className="text-gray-400 group-hover:hidden text-sm">
+                      <span className="text-gray-600 dark:text-gray-400 group-hover:hidden text-sm">
                         {track.track_number}
                       </span>
                       <FiPlay className="w-4 h-4 text-white hidden group-hover:block mx-auto" />
@@ -236,13 +236,13 @@ export default function AlbumPage() {
                           </span>
                         )}
                       </div>
-                      <div className="text-sm text-gray-400 truncate">
+                      <div className="text-sm text-gray-600 dark:text-gray-400 truncate">
                         {album.artist.name}
                       </div>
                     </div>
 
                     {/* Streams (desktop) */}
-                    <div className="hidden md:block text-sm text-gray-400">
+                    <div className="hidden md:block text-sm text-gray-600 dark:text-gray-400">
                       {track.streams_count ? `${track.streams_count} streams` : '-'}
                     </div>
 
@@ -259,7 +259,7 @@ export default function AlbumPage() {
                     </button>
 
                     {/* Duration */}
-                    <div className="text-sm text-gray-400 flex-shrink-0">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 flex-shrink-0">
                       <FiClock className="w-4 h-4 inline mr-1" />
                       {formatDuration(track.duration)}
                     </div>
@@ -267,7 +267,7 @@ export default function AlbumPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8 text-gray-600 dark:text-gray-400">
                 No tracks available
               </div>
             )}
@@ -277,14 +277,14 @@ export default function AlbumPage() {
           {album.description && (
             <div className="mt-8 bg-gray-800/30 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">About this album</h3>
-              <p className="text-gray-300 whitespace-pre-wrap">
+              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                 {album.description}
               </p>
             </div>
           )}
 
           {/* Credits */}
-          <div className="mt-8 text-xs text-gray-500">
+          <div className="mt-8 text-xs text-gray-600 dark:text-gray-500">
             {album.upc && <p>UPC: {album.upc}</p>}
             <p>Released: {album.release_date ? formatDate(album.release_date) : 'TBA'}</p>
             <p className="mt-2">℗ {new Date(album.release_date).getFullYear()} {album.artist.name}</p>
