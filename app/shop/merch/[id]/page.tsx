@@ -176,7 +176,7 @@ export default function MerchDetailPage() {
 
               {/* Title */}
               <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                   {merch_item.title}
                 </h1>
                 <div className="text-3xl font-bold text-purple-400">
@@ -213,14 +213,14 @@ export default function MerchDetailPage() {
                 <div className="flex gap-3">
                   <button
                     onClick={handleLike}
-                    className="flex-1 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <FiHeart className="w-5 h-5" />
                     Save
                   </button>
                   <button
                     onClick={handleShare}
-                    className="flex-1 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <FiShare2 className="w-5 h-5" />
                     Share

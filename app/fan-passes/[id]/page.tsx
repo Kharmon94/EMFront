@@ -27,7 +27,7 @@ export default function FanPassDetailPage() {
       <>
         <Navigation />
         <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-          <div className="text-white">Loading...</div>
+          <div className="text-gray-900 dark:text-white">Loading...</div>
         </div>
       </>
     );
@@ -120,7 +120,7 @@ export default function FanPassDetailPage() {
                 />
               )}
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-white mb-2">{fanPass.name}</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{fanPass.name}</h1>
                 <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">{fanPass.artist.name}</p>
                 <p className="text-gray-300">{fanPass.description}</p>
               </div>
@@ -129,7 +129,7 @@ export default function FanPassDetailPage() {
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
-                <div className="text-2xl font-bold text-white mb-1">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                   {fanPass.minted_count}/{fanPass.max_supply}
                 </div>
                 <div className="text-sm text-gray-400">Minted</div>
@@ -149,7 +149,7 @@ export default function FanPassDetailPage() {
                 </div>
               )}
               <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
-                <div className="text-2xl font-bold text-white mb-1">{fanPass.total_perks}</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{fanPass.total_perks}</div>
                 <div className="text-sm text-gray-400">Perks</div>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function FanPassDetailPage() {
                   <FiCheckCircle className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">You own this fan pass!</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">You own this fan pass!</h3>
                   <p className="text-green-300 text-sm">
                     Edition #{ownership.nft.edition_number} • All perks unlocked
                   </p>
@@ -175,7 +175,7 @@ export default function FanPassDetailPage() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-gray-400">Total Earned:</span>
-                      <span className="ml-2 text-white font-semibold">
+                      <span className="ml-2 text-gray-900 dark:text-white font-semibold">
                         {formatCurrency(ownership.dividend_info.total_earned)}
                       </span>
                     </div>
@@ -193,7 +193,7 @@ export default function FanPassDetailPage() {
             <div className="mb-6 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-1">Get this Fan Pass</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Get this Fan Pass</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
                     {fanPass.available_supply} / {fanPass.max_supply} available
                   </p>
@@ -221,7 +221,7 @@ export default function FanPassDetailPage() {
           {/* Dividend Info */}
           {fanPass.dividend_percentage > 0 && (
             <section className="mb-6 p-6 bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-600/30 rounded-lg">
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 <FiTrendingUp className="w-5 h-5" />
                 Dividend Payments
               </h2>
@@ -244,7 +244,7 @@ export default function FanPassDetailPage() {
 
           {/* Perks Breakdown */}
           <section className="mb-6 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
-            <h2 className="text-xl font-semibold text-white mb-6">Included Perks</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Included Perks</h2>
             
             {Object.entries(perks).map(([category, perkList]: [string, any]) => {
               if (!Array.isArray(perkList) || perkList.length === 0) return null;
@@ -275,7 +275,7 @@ export default function FanPassDetailPage() {
           {/* Holders (if any) */}
           {fanPass.holders_count > 0 && (
             <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 <FiUsers className="w-5 h-5" />
                 Holders ({fanPass.holders_count})
               </h2>
