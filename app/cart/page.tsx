@@ -92,18 +92,18 @@ export default function CartPage() {
                             <div className="flex items-center gap-2 mt-2">
                               <button
                                 onClick={() => updateQuantity(item.merch_item_id, item.quantity - 1, item.variant_id)}
-                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
+                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
                               >
-                                <FiMinus className="w-4 h-4" />
+                                <FiMinus className="w-4 h-4 text-gray-900 dark:text-white" />
                               </button>
                               <span className="w-12 text-center font-semibold text-gray-900 dark:text-white">
                                 {item.quantity}
                               </span>
                               <button
                                 onClick={() => updateQuantity(item.merch_item_id, item.quantity + 1, item.variant_id)}
-                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 rounded hover:bg-gray-300 dark:hover:bg-gray-700"
+                                className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
                               >
-                                <FiPlus className="w-4 h-4" />
+                                <FiPlus className="w-4 h-4 text-gray-900 dark:text-white" />
                               </button>
                             </div>
                           </div>
