@@ -112,7 +112,7 @@ export default function TokenTradingPage() {
                   className="w-full h-full rounded-lg object-cover"
                 />
               ) : (
-                <span className="text-3xl sm:text-4xl font-bold text-white">
+                <span className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
                   {token.symbol[0]}
                 </span>
               )}
@@ -125,7 +125,7 @@ export default function TokenTradingPage() {
                   {token.name}
                 </h1>
                 {token.graduated && (
-                  <span className="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
+                  <span className="px-3 py-1 bg-green-600 dark:bg-green-600 text-white text-xs font-bold rounded-full">
                     GRADUATED
                   </span>
                 )}
@@ -223,7 +223,7 @@ export default function TokenTradingPage() {
                             {trade.type.toUpperCase()}
                           </span>
                           <div>
-                            <div className="text-white font-mono text-sm">
+                            <div className="text-gray-900 dark:text-white font-mono text-sm">
                               {formatNumber(trade.amount, 2)}
                             </div>
                             <div className="text-xs text-gray-400">
@@ -233,7 +233,7 @@ export default function TokenTradingPage() {
                         </div>
                         
                         <div className="text-right">
-                          <div className="text-white font-semibold text-sm">
+                          <div className="text-gray-900 dark:text-white font-semibold text-sm">
                             {formatCurrency(trade.price)}
                           </div>
                           <div className="text-xs text-gray-400">
@@ -292,7 +292,7 @@ export default function TokenTradingPage() {
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="0.00"
-                      className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white text-lg focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-lg focus:outline-none focus:border-purple-500 transition-colors"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-mono">
                       {token.symbol}
@@ -327,25 +327,25 @@ export default function TokenTradingPage() {
                   <div className="mb-6 p-4 bg-gray-900 rounded-lg space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-700 dark:text-gray-400">Price per token</span>
-                      <span className="text-white font-semibold">
+                      <span className="text-gray-900 dark:text-white font-semibold">
                         {formatCurrency(chartData?.current_price || 0)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-700 dark:text-gray-400">Total cost</span>
-                      <span className="text-white font-semibold">
+                      <span className="text-gray-900 dark:text-white font-semibold">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount))}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-700 dark:text-gray-400">Platform fee (0.5%)</span>
-                      <span className="text-white">
+                      <span className="text-gray-900 dark:text-white">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount) * 0.005)}
                       </span>
                     </div>
                     <div className="border-t border-gray-700 pt-2 flex justify-between">
                       <span className="text-gray-700 dark:text-gray-400 font-semibold">Total</span>
-                      <span className="text-white font-bold text-lg">
+                      <span className="text-gray-900 dark:text-white font-bold text-lg">
                         {formatCurrency((chartData?.current_price || 0) * parseFloat(amount) * 1.005)}
                       </span>
                     </div>
@@ -383,7 +383,7 @@ export default function TokenTradingPage() {
               {/* Token Description */}
               {token.description && (
                 <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
-                  <h3 className="text-lg font-bold text-white mb-3">About</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">About</h3>
                   <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                     {token.description}
                   </p>
