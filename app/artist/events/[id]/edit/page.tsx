@@ -244,7 +244,7 @@ export default function EditEventPage() {
                     setTicketTiers(updated);
                   }}
                   className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white"
-                  disabled={tier.sold && tier.sold > 0}
+                  disabled={!!(tier.sold && tier.sold > 0)}
                 />
               </div>
 
