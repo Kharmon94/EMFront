@@ -103,7 +103,7 @@ export default function EventDetailPage() {
     }
     if (new Date(event.start_time) < new Date()) {
       return (
-        <div className="px-4 py-2 bg-gray-600 text-white text-sm font-bold rounded-full">
+        <div className="px-4 py-2 bg-gray-400 dark:bg-gray-600 text-white text-sm font-bold rounded-full">
           ENDED
         </div>
       );
@@ -166,14 +166,14 @@ export default function EventDetailPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={handleShare}
-                className="px-4 py-2 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-lg transition-colors flex items-center gap-2 backdrop-blur-sm"
+                className="px-4 py-2 bg-white dark:bg-gray-800/80 hover:bg-gray-50 dark:hover:bg-gray-700/80 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-colors flex items-center gap-2 backdrop-blur-sm"
               >
                 <FiShare2 className="w-4 h-4" />
                 Share
               </button>
               <button
                 onClick={handleAddToCalendar}
-                className="px-4 py-2 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-lg transition-colors flex items-center gap-2 backdrop-blur-sm"
+                className="px-4 py-2 bg-white dark:bg-gray-800/80 hover:bg-gray-50 dark:hover:bg-gray-700/80 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-colors flex items-center gap-2 backdrop-blur-sm"
               >
                 <FiDownload className="w-4 h-4" />
                 Add to Calendar
