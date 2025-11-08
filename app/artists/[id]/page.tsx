@@ -33,7 +33,7 @@ export default function ArtistProfilePage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
         </div>
       </>
@@ -44,7 +44,7 @@ export default function ArtistProfilePage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Artist not found</div>
         </div>
       </>
@@ -207,7 +207,7 @@ export default function ArtistProfilePage() {
                 <div className="flex items-center gap-4 mb-4">
                   <span className="text-gray-300">{stats.followers_count.toLocaleString()} followers</span>
                   {artist.location && (
-                    <span className="text-gray-400 flex items-center gap-1">
+                    <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
                       <FiGlobe className="w-4 h-4" />
                       {artist.location}
                     </span>
@@ -435,7 +435,7 @@ function OverviewTab({ artist, albums, upcoming_events, token, fan_passes }: any
       {artist.bio && (
         <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
           <h2 className="text-xl font-semibold text-white mb-4">About</h2>
-          <p className="text-gray-300 whitespace-pre-wrap">{artist.bio}</p>
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{artist.bio}</p>
         </section>
       )}
 
