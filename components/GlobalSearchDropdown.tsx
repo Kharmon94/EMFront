@@ -68,6 +68,14 @@ export const GlobalSearchDropdown: React.FC<{
   const hasResults = results && Object.values(results).some(arr => arr.length > 0);
   const showRecentSearches = !query && recentSearches.length > 0;
   
+  // Debug logging
+  useEffect(() => {
+    if (results) {
+      console.log('Results in dropdown:', results);
+      console.log('Has results:', hasResults);
+    }
+  }, [results, hasResults]);
+  
   return (
     <div ref={dropdownRef} className={`relative ${isMobile ? 'w-full' : 'w-full max-w-md'}`}>
       <form onSubmit={handleSearchSubmit} className="relative">

@@ -93,6 +93,8 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
       
       const data = await response.json();
+      console.log('Search API Response:', data);
+      console.log('Search Results:', data.results);
       setResults(data.results);
       addRecentSearch(searchQuery);
     } catch (error) {
