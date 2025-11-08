@@ -122,7 +122,7 @@ function TokenCard({ token }: { token: any }) {
   return (
     <Link 
       href={`/tokens/${token.id}`}
-      className="block bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6 hover:border-purple-500 transition-colors"
+      className="block bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 hover:border-purple-500 transition-colors"
     >
       <div className="flex items-center gap-4">
         {/* Token Image */}
@@ -143,7 +143,7 @@ function TokenCard({ token }: { token: any }) {
         {/* Token Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg sm:text-xl font-bold text-white truncate">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">
               {token.name}
             </h3>
             {token.graduated && (
