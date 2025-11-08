@@ -35,7 +35,7 @@ export default function TokensPage() {
           {/* Search Bar */}
           <div className="mb-6">
             <div className="relative max-w-2xl">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
               <input
                 type="text"
                 placeholder="Search tokens by name or symbol..."
@@ -101,7 +101,7 @@ export default function TokensPage() {
           ) : (
             <div className="text-center py-20">
               <FiTrendingUp className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No tokens found</p>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">No tokens found</p>
               <Link 
                 href="/launch"
                 className="inline-block mt-4 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
@@ -153,7 +153,7 @@ function TokenCard({ token }: { token: any }) {
             )}
           </div>
           
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <span className="font-mono">{token.symbol}</span>
             <span>•</span>
             <span className="truncate flex items-center gap-1">
