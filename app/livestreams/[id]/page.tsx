@@ -100,7 +100,7 @@ export default function LivestreamViewPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{livestream.title}</h1>
-                    <div className="flex items-center gap-4 text-sm text-gray-400">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <FiUsers className="w-4 h-4" />
                         <span>{livestream.viewer_count || 0} watching</span>
@@ -122,7 +122,7 @@ export default function LivestreamViewPage() {
                   )}
                 </div>
 
-                <p className="text-gray-300">{livestream.description}</p>
+                <p className="text-gray-700 dark:text-gray-300">{livestream.description}</p>
               </section>
 
               {/* Chat component - requires auth */}
@@ -143,7 +143,7 @@ export default function LivestreamViewPage() {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-gray-500 text-center py-8">
+                  <div className="text-gray-600 dark:text-gray-500 text-center py-8">
                     Chat feature coming soon...
                   </div>
                 )}
@@ -183,26 +183,26 @@ export default function LivestreamViewPage() {
                 <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">STREAM STATS</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Status:</span>
+                    <span className="text-gray-600 dark:text-gray-400">Status:</span>
                     <span className={`font-semibold ${
-                      isLive ? 'text-red-500' : 'text-gray-500'
+                      isLive ? 'text-red-500' : 'text-gray-600 dark:text-gray-500'
                     }`}>
                       {livestream.status.toUpperCase()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Viewers:</span>
+                    <span className="text-gray-600 dark:text-gray-400">Viewers:</span>
                     <span className="text-gray-900 dark:text-white font-semibold">{livestream.viewer_count || 0}</span>
                   </div>
                   {livestream.duration && (
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Duration:</span>
-                      <span className="text-white font-semibold">{livestream.duration} min</span>
+                      <span className="text-gray-600 dark:text-gray-400">Duration:</span>
+                      <span className="text-gray-900 dark:text-white font-semibold">{livestream.duration} min</span>
                     </div>
                   )}
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Messages:</span>
-                    <span className="text-white font-semibold">{livestream.messages_count || 0}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Messages:</span>
+                    <span className="text-gray-900 dark:text-white font-semibold">{livestream.messages_count || 0}</span>
                   </div>
                 </div>
               </section>
