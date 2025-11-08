@@ -140,7 +140,7 @@ export default function MessagesPage() {
                   ))
                 ) : (
                   <div className="p-8 text-center">
-                    <FiMessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                    <FiMessageCircle className="w-12 h-12 text-gray-600 dark:text-gray-400 mx-auto mb-3" />
                     <p className="text-gray-600 dark:text-gray-400">No conversations yet</p>
                   </div>
                 )}
@@ -225,7 +225,7 @@ export default function MessagesPage() {
               ) : (
                 <div className="hidden md:flex flex-1 items-center justify-center">
                   <div className="text-center">
-                    <FiMessageCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <FiMessageCircle className="w-16 h-16 text-gray-600 dark:text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-600 dark:text-gray-400 text-lg">Select a conversation to start messaging</p>
                   </div>
                 </div>

@@ -121,7 +121,7 @@ export default function FanPassDetailPage() {
               )}
               <div className="flex-1">
                 <h1 className="text-3xl font-bold text-white mb-2">{fanPass.name}</h1>
-                <p className="text-xl text-gray-400 mb-4">{fanPass.artist.name}</p>
+                <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">{fanPass.artist.name}</p>
                 <p className="text-gray-300">{fanPass.description}</p>
               </div>
             </div>
@@ -171,7 +171,7 @@ export default function FanPassDetailPage() {
               </div>
               {ownership.dividend_info && (
                 <div className="p-4 bg-gray-900/50 rounded-lg">
-                  <h4 className="text-sm font-semibold text-gray-300 mb-2">Your Dividends</h4>
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Your Dividends</h4>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-gray-400">Total Earned:</span>
@@ -194,7 +194,7 @@ export default function FanPassDetailPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Get this Fan Pass</h3>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     {fanPass.available_supply} / {fanPass.max_supply} available
                   </p>
                 </div>
@@ -225,7 +225,7 @@ export default function FanPassDetailPage() {
                 <FiTrendingUp className="w-5 h-5" />
                 Dividend Payments
               </h2>
-              <p className="text-gray-300 mb-4">
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
                 As a holder, you earn <span className="text-purple-400 font-bold">{fanPass.dividend_percentage}%</span> of the artist's revenue from:
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
@@ -251,7 +251,7 @@ export default function FanPassDetailPage() {
               
               return (
                 <div key={category} className="mb-6 last:mb-0">
-                  <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2 capitalize">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2 capitalize">
                     {category === 'access' && '🔓'}
                     {category === 'discounts' && '💸'}
                     {category === 'content' && '🎬'}
@@ -279,7 +279,7 @@ export default function FanPassDetailPage() {
                 <FiUsers className="w-5 h-5" />
                 Holders ({fanPass.holders_count})
               </h2>
-              <div className="text-gray-400 text-sm">
+              <div className="text-gray-600 dark:text-gray-400 text-sm">
                 {fanPass.holders_count} fans own this exclusive pass
               </div>
             </section>
