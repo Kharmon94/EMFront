@@ -55,7 +55,7 @@ export function ContentCard({
     <div className="group relative">
       <Link href={getHref()} className="block">
         {/* Cover/Thumbnail */}
-        <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-800 mb-3">
+        <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800 mb-3">
           {getCoverUrl() ? (
             <img
               src={getCoverUrl()}
@@ -113,7 +113,7 @@ export function ContentCard({
           
           {/* Stats */}
           {(item.views_count || item.likes_count || item.plays_count) && (
-            <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-500">
+            <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-500">
               {item.views_count > 0 && <span>{formatCount(item.views_count)} views</span>}
               {item.likes_count > 0 && <span>{formatCount(item.likes_count)} likes</span>}
               {item.plays_count > 0 && <span>{formatCount(item.plays_count)} plays</span>}
