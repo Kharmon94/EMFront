@@ -347,36 +347,36 @@ function OverviewSection({ stats, growth, quickStats, recentActivity }: any) {
           Last 24 Hours
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-green-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-green-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-green-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.new_users_today}</div>
-              <div className="text-sm text-gray-400">New Users</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">New Users</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{Number(quickStats?.revenue_today || 0).toFixed(2)} SOL</div>
-              <div className="text-sm text-gray-400">Revenue</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Revenue</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-purple-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-purple-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
-              <div className="text-3xl font-bold text-white mb-2">
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 {quickStats?.content_uploads_24h ? 
                   (Object.values(quickStats.content_uploads_24h).reduce((a: any, b: any) => a + b, 0) as number) : 0
                 }
               </div>
-              <div className="text-sm text-gray-400">Content Uploads</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Content Uploads</div>
             </div>
           </div>
-          <div className="group relative bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 hover:border-red-600/50 rounded-xl p-6 transition-all hover:scale-105">
+          <div className="group relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-900/50 border border-gray-300 dark:border-gray-800 hover:border-red-600/50 rounded-xl p-6 transition-all hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{quickStats?.token_trades_24h}</div>
-              <div className="text-sm text-gray-400">Token Trades</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Token Trades</div>
             </div>
           </div>
         </div>
