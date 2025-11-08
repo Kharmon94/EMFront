@@ -106,7 +106,7 @@ export default function TrackPage() {
 
             {/* Track Info */}
             <div className="flex-1 flex flex-col justify-end">
-              <p className="text-sm text-gray-400 mb-2">Track</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Track</p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
                 {track.title}
                 {track.explicit && (
@@ -140,7 +140,7 @@ export default function TrackPage() {
                     <span className="text-gray-400">•</span>
                     <Link 
                       href={`/albums/${track.album.id}`}
-                      className="text-gray-300 hover:underline"
+                      className="text-gray-700 dark:text-gray-300 hover:underline"
                     >
                       {track.album.title}
                     </Link>
@@ -149,7 +149,7 @@ export default function TrackPage() {
               </div>
 
               {/* Stats */}
-              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-6">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 {track.duration && (
                   <div className="flex items-center gap-1">
                     <FiClock className="w-4 h-4" />
@@ -210,7 +210,7 @@ export default function TrackPage() {
           {track.lyrics && (
             <div className="bg-gray-800/30 rounded-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-white mb-4">Lyrics</h2>
-              <pre className="text-gray-300 whitespace-pre-wrap font-sans">
+              <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-sans">
                 {track.lyrics}
               </pre>
             </div>

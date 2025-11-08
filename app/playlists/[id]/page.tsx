@@ -140,7 +140,7 @@ export default function PlaylistDetailPage() {
                   ) : (
                     <FiLock className="w-4 h-4 text-gray-400" />
                   )}
-                  <span className="text-sm font-semibold text-gray-400 uppercase">
+                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {playlist.collaborative ? 'Collaborative Playlist' : 'Playlist'}
                   </span>
                 </div>
@@ -239,7 +239,7 @@ export default function PlaylistDetailPage() {
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
           {tracks.length === 0 ? (
             <div className="text-center py-16">
-              <FiMusic className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <FiMusic className="w-16 h-16 text-gray-600 dark:text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600 dark:text-gray-400">No tracks in this playlist yet</p>
             </div>
           ) : (

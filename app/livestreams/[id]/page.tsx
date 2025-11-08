@@ -54,7 +54,7 @@ export default function LivestreamViewPage() {
                         <FiLogIn className="w-10 h-10 text-white" />
                       </div>
                       <h2 className="text-2xl font-bold text-white mb-3">Premium Livestream</h2>
-                      <p className="text-gray-300 mb-6 max-w-md mx-auto">
+                      <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-md mx-auto">
                         This is a premium livestream. Sign in to watch.
                       </p>
                       <button
@@ -134,7 +134,7 @@ export default function LivestreamViewPage() {
                       <FiLogIn className="w-8 h-8 text-white" />
                     </div>
                     <h4 className="text-white font-semibold mb-2">Join the conversation</h4>
-                    <p className="text-gray-400 mb-4 text-sm">Sign in to chat with other viewers</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">Sign in to chat with other viewers</p>
                     <button
                       onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))}
                       className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
@@ -154,7 +154,7 @@ export default function LivestreamViewPage() {
             <div className="space-y-6">
               {/* Artist Info */}
               <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
-                <h3 className="text-sm font-semibold text-gray-400 mb-4">ABOUT THE ARTIST</h3>
+                <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">ABOUT THE ARTIST</h3>
                 <div className="flex items-center gap-3 mb-4">
                   {livestream.artist.avatar_url && (
                     <img
@@ -180,7 +180,7 @@ export default function LivestreamViewPage() {
 
               {/* Stream Stats */}
               <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
-                <h3 className="text-sm font-semibold text-gray-400 mb-4">STREAM STATS</h3>
+                <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">STREAM STATS</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Status:</span>

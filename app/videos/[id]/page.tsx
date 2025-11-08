@@ -174,7 +174,7 @@ export default function VideoPage() {
         <Navigation />
         <div className="container mx-auto px-4 py-20 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto"></div>
-          <p className="text-gray-400 mt-4">Loading video...</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-4">Loading video...</p>
         </div>
       </div>
     );
@@ -283,7 +283,7 @@ export default function VideoPage() {
                   <span className="font-semibold text-white">{video.artist.name}</span>
                   {video.artist.verified && <span className="text-blue-500">✓</span>}
                 </div>
-                <div className="text-sm text-gray-400 flex items-center gap-1">
+                <div className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
                   <FiCalendar size={12} />
                   {formatDate(video.published_at)}
                 </div>
@@ -292,7 +292,7 @@ export default function VideoPage() {
 
             {/* Description */}
             {video.description && (
-              <div className="text-gray-300 whitespace-pre-wrap">
+              <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                 {video.description}
               </div>
             )}
@@ -303,7 +303,7 @@ export default function VideoPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-white font-semibold mb-1">Unlock Full Video</h3>
-                    <p className="text-gray-300 text-sm">Get lifetime access to this video</p>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm">Get lifetime access to this video</p>
                   </div>
                   <button
                     onClick={handlePurchase}
