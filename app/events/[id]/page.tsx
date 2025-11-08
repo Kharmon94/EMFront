@@ -152,7 +152,7 @@ export default function EventDetailPage() {
                 />
               )}
               <div>
-                <p className="text-gray-400 text-sm">Presented by</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Presented by</p>
                 <div className="flex items-center gap-2">
                   <span className="text-gray-900 dark:text-white font-semibold text-lg">{event.artist.name}</span>
                   {event.artist.verified && (
@@ -196,10 +196,10 @@ export default function EventDetailPage() {
                       <FiCalendar className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Date & Time</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">Date & Time</p>
                       <p className="text-gray-900 dark:text-white font-medium">{formatDateTime(event.start_time)}</p>
                       {event.end_time && (
-                        <p className="text-gray-400 text-sm">Ends: {formatDateTime(event.end_time)}</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">Ends: {formatDateTime(event.end_time)}</p>
                       )}
                     </div>
                   </div>
@@ -209,9 +209,9 @@ export default function EventDetailPage() {
                       <FiMapPin className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Location</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">Location</p>
                       <p className="text-gray-900 dark:text-white font-medium">{event.venue}</p>
-                      <p className="text-gray-400 text-sm">{event.location}</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">{event.location}</p>
                       {event.venue && event.location && (
                         <a
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${event.venue} ${event.location}`)}`}
@@ -230,7 +230,7 @@ export default function EventDetailPage() {
                       <FiUsers className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Attendance</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">Attendance</p>
                       <p className="text-gray-900 dark:text-white font-medium">
                         {event.sold_tickets} / {event.capacity} tickets sold
                       </p>
@@ -251,7 +251,7 @@ export default function EventDetailPage() {
               {event.description && (
                 <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">About This Event</h2>
-                  <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
                     {event.description}
                   </p>
                 </div>
@@ -291,7 +291,7 @@ export default function EventDetailPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-gray-400 text-center py-8">
+                    <p className="text-gray-600 dark:text-gray-400 text-center py-8">
                       No tickets available
                     </p>
                   )}
@@ -354,7 +354,7 @@ function TicketTierCard({ tier, onPurchase, isSoldOut }: { tier: any; onPurchase
         <div>
           <h3 className="text-white font-semibold">{tier.name}</h3>
           {tier.description && (
-            <p className="text-gray-400 text-sm mt-1">{tier.description}</p>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{tier.description}</p>
           )}
         </div>
         <div className="text-right">
