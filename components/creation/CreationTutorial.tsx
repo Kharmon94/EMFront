@@ -1,8 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, ReactNode } from 'react';
 import { FiX, FiChevronLeft, FiChevronRight, FiCheck } from 'react-icons/fi';
+
+// Dynamically import framer-motion to prevent SSR issues
+let motion: any;
+let AnimatePresence: any;
+
+try {
+  const framerMotion = require('framer-motion');
+  motion = framerMotion.motion;
+  AnimatePresence = framerMotion.AnimatePresence;
+} catch (e) {
+  // Fallback if framer-motion fails to load
+  motion = { div: 'div' };
+  AnimatePresence = ({ children }: { children: ReactNode }) => <>{children}</>;
+}
 
 export interface TutorialStep {
   target: string; // CSS selector for the element to highlight

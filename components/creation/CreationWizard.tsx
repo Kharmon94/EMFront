@@ -2,7 +2,20 @@
 
 import { ReactNode, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
+
+// Dynamically import framer-motion to prevent SSR issues
+let motion: any;
+let AnimatePresence: any;
+
+try {
+  const framerMotion = require('framer-motion');
+  motion = framerMotion.motion;
+  AnimatePresence = framerMotion.AnimatePresence;
+} catch (e) {
+  // Fallback if framer-motion fails to load
+  motion = { div: 'div', button: 'button' };
+  AnimatePresence = ({ children }: { children: ReactNode }) => <>{children}</>;
+}
 
 export interface WizardStep {
   id: string;
