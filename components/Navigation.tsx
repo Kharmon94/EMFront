@@ -162,7 +162,7 @@ export function Navigation() {
   };
 
   const isDropdownActive = (items: any[]) => {
-    return items.some(item => isActive(item.href));
+    return items.some(item => item.href && isActive(item.href));
   };
 
   return (
