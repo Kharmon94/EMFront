@@ -143,7 +143,7 @@ export default function SettingsPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">Settings</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Settings</h1>
             <p className="text-gray-600 dark:text-gray-400">Manage your account settings and preferences</p>
           </div>
 
@@ -160,7 +160,7 @@ export default function SettingsPage() {
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white'
-                          : 'text-gray-700 dark:text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-200 dark:bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300'
+                          : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -257,13 +257,13 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">Profile Settings</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Profile Settings</h2>
           <p className="text-gray-600 dark:text-gray-400">Update your public profile information</p>
         </div>
 
         {/* Avatar Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Profile Picture
           </label>
           <div className="flex items-center gap-4">
@@ -297,7 +297,7 @@ export default function SettingsPage() {
         {/* Banner Upload (Artists only) */}
         {user?.role === 'artist' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Banner Image
             </label>
             <div className="relative w-full h-40 rounded-lg overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-700">
