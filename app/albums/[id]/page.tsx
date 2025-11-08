@@ -276,7 +276,7 @@ export default function AlbumPage() {
           {/* Description */}
           {album.description && (
             <div className="mt-8 bg-gray-800/30 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">About this album
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">About this album</h3>
               <p className="text-gray-300 whitespace-pre-wrap">
                 {album.description}
               </p>
