@@ -218,7 +218,7 @@ export default function VideoPage() {
               }}
             />
           ) : (
-            <div className="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
+            <div className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <FiLock size={64} className="text-gray-600 mx-auto mb-4" />
                 <p className="text-white text-xl mb-2">{access?.error || 'Video locked'}</p>
