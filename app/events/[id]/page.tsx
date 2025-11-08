@@ -352,26 +352,26 @@ function TicketTierCard({ tier, onPurchase, isSoldOut }: { tier: any; onPurchase
     }`}>
       <div className="flex justify-between items-start mb-3">
         <div>
-          <h3 className="text-white font-semibold">{tier.name}</h3>
+          <h3 className="text-gray-900 dark:text-white font-semibold">{tier.name}</h3>
           {tier.description && (
             <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{tier.description}</p>
           )}
         </div>
         <div className="text-right">
-          <p className="text-purple-400 font-bold text-lg">{formatCurrency(tier.price_sol)} SOL</p>
+          <p className="text-purple-600 dark:text-purple-400 font-bold text-lg">{formatCurrency(tier.price_sol)} SOL</p>
           {tier.price_usd && (
-            <p className="text-gray-500 text-xs">${tier.price_usd}</p>
+            <p className="text-gray-600 dark:text-gray-500 text-xs">${tier.price_usd}</p>
           )}
         </div>
       </div>
 
       {/* Availability */}
       <div className="mb-3">
-        <div className="flex justify-between text-xs text-gray-400 mb-1">
+        <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
           <span>{tier.available} available</span>
           <span>{Math.round(availablePercentage)}%</span>
         </div>
-        <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+        <div className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
           <div 
             className="h-full bg-purple-600 transition-all"
             style={{ width: `${100 - availablePercentage}%` }}
@@ -383,7 +383,7 @@ function TicketTierCard({ tier, onPurchase, isSoldOut }: { tier: any; onPurchase
       {tier.features && tier.features.length > 0 && (
         <div className="mb-3 space-y-1">
           {tier.features.slice(0, 3).map((feature: string, index: number) => (
-            <p key={index} className="text-xs text-gray-400 flex items-center gap-1">
+            <p key={index} className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
               <FiCheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
               {feature}
             </p>
@@ -397,7 +397,7 @@ function TicketTierCard({ tier, onPurchase, isSoldOut }: { tier: any; onPurchase
         disabled={isSoldOut}
         className={`w-full px-4 py-2 rounded-lg font-semibold transition-colors ${
           isSoldOut
-            ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+            ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             : 'bg-purple-600 hover:bg-purple-700 text-white'
         }`}
       >
