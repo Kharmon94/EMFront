@@ -177,7 +177,7 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-lg text-gray-300 mb-8">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
               Connect your Solana wallet to start exploring music, trading tokens, and supporting artists.
             </p>
             <Link
