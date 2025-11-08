@@ -35,8 +35,13 @@ class ApiClient {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Token expired or invalid - clear it
-          this.clearToken();
+          // Only clear token on actual auth failures (not feature-specific 401s)
+          const authErrorMessages = ['Invalid token', 'Token has been revoked', 'No token provided', 'User not found', 'Authentication failed'];
+          const errorMessage = error.response?.data?.error || '';
+          
+          if (authErrorMessages.includes(errorMessage) || error.config?.url?.includes('/auth/')) {
+            this.clearToken();
+          }
           // Don't redirect here - let individual pages handle it
           // to prevent refresh loops
         }
