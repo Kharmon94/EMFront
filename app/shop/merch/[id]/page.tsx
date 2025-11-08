@@ -158,7 +158,7 @@ export default function MerchDetailPage() {
               {merch_item.artist && (
                 <Link
                   href={`/shop/${merch_item.artist.id}`}
-                  className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   {merch_item.artist.avatar_url && (
                     <img
@@ -200,7 +200,7 @@ export default function MerchDetailPage() {
               {merch_item.description && (
                 <div className="border-t border-gray-800 pt-6">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Description</h2>
-                  <p className="text-gray-300 whitespace-pre-wrap">
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                     {merch_item.description}
                   </p>
                 </div>
@@ -303,7 +303,7 @@ export default function MerchDetailPage() {
                         />
                       ))}
                     </div>
-                    <p className="text-sm text-gray-400 mt-1">{merch_item.rating_count} reviews</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{merch_item.rating_count} reviews</p>
                   </div>
                 </div>
               </div>
@@ -341,21 +341,21 @@ export default function MerchDetailPage() {
                         ))}
                       </div>
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {new Date(review.created_at).toLocaleDateString()}
                     </p>
                   </div>
 
                   {review.title && <h4 className="font-semibold text-white mb-2">{review.title}</h4>}
-                  <p className="text-gray-300">{review.content}</p>
+                  <p className="text-gray-700 dark:text-gray-300">{review.content}</p>
 
                   {/* Helpful Votes */}
                   <div className="flex items-center gap-4 mt-4">
-                    <button className="flex items-center gap-1 text-sm text-gray-400 hover:text-green-400">
+                    <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-green-400">
                       <FiThumbsUp className="w-4 h-4" />
                       <span>Helpful ({review.helpful_count})</span>
                     </button>
-                    <button className="flex items-center gap-1 text-sm text-gray-400 hover:text-red-400">
+                    <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-red-400">
                       <FiThumbsDown className="w-4 h-4" />
                       <span>Not helpful ({review.not_helpful_count})</span>
                     </button>
@@ -365,7 +365,7 @@ export default function MerchDetailPage() {
                   {review.artist_response && (
                     <div className="mt-4 pl-4 border-l-2 border-blue-500 bg-blue-900/20 p-4 rounded">
                       <p className="text-sm font-semibold text-blue-400 mb-1">Response from {merch_item.artist.name}</p>
-                      <p className="text-sm text-gray-300">{review.artist_response}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-300">{review.artist_response}</p>
                     </div>
                   )}
                 </div>
@@ -373,7 +373,7 @@ export default function MerchDetailPage() {
 
               {reviews.length === 0 && (
                 <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-lg">
-                  <p className="text-gray-400">No reviews yet. Be the first to review!</p>
+                  <p className="text-gray-600 dark:text-gray-400">No reviews yet. Be the first to review!</p>
                 </div>
               )}
             </div>
