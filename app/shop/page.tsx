@@ -483,7 +483,7 @@ export default function GlobalShopPage() {
                 </>
               ) : (
                 <div className="text-center py-20">
-                  <FiShoppingBag className="w-20 h-20 text-gray-400 mx-auto mb-4" />
+                  <FiShoppingBag className="w-20 h-20 text-gray-600 dark:text-gray-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No products found</h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">
                     Try adjusting your filters or search query

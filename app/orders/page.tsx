@@ -50,7 +50,7 @@ export default function OrdersPage() {
               <FiPackage className="w-8 h-8" />
               My Orders
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
               Track and manage your purchases
             </p>
           </div>
@@ -130,7 +130,7 @@ function OrderCard({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-gray-400 text-sm">Order #{order.id}</span>
+              <span className="text-gray-600 dark:text-gray-400 text-sm">Order #{order.id}</span>
               <div className="flex items-center gap-1">
                 {getStatusIcon(order.status)}
                 <span className={`text-sm font-medium ${
@@ -143,14 +143,14 @@ function OrderCard({
                 </span>
               </div>
             </div>
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-600 dark:text-gray-400 text-sm">
               Ordered on {formatDate(order.created_at)}
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <div className="text-gray-400 text-sm">Total</div>
+              <div className="text-gray-600 dark:text-gray-400 text-sm">Total</div>
               <div className="text-white font-bold text-lg">
                 {formatCurrency(order.total)}
               </div>
@@ -194,7 +194,7 @@ function OrderCard({
                       <div className="text-white font-medium">
                         {item.orderable?.title || item.orderable?.name || 'Item'}
                       </div>
-                      <div className="text-gray-400 text-sm">
+                      <div className="text-gray-600 dark:text-gray-400 text-sm">
                         Qty: {item.quantity || 1}
                       </div>
                     </div>
