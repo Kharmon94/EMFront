@@ -96,7 +96,7 @@ export default function LivestreamViewPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Main Info */}
             <div className="lg:col-span-2 space-y-6">
-              <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
+              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{livestream.title}</h1>
@@ -126,7 +126,7 @@ export default function LivestreamViewPage() {
               </section>
 
               {/* Chat component - requires auth */}
-              <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
+              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Live Chat</h3>
                 {!isAuthenticated ? (
                   <div className="text-center py-12">
@@ -153,7 +153,7 @@ export default function LivestreamViewPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Artist Info */}
-              <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
+              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
                 <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">ABOUT THE ARTIST</h3>
                 <div className="flex items-center gap-3 mb-4">
                   {livestream.artist.avatar_url && (
@@ -179,7 +179,7 @@ export default function LivestreamViewPage() {
               </section>
 
               {/* Stream Stats */}
-              <section className="p-6 bg-gray-900 rounded-lg border border-gray-800">
+              <section className="p-6 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-800">
                 <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4">STREAM STATS</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
