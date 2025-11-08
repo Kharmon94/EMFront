@@ -3,12 +3,13 @@
 import { useEffect, useState, Fragment } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Menu, Transition } from '@headlessui/react';
-import { FiUser, FiMail, FiKey, FiSettings, FiLogOut, FiChevronDown, FiLink } from 'react-icons/fi';
+import { FiUser, FiMail, FiKey, FiSettings, FiLogOut, FiChevronDown, FiLink, FiShoppingCart } from 'react-icons/fi';
 import { formatWalletAddress } from '@/lib/utils';
 import { AuthModal } from './AuthModal';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import api from '@/lib/api';
+import { useCart } from '@/lib/useCart';
 
 interface User {
   id: number;
@@ -23,6 +24,7 @@ interface User {
 
 export function AccountButton() {
   const { publicKey, disconnect } = useWallet();
+  const { itemCount } = useCart();
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -223,6 +225,25 @@ export function AccountButton() {
                   )}
                 </Menu.Item>
               )}
+              
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    onClick={() => router.push('/cart')}
+                    className={`${
+                      active ? 'bg-gray-900 text-white' : 'text-gray-300'
+                    } group flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm min-h-[48px] md:min-h-0 relative`}
+                  >
+                    <FiShoppingCart size={16} />
+                    <span className="flex-1 text-left">Shopping Cart</span>
+                    {mounted && itemCount > 0 && (
+                      <span className="px-2 py-0.5 bg-red-600 text-white text-xs font-bold rounded-full">
+                        {itemCount > 9 ? '9+' : itemCount}
+                      </span>
+                    )}
+                  </button>
+                )}
+              </Menu.Item>
               
               <Menu.Item>
                 {({ active }) => (
