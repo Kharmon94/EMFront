@@ -27,7 +27,7 @@ export default function FanPassesPage() {
               <FiGift className="w-10 h-10 text-purple-500" />
               Fan Pass NFTs
             </h1>
-            <p className="text-xl text-gray-400">
+            <p className="text-xl text-gray-600 dark:text-gray-400">
               Exclusive NFTs with dividends, perks, and VIP access to your favorite artists
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function FanPassesPage() {
           ) : (
             <div className="text-center py-20">
               <FiGift className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No fan passes available yet</p>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">No fan passes available yet</p>
             </div>
           )}
         </div>
@@ -101,7 +101,7 @@ function FanPassCard({ fanPass }: { fanPass: any }) {
           <h3 className="text-lg font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">
             {fanPass.name}
           </h3>
-          <p className="text-sm text-gray-400 mb-3 flex items-center gap-1">
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1">
             {fanPass.artist.name}
             {fanPass.artist.verified && (
               <FiCheckCircle className="w-3 h-3 text-blue-500" />

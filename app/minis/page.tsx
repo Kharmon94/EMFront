@@ -123,7 +123,7 @@ export default function MinisPage() {
                   className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                     activeTab === 'foryou'
                       ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <FiPlay /> For You
@@ -133,7 +133,7 @@ export default function MinisPage() {
                   className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                     activeTab === 'trending'
                       ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <FiTrendingUp /> Trending
@@ -143,7 +143,7 @@ export default function MinisPage() {
                   className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                     activeTab === 'following'
                       ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <FiUsers /> Following
@@ -153,7 +153,7 @@ export default function MinisPage() {
                   className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all whitespace-nowrap ${
                     activeTab === 'recent'
                       ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800'
+                      : 'bg-white dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <FiEye /> Recent
