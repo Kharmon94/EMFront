@@ -278,7 +278,7 @@ export const GlobalSearchDropdown: React.FC<{
               )}
               
               {/* See All Results */}
-              <div className="p-4">
+              <div className="p-4 border-t border-gray-200 dark:border-gray-700">
                 <button
                   onClick={() => {
                     if (query.trim()) {
@@ -288,11 +288,16 @@ export const GlobalSearchDropdown: React.FC<{
                     setIsOpen(false);
                     onClose?.();
                   }}
-                  className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 
-                           font-medium flex items-center justify-center gap-2"
+                  className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 
+                           text-white rounded-lg font-semibold 
+                           hover:from-blue-500 hover:via-purple-500 hover:to-pink-500
+                           shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40
+                           transform hover:scale-[1.02] active:scale-[0.98]
+                           transition-all duration-200
+                           flex items-center justify-center gap-2"
                 >
-                  <FiTrendingUp className="w-4 h-4" />
-                  See All Results for "{query}"
+                  <FiTrendingUp className="w-5 h-5" />
+                  <span>See All Results for <span className="font-bold">"{query}"</span></span>
                 </button>
               </div>
             </div>
