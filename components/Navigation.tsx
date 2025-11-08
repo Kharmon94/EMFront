@@ -449,7 +449,7 @@ export function Navigation() {
                                   </div>
                                 );
                               }
-                              if (!subItem.href) return null;
+                              if (!subItem.href || !subItem.icon) return null;
                               const Icon = subItem.icon;
                               return (
                                 <Link
