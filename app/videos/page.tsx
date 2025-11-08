@@ -175,7 +175,7 @@ export default function VideosPage() {
                   <Link
                     key={video.id}
                     href={`/videos/${video.id}`}
-                    className="group bg-gray-100 dark:bg-gray-800/50 backdrop-blur rounded-lg overflow-hidden hover:ring-2 hover:ring-purple-500 transition-all"
+                    className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 backdrop-blur rounded-lg overflow-hidden hover:ring-2 hover:ring-purple-500 transition-all"
                   >
                     {/* Thumbnail */}
                     <div className="relative aspect-video bg-gray-700">

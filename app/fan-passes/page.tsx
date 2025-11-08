@@ -35,10 +35,10 @@ export default function FanPassesPage() {
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-900 rounded-lg p-6 border border-gray-800">
-                  <div className="h-40 bg-gray-800 rounded-lg mb-4" />
-                  <div className="h-4 bg-gray-800 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-gray-800 rounded w-1/2" />
+                <div key={i} className="animate-pulse bg-white dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
+                  <div className="h-40 bg-gray-200 dark:bg-gray-800 rounded-lg mb-4" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/2" />
                 </div>
               ))}
             </div>
@@ -65,7 +65,7 @@ function FanPassCard({ fanPass }: { fanPass: any }) {
 
   return (
     <Link href={`/fan-passes/${fanPass.id}`}>
-      <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-purple-600 transition-all group">
+      <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-purple-600 transition-all group">
         {/* Image */}
         <div className="relative aspect-square bg-gradient-to-br from-purple-900 to-pink-900">
           {fanPass.image_url ? (
@@ -98,7 +98,7 @@ function FanPassCard({ fanPass }: { fanPass: any }) {
 
         {/* Content */}
         <div className="p-4">
-          <h3 className="text-lg font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
             {fanPass.name}
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1">
@@ -108,33 +108,33 @@ function FanPassCard({ fanPass }: { fanPass: any }) {
             )}
           </p>
           
-          <p className="text-xs text-gray-500 mb-4 line-clamp-2">
+          <p className="text-xs text-gray-600 dark:text-gray-500 mb-4 line-clamp-2">
             {fanPass.description}
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
-            <div className="p-2 bg-gray-800 rounded text-center">
-              <div className="text-white font-semibold">{fanPass.minted_count}/{fanPass.max_supply}</div>
-              <div className="text-gray-500">Minted</div>
+            <div className="p-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-center">
+              <div className="text-gray-900 dark:text-white font-semibold">{fanPass.minted_count}/{fanPass.max_supply}</div>
+              <div className="text-gray-600 dark:text-gray-500">Minted</div>
             </div>
-            <div className="p-2 bg-gray-800 rounded text-center">
-              <div className="text-purple-400 font-semibold">{formatCurrency(fanPass.price)}</div>
-              <div className="text-gray-500">Price</div>
+            <div className="p-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-center">
+              <div className="text-purple-600 dark:text-purple-400 font-semibold">{formatCurrency(fanPass.price)}</div>
+              <div className="text-gray-600 dark:text-gray-500">Price</div>
             </div>
-            <div className="p-2 bg-gray-800 rounded text-center">
-              <div className="text-white font-semibold">{fanPass.total_perks}</div>
-              <div className="text-gray-500">Perks</div>
+            <div className="p-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-center">
+              <div className="text-gray-900 dark:text-white font-semibold">{fanPass.total_perks}</div>
+              <div className="text-gray-600 dark:text-gray-500">Perks</div>
             </div>
           </div>
 
           {/* Progress bar */}
           <div className="mb-3">
-            <div className="flex justify-between text-xs text-gray-400 mb-1">
+            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
               <span>Supply</span>
               <span>{soldOutPercentage.toFixed(0)}% minted</span>
             </div>
-            <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
               <div
                 className="h-full bg-purple-600 transition-all duration-300"
                 style={{ width: `${soldOutPercentage}%` }}
