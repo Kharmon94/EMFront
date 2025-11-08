@@ -31,8 +31,8 @@ export default function TrackPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading track...</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-gray-900 dark:text-white">Loading track...</div>
         </div>
       </>
     );
@@ -42,7 +42,7 @@ export default function TrackPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Track not found</div>
         </div>
       </>
@@ -107,7 +107,7 @@ export default function TrackPage() {
             {/* Track Info */}
             <div className="flex-1 flex flex-col justify-end">
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Track</p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
                 {track.title}
                 {track.explicit && (
                   <span className="ml-3 text-sm text-gray-400 border border-gray-600 px-2 py-1 rounded align-middle">
@@ -209,7 +209,7 @@ export default function TrackPage() {
           {/* Lyrics/Description */}
           {track.lyrics && (
             <div className="bg-gray-800/30 rounded-lg p-6 mb-8">
-              <h2 className="text-xl font-semibold text-white mb-4">Lyrics</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Lyrics</h2>
               <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-sans">
                 {track.lyrics}
               </pre>
@@ -218,7 +218,7 @@ export default function TrackPage() {
 
           {/* Credits */}
           <div className="bg-gray-800/30 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-white mb-4">Credits</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Credits</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-gray-400">Artist</span>

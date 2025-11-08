@@ -163,7 +163,7 @@ export default function ArtistProfilePage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-white dark:bg-black">
         {/* Hero Section */}
         <div className="relative h-80 overflow-hidden">
           {/* Banner */}

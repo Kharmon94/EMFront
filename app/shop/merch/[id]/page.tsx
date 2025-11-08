@@ -73,7 +73,7 @@ export default function MerchDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-gray-900 dark:text-white">Loading...</div>
         </div>
       </>
@@ -84,7 +84,7 @@ export default function MerchDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Item not found</div>
         </div>
       </>

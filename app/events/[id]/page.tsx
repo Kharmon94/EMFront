@@ -47,7 +47,7 @@ export default function EventDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Event not found</div>
         </div>
       </>

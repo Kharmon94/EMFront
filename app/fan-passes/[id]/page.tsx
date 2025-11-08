@@ -26,7 +26,7 @@ export default function FanPassDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-white">Loading...</div>
         </div>
       </>
@@ -37,7 +37,7 @@ export default function FanPassDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Fan pass not found</div>
         </div>
       </>
