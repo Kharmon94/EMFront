@@ -118,7 +118,7 @@ export default function GlobalShopPage() {
                       href={`/shop/merch/${item.id}`}
                       className="flex-shrink-0 w-48 bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition-all"
                     >
-                      <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative">
+                      <div className="aspect-square bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative">
                         {item.images?.[0] ? (
                           <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                         ) : (
@@ -517,7 +517,7 @@ function ProductCard({ item }: { item: any }) {
       className="group block bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all"
     >
       {/* Product Image */}
-      <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
+      <div className="aspect-square bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative overflow-hidden">
         {image ? (
           <img
             src={image}

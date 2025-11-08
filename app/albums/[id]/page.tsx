@@ -164,7 +164,7 @@ export default function AlbumPage() {
                 
                 <button
                   onClick={handleLike}
-                  className="p-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
+                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
                   title="Like album"
                 >
                   <FiHeart className="w-5 h-5" />
@@ -172,7 +172,7 @@ export default function AlbumPage() {
                 
                 <button
                   onClick={handleShare}
-                  className="p-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
+                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
                   title="Share album"
                 >
                   <FiShare2 className="w-5 h-5" />
