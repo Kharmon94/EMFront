@@ -29,8 +29,8 @@ export default function AlbumPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading album...</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-gray-900 dark:text-white">Loading album...</div>
         </div>
       </>
     );
@@ -40,7 +40,7 @@ export default function AlbumPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Album not found</div>
         </div>
       </>
@@ -113,7 +113,7 @@ export default function AlbumPage() {
             {/* Album Info */}
             <div className="flex-1 flex flex-col justify-end">
               <p className="text-sm text-gray-400 mb-2">Album</p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
                 {album.title}
               </h1>
               
@@ -130,7 +130,7 @@ export default function AlbumPage() {
                       className="w-6 h-6 rounded-full"
                     />
                   )}
-                  <span className="text-white font-medium">{album.artist.name}</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{album.artist.name}</span>
                   {album.artist.verified && (
                     <FiCheckCircle className="w-4 h-4 text-blue-500" />
                   )}
@@ -164,7 +164,7 @@ export default function AlbumPage() {
                 
                 <button
                   onClick={handleLike}
-                  className="p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors"
+                  className="p-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
                   title="Like album"
                 >
                   <FiHeart className="w-5 h-5" />
@@ -172,7 +172,7 @@ export default function AlbumPage() {
                 
                 <button
                   onClick={handleShare}
-                  className="p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors"
+                  className="p-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full transition-colors"
                   title="Share album"
                 >
                   <FiShare2 className="w-5 h-5" />
@@ -193,7 +193,7 @@ export default function AlbumPage() {
 
           {/* Track List */}
           <div className="bg-gray-800/30 rounded-lg p-4 sm:p-6">
-            <h2 className="text-xl font-bold text-white mb-4">Tracks</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Tracks</h2>
             
             {tracks && tracks.length > 0 ? (
               <div className="space-y-1">
@@ -213,7 +213,7 @@ export default function AlbumPage() {
 
                     {/* Track Info */}
                     <div className="flex-1 min-w-0">
-                      <div className="text-white font-medium truncate flex items-center gap-2">
+                      <div className="text-gray-900 dark:text-white font-medium truncate flex items-center gap-2">
                         <span>{track.title}</span>
                         {track.explicit && (
                           <span className="text-xs text-gray-400 border border-gray-600 px-1 rounded">
@@ -276,7 +276,7 @@ export default function AlbumPage() {
           {/* Description */}
           {album.description && (
             <div className="mt-8 bg-gray-800/30 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-white mb-3">About this album</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">About this album
               <p className="text-gray-300 whitespace-pre-wrap">
                 {album.description}
               </p>

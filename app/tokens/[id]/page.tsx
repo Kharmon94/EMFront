@@ -48,8 +48,8 @@ export default function TokenTradingPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading token...</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-gray-900 dark:text-white">Loading token...</div>
         </div>
       </>
     );
@@ -62,7 +62,7 @@ export default function TokenTradingPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
           <div className="text-red-500">Token not found</div>
         </div>
       </>
@@ -99,7 +99,7 @@ export default function TokenTradingPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pb-20">
+      <main className="min-h-screen bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-black dark:via-gray-900 dark:to-black pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Token Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8">
@@ -121,7 +121,7 @@ export default function TokenTradingPage() {
             {/* Token Info */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                   {token.name}
                 </h1>
                 {token.graduated && (
@@ -187,7 +187,7 @@ export default function TokenTradingPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Chart */}
               <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
-                <h2 className="text-lg font-bold text-white mb-4">Price Chart</h2>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Price Chart</h2>
                 <div className="h-64 sm:h-80">
                   {chartData?.chart_data && chartData.chart_data.length > 0 ? (
                     <BondingCurveChart 
@@ -205,7 +205,7 @@ export default function TokenTradingPage() {
 
               {/* Recent Trades */}
               <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6">
-                <h2 className="text-lg font-bold text-white mb-4">Recent Trades</h2>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Recent Trades</h2>
                 
                 {trades.length > 0 ? (
                   <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -255,7 +255,7 @@ export default function TokenTradingPage() {
             <div className="space-y-6">
               {/* Buy/Sell Interface */}
               <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 sm:p-6 sticky top-20">
-                <h2 className="text-lg font-bold text-white mb-4">Trade {token.symbol}</h2>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Trade {token.symbol}</h2>
 
                 {/* Tabs */}
                 <div className="flex gap-2 mb-6">

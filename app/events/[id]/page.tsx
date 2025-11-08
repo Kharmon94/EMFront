@@ -36,8 +36,8 @@ export default function EventDetailPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading event...</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-gray-900 dark:text-white">Loading event...</div>
         </div>
       </>
     );
@@ -135,7 +135,7 @@ export default function EventDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
               {event.title}
             </h1>
 
@@ -154,7 +154,7 @@ export default function EventDetailPage() {
               <div>
                 <p className="text-gray-400 text-sm">Presented by</p>
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold text-lg">{event.artist.name}</span>
+                  <span className="text-gray-900 dark:text-white font-semibold text-lg">{event.artist.name}</span>
                   {event.artist.verified && (
                     <FiCheckCircle className="w-5 h-5 text-blue-500" />
                   )}
@@ -189,7 +189,7 @@ export default function EventDetailPage() {
             <div className="lg:col-span-2 space-y-8">
               {/* Key Details */}
               <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
-                <h2 className="text-xl font-bold text-white mb-4">Event Details</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Event Details</h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-purple-600/20 rounded-lg">
@@ -197,7 +197,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-gray-400 text-sm">Date & Time</p>
-                      <p className="text-white font-medium">{formatDateTime(event.start_time)}</p>
+                      <p className="text-gray-900 dark:text-white font-medium">{formatDateTime(event.start_time)}</p>
                       {event.end_time && (
                         <p className="text-gray-400 text-sm">Ends: {formatDateTime(event.end_time)}</p>
                       )}
@@ -210,7 +210,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-gray-400 text-sm">Location</p>
-                      <p className="text-white font-medium">{event.venue}</p>
+                      <p className="text-gray-900 dark:text-white font-medium">{event.venue}</p>
                       <p className="text-gray-400 text-sm">{event.location}</p>
                       {event.venue && event.location && (
                         <a
@@ -231,7 +231,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-gray-400 text-sm">Attendance</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-900 dark:text-white font-medium">
                         {event.sold_tickets} / {event.capacity} tickets sold
                       </p>
                       <div className="mt-2 w-64">
@@ -250,7 +250,7 @@ export default function EventDetailPage() {
               {/* Description */}
               {event.description && (
                 <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-800">
-                  <h2 className="text-xl font-bold text-white mb-4">About This Event</h2>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">About This Event</h2>
                   <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">
                     {event.description}
                   </p>
