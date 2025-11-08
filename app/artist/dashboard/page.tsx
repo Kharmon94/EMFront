@@ -188,7 +188,7 @@ export default function ArtistDashboard() {
                 Preview Profile
               </Link>
             </div>
-            <p className="text-gray-400">Manage your content, track your performance, and grow your community.</p>
+            <p className="text-gray-600 dark:text-gray-400">Manage your content, track your performance, and grow your community.</p>
           </div>
 
           {/* Stats Overview */}
