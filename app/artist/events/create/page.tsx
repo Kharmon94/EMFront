@@ -19,7 +19,7 @@ import {
   FiX,
   FiCheck,
   FiFileText,
-  FiTicket
+  FiCreditCard
 } from 'react-icons/fi';
 
 interface TicketTier {
@@ -527,7 +527,7 @@ export default function CreateEventPage() {
       id: 'tickets',
       title: 'Tickets',
       description: 'Configure ticket tiers and pricing',
-      icon: <FiTicket className="w-6 h-6" />,
+      icon: <FiCreditCard className="w-6 h-6" />,
       component: <TicketsStep />,
       validation: async () => {
         if (ticketTiers.length === 0) {
