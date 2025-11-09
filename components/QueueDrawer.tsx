@@ -26,6 +26,8 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
 
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const [touchCurrentY, setTouchCurrentY] = useState<number | null>(null);
 
   const currentIndex = queue.findIndex(t => t.id === currentTrack?.id);
   const upNext = queue.slice(currentIndex + 1);
@@ -77,6 +79,55 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
     }
   };
 
+  // Touch handlers for mobile drag-and-drop
+  const handleTouchStart = (e: React.TouchEvent, index: number) => {
+    const touch = e.touches[0];
+    setTouchStartY(touch.clientY);
+    setDraggedIndex(index);
+    
+    // Haptic feedback on mobile
+    if ('vibrate' in navigator) {
+      navigator.vibrate(10);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (draggedIndex === null || touchStartY === null) return;
+    
+    const touch = e.touches[0];
+    setTouchCurrentY(touch.clientY);
+    
+    // Find which item we're over
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const queueItem = element?.closest('[data-queue-index]');
+    
+    if (queueItem) {
+      const overIndex = parseInt(queueItem.getAttribute('data-queue-index') || '-1');
+      if (overIndex !== -1) {
+        setDragOverIndex(overIndex);
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (draggedIndex !== null && dragOverIndex !== null && draggedIndex !== dragOverIndex) {
+      const adjustedFromIndex = currentIndex + 1 + draggedIndex;
+      const adjustedToIndex = currentIndex + 1 + dragOverIndex;
+      reorderQueue(adjustedFromIndex, adjustedToIndex);
+      toast.success('Queue reordered');
+      
+      // Haptic feedback
+      if ('vibrate' in navigator) {
+        navigator.vibrate(20);
+      }
+    }
+    
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+    setTouchStartY(null);
+    setTouchCurrentY(null);
+  };
+
   const handleSaveAsPlaylist = async () => {
     const name = prompt('Enter playlist name:');
     if (!name) return;
@@ -126,28 +177,34 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col bg-white dark:bg-gray-900 shadow-xl">
+                <Dialog.Panel className="pointer-events-auto w-screen sm:max-w-md">
+                  <div className="flex h-full flex-col bg-white dark:bg-gray-900 shadow-xl overflow-hidden">
                     {/* Header */}
-                    <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+                    <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
                       <div className="flex items-center justify-between">
-                        <Dialog.Title className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                          <FiList className="text-purple-600" /> Queue
+                        <Dialog.Title className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                          <FiList className="text-purple-600 w-5 h-5 sm:w-6 sm:h-6" /> Queue
                         </Dialog.Title>
                         <button
-                          onClick={onClose}
-                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 active:scale-90 transition-all"
+                          onClick={() => {
+                            onClose();
+                            // Haptic feedback
+                            if ('vibrate' in navigator) {
+                              navigator.vibrate(5);
+                            }
+                          }}
+                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 active:scale-90 transition-all touch-manipulation"
                           aria-label="Close queue"
                         >
-                          <FiX className="w-5 h-5 text-gray-900 dark:text-white" />
+                          <FiX className="w-6 h-6 sm:w-5 sm:h-5 text-gray-900 dark:text-white" />
                         </button>
                       </div>
                       
                       {/* Queue Stats */}
-                      <div className="flex items-center gap-4 mt-3 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-3 sm:gap-4 mt-2 sm:mt-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         <span className="font-medium">{queue.length} {queue.length === 1 ? 'track' : 'tracks'}</span>
                         <span className="flex items-center gap-1">
-                          <FiClock className="w-4 h-4" />
+                          <FiClock className="w-3 h-3 sm:w-4 sm:h-4" />
                           {formatDuration(totalDuration)}
                         </span>
                       </div>
@@ -156,17 +213,24 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                       {upNext.length > 1 && (
                         <div className="mt-2 text-xs text-gray-500 dark:text-gray-500 flex items-center gap-1">
                           <FiMenu className="w-3 h-3" />
-                          Drag to reorder
+                          <span className="hidden sm:inline">Drag to reorder</span>
+                          <span className="sm:hidden">Hold and drag to reorder</span>
                         </div>
                       )}
                     </div>
 
                     {/* Actions */}
-                    <div className="px-6 py-3 border-b border-gray-200 dark:border-gray-700 flex gap-2">
+                    <div className="px-4 sm:px-6 py-3 border-b border-gray-200 dark:border-gray-700 flex gap-2">
                       <button
-                        onClick={handleSaveAsPlaylist}
+                        onClick={() => {
+                          handleSaveAsPlaylist();
+                          // Haptic feedback
+                          if ('vibrate' in navigator) {
+                            navigator.vibrate(10);
+                          }
+                        }}
                         disabled={queue.length === 0}
-                        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white text-sm font-medium rounded-lg transition-colors"
+                        className="flex-1 px-3 sm:px-4 py-2.5 sm:py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors active:scale-95 touch-manipulation"
                       >
                         Save as Playlist
                       </button>
@@ -174,12 +238,16 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                         onClick={() => {
                           clearQueue();
                           toast.success('Queue cleared');
+                          // Haptic feedback
+                          if ('vibrate' in navigator) {
+                            navigator.vibrate([10, 50, 10]);
+                          }
                         }}
                         disabled={queue.length === 0}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+                        className="px-3 sm:px-4 py-2.5 sm:py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center gap-2 active:scale-95 touch-manipulation"
                       >
                         <FiTrash2 className="w-4 h-4" />
-                        Clear
+                        <span className="hidden sm:inline">Clear</span>
                       </button>
                     </div>
 
@@ -187,33 +255,33 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                     <div className="flex-1 overflow-y-auto">
                       {/* Now Playing */}
                       {currentTrack && (
-                        <div className="px-6 py-4 bg-gradient-to-r from-purple-600/10 to-blue-600/10 dark:from-purple-600/20 dark:to-blue-600/20 border-l-4 border-purple-600">
-                          <div className="text-xs uppercase tracking-wide text-purple-600 dark:text-purple-400 font-semibold mb-3 flex items-center gap-2">
+                        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-purple-600/10 to-blue-600/10 dark:from-purple-600/20 dark:to-blue-600/20 border-l-4 border-purple-600">
+                          <div className="text-xs uppercase tracking-wide text-purple-600 dark:text-purple-400 font-semibold mb-2 sm:mb-3 flex items-center gap-2">
                             <FiPlay className="w-3 h-3 animate-pulse" />
                             Now Playing
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 sm:gap-3">
                             {currentTrack.album.cover_url && (
-                              <div className="relative">
+                              <div className="relative flex-shrink-0">
                                 <img
                                   src={currentTrack.album.cover_url}
                                   alt={currentTrack.title}
-                                  className="w-14 h-14 rounded-lg shadow-md"
+                                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg shadow-md"
                                 />
                                 <div className="absolute inset-0 bg-purple-600/20 rounded-lg animate-pulse" />
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <div className="font-semibold text-gray-900 dark:text-white truncate mb-1">
+                              <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white truncate mb-1">
                                 {currentTrack.title}
                               </div>
-                              <div className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
                                 {currentTrack.artist.name}
                                 {currentTrack.artist.verified && (
                                   <span className="ml-1 text-blue-500">✓</span>
                                 )}
                               </div>
-                              <div className="text-xs text-gray-500 dark:text-gray-500 mt-1 tabular-nums">
+                              <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 sm:mt-1 tabular-nums">
                                 {formatDuration(currentTrack.duration)}
                               </div>
                             </div>
@@ -223,35 +291,44 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
 
                       {/* Up Next */}
                       {upNext.length > 0 && (
-                        <div className="px-6 py-4">
-                          <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-500 font-semibold mb-3">
+                        <div className="px-4 sm:px-6 py-3 sm:py-4">
+                          <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-500 font-semibold mb-2 sm:mb-3">
                             Up Next ({upNext.length})
                           </div>
                           <div className="space-y-1">
                             {upNext.map((track, index) => (
                               <div
                                 key={`${track.id}-${index}`}
+                                data-queue-index={index}
                                 draggable
                                 onDragStart={(e) => handleDragStart(e, index)}
                                 onDragEnd={handleDragEnd}
                                 onDragOver={(e) => handleDragOver(e, index)}
                                 onDragLeave={handleDragLeave}
                                 onDrop={(e) => handleDrop(e, index)}
-                                className={`flex items-center gap-3 p-3 rounded-lg group transition-all ${
+                                onTouchStart={(e) => handleTouchStart(e, index)}
+                                onTouchMove={handleTouchMove}
+                                onTouchEnd={handleTouchEnd}
+                                className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg group transition-all touch-none select-none ${
                                   draggedIndex === index 
-                                    ? 'opacity-50 scale-95' 
+                                    ? 'opacity-50 scale-95 shadow-2xl' 
                                     : dragOverIndex === index
                                     ? 'bg-purple-100 dark:bg-purple-900/30 border-2 border-purple-500 scale-105'
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800 border-2 border-transparent'
                                 }`}
+                                style={
+                                  draggedIndex === index && touchCurrentY !== null && touchStartY !== null
+                                    ? { transform: `translateY(${touchCurrentY - touchStartY}px)`, position: 'relative', zIndex: 1000 }
+                                    : undefined
+                                }
                               >
                                 {/* Drag Handle */}
-                                <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                                  <FiMenu className="w-5 h-5" />
+                                <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 -ml-1 touch-manipulation">
+                                  <FiMenu className="w-5 h-5 sm:w-6 sm:h-6" />
                                 </div>
 
                                 {/* Track Number */}
-                                <div className="flex-shrink-0 w-6 text-center text-xs font-semibold text-gray-500 dark:text-gray-500">
+                                <div className="flex-shrink-0 w-5 sm:w-6 text-center text-xs font-semibold text-gray-500 dark:text-gray-500">
                                   {index + 1}
                                 </div>
 
@@ -260,7 +337,7 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                                   <img
                                     src={track.album.cover_url}
                                     alt={track.title}
-                                    className="w-12 h-12 rounded-md flex-shrink-0 shadow-sm"
+                                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-md flex-shrink-0 shadow-sm"
                                   />
                                 )}
 
@@ -290,14 +367,19 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    const adjustedIndex = currentIndex + 1 + index;
                                     removeFromQueue(track.id);
                                     toast.success('Removed from queue');
+                                    
+                                    // Haptic feedback
+                                    if ('vibrate' in navigator) {
+                                      navigator.vibrate(15);
+                                    }
                                   }}
-                                  className="p-2 opacity-0 group-hover:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-all active:scale-90"
+                                  className="p-2 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-all active:scale-90 touch-manipulation"
                                   title="Remove from queue"
+                                  aria-label="Remove from queue"
                                 >
-                                  <FiX className="w-4 h-4 text-red-600 dark:text-red-400" />
+                                  <FiX className="w-5 h-5 sm:w-4 sm:h-4 text-red-600 dark:text-red-400" />
                                 </button>
                               </div>
                             ))}
@@ -307,8 +389,8 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
 
                       {/* History */}
                       {queueHistory.length > 0 && (
-                        <div className="px-6 py-4 border-t-2 border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30">
-                          <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-500 font-semibold mb-3 flex items-center gap-2">
+                        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t-2 border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30">
+                          <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-500 font-semibold mb-2 sm:mb-3 flex items-center gap-2">
                             <FiClock className="w-3 h-3" />
                             Recently Played
                           </div>
@@ -316,21 +398,25 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                             {queueHistory.slice(0, 10).map((track, index) => (
                               <div
                                 key={`history-${track.id}-${index}`}
-                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer group transition-all active:scale-98"
+                                className="flex items-center gap-2 sm:gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer group transition-all active:scale-95 touch-manipulation"
                                 onClick={() => {
                                   playTrack(track, [track]);
                                   toast.success(`Playing ${track.title}`);
+                                  // Haptic feedback
+                                  if ('vibrate' in navigator) {
+                                    navigator.vibrate(10);
+                                  }
                                 }}
                               >
                                 {track.album.cover_url && (
                                   <img
                                     src={track.album.cover_url}
                                     alt={track.title}
-                                    className="w-10 h-10 rounded opacity-70 group-hover:opacity-100 flex-shrink-0 transition-opacity"
+                                    className="w-9 h-9 sm:w-10 sm:h-10 rounded opacity-70 group-hover:opacity-100 flex-shrink-0 transition-opacity"
                                   />
                                 )}
                                 <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white truncate transition-colors flex items-center gap-2">
+                                  <div className="font-medium text-xs sm:text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white truncate transition-colors flex items-center gap-2">
                                     {track.title}
                                     <FiPlay className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                                   </div>
@@ -338,7 +424,7 @@ export function QueueDrawer({ isOpen, onClose }: QueueDrawerProps) {
                                     {track.artist.name}
                                   </div>
                                 </div>
-                                <div className="text-xs text-gray-500 dark:text-gray-500 tabular-nums">
+                                <div className="text-xs text-gray-500 dark:text-gray-500 tabular-nums hidden sm:block">
                                   {formatDuration(track.duration)}
                                 </div>
                               </div>
