@@ -1,15 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { FiPlay, FiHeart, FiShare2, FiMoreVertical, FiCheckCircle } from 'react-icons/fi';
+import { FiPlay, FiHeart, FiShare2, FiMoreVertical, FiCheckCircle, FiPlus, FiList } from 'react-icons/fi';
 import { formatDuration } from '@/lib/utils';
+import { AddToPlaylistModal } from '../AddToPlaylistModal';
+import { ShareModal } from '../ShareModal';
+import { usePlayerStore } from '@/lib/store/playerStore';
+import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface ContentCardProps {
   item: any;
   type: 'track' | 'album' | 'video' | 'mini' | 'event';
   onPlay?: (item: any) => void;
-  onLike?: (item: any) => void;
-  onShare?: (item: any) => void;
   showArtist?: boolean;
 }
 
@@ -17,10 +21,13 @@ export function ContentCard({
   item,
   type,
   onPlay,
-  onLike,
-  onShare,
   showArtist = true
 }: ContentCardProps) {
+  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [isLiked, setIsLiked] = useState(item.is_liked || false);
+  const { addToQueue, playTrack } = usePlayerStore();
+
   const getHref = () => {
     switch (type) {
       case 'track': return `/tracks/${item.id}`;
@@ -49,6 +56,62 @@ export function ContentCard({
     if (type === 'video' || type === 'mini') return item.artist?.name;
     if (type === 'event') return `${item.venue} • ${item.location}`;
     return '';
+  };
+
+  const handleLike = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      if (isLiked) {
+        await api.delete(`/${type}s/${item.id}/unlike`);
+        setIsLiked(false);
+        toast.success('Removed from liked');
+      } else {
+        await api.post(`/${type}s/${item.id}/like`);
+        setIsLiked(true);
+        toast.success('Added to liked');
+      }
+    } catch (error) {
+      console.error('Failed to toggle like:', error);
+    }
+  };
+
+  const handleAddToQueue = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      if (type === 'track') {
+        addToQueue(item);
+        toast.success('Added to queue');
+      } else if (type === 'album') {
+        // Fetch album tracks and add all to queue
+        const response = await api.get(`/albums/${item.id}`);
+        const tracks = response.data.tracks || [];
+        tracks.forEach((track: any) => addToQueue({
+          ...track,
+          album: { id: item.id, title: item.title, cover_url: item.cover_url },
+          artist: item.artist
+        }));
+        toast.success(`Added ${tracks.length} tracks to queue`);
+      }
+    } catch (error) {
+      console.error('Failed to add to queue:', error);
+      toast.error('Failed to add to queue');
+    }
+  };
+
+  const handleAddToPlaylist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPlaylistModal(true);
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowShareModal(true);
   };
   
   return (
@@ -122,31 +185,71 @@ export function ContentCard({
         </div>
       </Link>
       
-      {/* Quick Actions */}
-      <div className="absolute top-2 left-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        {onLike && (
+      {/* Quick Actions - Top Right */}
+      <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Like Button */}
+        <button
+          onClick={handleLike}
+          className={`p-2 rounded-full backdrop-blur-md transition-all ${
+            isLiked
+              ? 'bg-red-500/90 text-white'
+              : 'bg-black/60 hover:bg-black/80 text-white'
+          }`}
+          title={isLiked ? 'Unlike' : 'Like'}
+        >
+          <FiHeart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+        </button>
+
+        {/* Add to Queue (for tracks/albums only) */}
+        {(type === 'track' || type === 'album') && (
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              onLike(item);
-            }}
-            className="p-2 rounded-full bg-black/80 hover:bg-purple-600 text-white transition-colors"
+            onClick={handleAddToQueue}
+            className="p-2 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white transition-all"
+            title="Add to Queue"
           >
-            <FiHeart className="w-4 h-4" />
+            <FiList className="w-4 h-4" />
           </button>
         )}
-        {onShare && (
+
+        {/* Add to Playlist (for tracks only) */}
+        {type === 'track' && (
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              onShare(item);
-            }}
-            className="p-2 rounded-full bg-black/80 hover:bg-purple-600 text-white transition-colors"
+            onClick={handleAddToPlaylist}
+            className="p-2 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white transition-all"
+            title="Add to Playlist"
           >
-            <FiShare2 className="w-4 h-4" />
+            <FiPlus className="w-4 h-4" />
           </button>
         )}
+
+        {/* Share Button */}
+        <button
+          onClick={handleShare}
+          className="p-2 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white transition-all"
+          title="Share"
+        >
+          <FiShare2 className="w-4 h-4" />
+        </button>
       </div>
+      
+      {/* Modals */}
+      {type === 'track' && (
+        <AddToPlaylistModal
+          isOpen={showPlaylistModal}
+          onClose={() => setShowPlaylistModal(false)}
+          trackId={item.id}
+          trackTitle={item.title}
+        />
+      )}
+      
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        url={getHref()}
+        title={getTitle()}
+        description={getSubtitle()}
+        type={type}
+      />
     </div>
   );
 }

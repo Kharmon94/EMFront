@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
+import { BackButton } from '@/components/BackButton';
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { CreationWizard, WizardStep } from '@/components/creation/CreationWizard';
 import api from '@/lib/api';
@@ -412,6 +413,10 @@ export default function EditEventPage() {
     <PermissionGuard resource="Event" action="update">
       <div className="min-h-screen bg-white dark:bg-black">
         <Navigation />
+        
+        <div className="max-w-4xl mx-auto px-4 pt-20 md:pt-24 pb-8">
+          <BackButton fallbackUrl="/artist/dashboard" label="Back to Dashboard" />
+        </div>
         
         <CreationWizard
           steps={wizardSteps}

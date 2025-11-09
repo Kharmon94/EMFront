@@ -7,6 +7,7 @@ import { FiGlobe, FiEye, FiLock, FiCheck, FiMusic } from 'react-icons/fi';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { Navigation } from '@/components/Navigation';
+import { BackButton } from '@/components/BackButton';
 
 interface Track {
   id: number;
@@ -139,6 +140,11 @@ export default function TrackAccessManagerPage() {
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-black pt-16 md:pt-24 pb-24 md:pb-6 px-4">
         <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <div className="mb-6">
+            <BackButton fallbackUrl={`/albums/${albumId}`} label="Back to Album" />
+          </div>
+
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-4">
