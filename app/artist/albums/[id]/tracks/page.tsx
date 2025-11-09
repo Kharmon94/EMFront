@@ -213,29 +213,29 @@ export default function TrackAccessManagerPage() {
 
           {/* Stats Summary */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="p-4 bg-green-600/20 border border-green-600/50 rounded-lg">
-              <div className="text-3xl font-bold text-white mb-1">
+            <div className="p-4 bg-green-50 dark:bg-green-600/20 border border-green-300 dark:border-green-600/50 rounded-lg">
+              <div className="text-3xl font-bold text-green-700 dark:text-white mb-1">
                 {freeCount}
               </div>
-              <div className="text-sm text-green-300 flex items-center gap-1">
+              <div className="text-sm text-green-700 dark:text-green-300 flex items-center gap-1">
                 <FiGlobe className="w-4 h-4" />
                 Free Tracks
               </div>
             </div>
-            <div className="p-4 bg-yellow-600/20 border border-yellow-600/50 rounded-lg">
-              <div className="text-3xl font-bold text-white mb-1">
+            <div className="p-4 bg-yellow-50 dark:bg-yellow-600/20 border border-yellow-300 dark:border-yellow-600/50 rounded-lg">
+              <div className="text-3xl font-bold text-yellow-700 dark:text-white mb-1">
                 {previewCount}
               </div>
-              <div className="text-sm text-yellow-300 flex items-center gap-1">
+              <div className="text-sm text-yellow-700 dark:text-yellow-300 flex items-center gap-1">
                 <FiEye className="w-4 h-4" />
                 Preview Only
               </div>
             </div>
-            <div className="p-4 bg-purple-600/20 border border-purple-600/50 rounded-lg">
-              <div className="text-3xl font-bold text-white mb-1">
+            <div className="p-4 bg-purple-50 dark:bg-purple-600/20 border border-purple-300 dark:border-purple-600/50 rounded-lg">
+              <div className="text-3xl font-bold text-purple-700 dark:text-white mb-1">
                 {gatedCount}
               </div>
-              <div className="text-sm text-purple-300 flex items-center gap-1">
+              <div className="text-sm text-purple-700 dark:text-purple-300 flex items-center gap-1">
                 <FiLock className="w-4 h-4" />
                 NFT Exclusive
               </div>
@@ -267,10 +267,10 @@ export default function TrackAccessManagerPage() {
                   {/* Current Status Badge */}
                   <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
                     track.access_tier === 'free' 
-                      ? 'bg-green-600/20 text-green-400 border border-green-600'
+                      ? 'bg-green-100 dark:bg-green-600/20 text-green-700 dark:text-green-400 border border-green-400 dark:border-green-600'
                       : track.access_tier === 'preview_only'
-                      ? 'bg-yellow-600/20 text-yellow-400 border border-yellow-600'
-                      : 'bg-purple-600/20 text-purple-400 border border-purple-600'
+                      ? 'bg-yellow-100 dark:bg-yellow-600/20 text-yellow-700 dark:text-yellow-400 border border-yellow-400 dark:border-yellow-600'
+                      : 'bg-purple-100 dark:bg-purple-600/20 text-purple-700 dark:text-purple-400 border border-purple-400 dark:border-purple-600'
                   }`}>
                     {track.access_tier === 'free' && <><FiGlobe className="w-3 h-3" /> Free</>}
                     {track.access_tier === 'preview_only' && <><FiEye className="w-3 h-3" /> Preview</>}
