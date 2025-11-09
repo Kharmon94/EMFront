@@ -188,6 +188,16 @@ h3 {
   background: var(--color-gray-700);
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Focus Styles - Blue accent */
 *:focus-visible {
   outline: 2px solid var(--color-blue-500);

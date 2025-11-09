@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { FiPlay, FiPause, FiSkipBack, FiSkipForward, FiVolume2, FiShuffle, FiRepeat, FiList, FiSettings, FiFileText } from 'react-icons/fi';
+import { FiPlay, FiPause, FiSkipBack, FiSkipForward, FiVolume2, FiVolumeX, FiShuffle, FiRepeat, FiList, FiSettings, FiFileText, FiHeart, FiMoreVertical, FiMaximize2 } from 'react-icons/fi';
 import { formatDuration } from '@/lib/utils';
 import { usePlayerStore } from '@/lib/store/playerStore';
 import { QueueDrawer } from './QueueDrawer';
@@ -9,6 +9,7 @@ import { AudioSettings } from './AudioSettings';
 import { LyricsPanel } from './LyricsPanel';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export function MusicPlayer() {
   const {
@@ -37,6 +38,10 @@ export function MusicPlayer() {
   const [queueOpen, setQueueOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [lyricsOpen, setLyricsOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [previousVolume, setPreviousVolume] = useState(1);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Initialize audio element
   useEffect(() => {
@@ -281,6 +286,46 @@ export function MusicPlayer() {
     }
   };
 
+  // Toggle mute
+  const handleToggleMute = () => {
+    if (isMuted) {
+      setVolume(previousVolume);
+      setIsMuted(false);
+    } else {
+      setPreviousVolume(volume);
+      setVolume(0);
+      setIsMuted(true);
+    }
+  };
+
+  // Toggle like
+  const handleToggleLike = async () => {
+    if (!currentTrack) return;
+    
+    try {
+      if (isLiked) {
+        await api.delete(`/tracks/${currentTrack.id}/unlike`);
+        setIsLiked(false);
+        toast.success('Removed from liked songs');
+      } else {
+        await api.post(`/tracks/${currentTrack.id}/like`);
+        setIsLiked(true);
+        toast.success('Added to liked songs');
+      }
+    } catch (error) {
+      console.error('Failed to toggle like:', error);
+    }
+  };
+
+  // Check if track is liked
+  useEffect(() => {
+    if (currentTrack) {
+      api.get(`/tracks/${currentTrack.id}/is_liked`)
+        .then(response => setIsLiked(response.data?.is_liked || false))
+        .catch(() => setIsLiked(false));
+    }
+  }, [currentTrack]);
+
   if (!currentTrack) {
     return null; // No track loaded
   }
@@ -288,155 +333,239 @@ export function MusicPlayer() {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
-      <div className="max-w-full px-4 py-3">
-        {/* Progress bar */}
-        <div className="w-full mb-3">
-          <div className="flex items-center gap-2 text-xs text-gray-400">
-            <span>{formatDuration(Math.floor(currentTime))}</span>
-            <div className="flex-1 relative h-1 bg-gray-700 rounded-full cursor-pointer group"
-                 onClick={(e) => {
-                   const rect = e.currentTarget.getBoundingClientRect();
-                   const x = e.clientX - rect.left;
-                   const percentage = x / rect.width;
-                   seek(percentage * duration);
-                 }}>
-              <div 
-                className="absolute top-0 left-0 h-full bg-purple-500 rounded-full transition-all"
-                style={{ width: `${progress}%` }}
-              />
-              <div 
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ left: `${progress}%`, transform: 'translate(-50%, -50%)' }}
-              />
-            </div>
-            <span>{formatDuration(Math.floor(duration))}</span>
-          </div>
+    <>
+      {/* Compact Player */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50 shadow-2xl">
+        {/* Progress bar - Full width, clickable */}
+        <div 
+          className="w-full h-1.5 bg-gray-200 dark:bg-gray-800 cursor-pointer group relative hover:h-2 transition-all"
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            seek(percentage * duration);
+          }}
+        >
+          <div 
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transition-all"
+            style={{ width: `${progress}%` }}
+          />
+          <div 
+            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white dark:bg-gray-100 border-2 border-purple-600 rounded-full opacity-0 group-hover:opacity-100 shadow-lg transition-opacity"
+            style={{ left: `${progress}%`, transform: 'translate(-50%, -50%)' }}
+          />
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          {/* Track info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            {currentTrack.album.cover_url && (
-              <img 
-                src={currentTrack.album.cover_url} 
-                alt={currentTrack.album.title}
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded object-cover flex-shrink-0"
-              />
-            )}
-            <div className="min-w-0 flex-1">
-              <div className="text-sm sm:text-base font-medium text-white truncate">
-                {currentTrack.title}
+        <div className="max-w-full px-3 sm:px-6 py-2 sm:py-3">
+          <div className="flex items-center justify-between gap-3 sm:gap-6">
+            {/* Left: Track Info */}
+            <div className="flex items-center gap-3 flex-1 min-w-0 max-w-[30%]">
+              {currentTrack.album.cover_url && (
+                <div className="relative group flex-shrink-0">
+                  <img 
+                    src={currentTrack.album.cover_url} 
+                    alt={currentTrack.album.title}
+                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover shadow-lg"
+                  />
+                  <Link
+                    href={`/music/albums/${currentTrack.album.id}`}
+                    className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <FiMaximize2 className="w-5 h-5 text-white" />
+                  </Link>
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <Link 
+                  href={`/music/albums/${currentTrack.album.id}`}
+                  className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate hover:underline block"
+                >
+                  {currentTrack.title}
+                </Link>
+                <Link
+                  href={`/artists/${currentTrack.artist.id}`}
+                  className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate hover:underline block"
+                >
+                  {currentTrack.artist.name}
+                  {currentTrack.artist.verified && (
+                    <span className="ml-1 text-blue-500">✓</span>
+                  )}
+                </Link>
               </div>
-              <div className="text-xs sm:text-sm text-gray-400 truncate">
-                {currentTrack.artist.name}
+              
+              {/* Like Button (mobile & desktop) */}
+              <button
+                onClick={handleToggleLike}
+                className={`p-2 rounded-full transition-all flex-shrink-0 ${
+                  isLiked 
+                    ? 'text-red-500 hover:scale-110' 
+                    : 'text-gray-400 dark:text-gray-500 hover:text-red-500 hover:scale-110'
+                }`}
+                aria-label={isLiked ? 'Unlike' : 'Like'}
+              >
+                <FiHeart className={`w-4 h-4 sm:w-5 sm:h-5 ${isLiked ? 'fill-current' : ''}`} />
+              </button>
+            </div>
+
+            {/* Center: Playback Controls */}
+            <div className="flex flex-col items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-2 sm:gap-4">
+                {/* Shuffle (desktop only) */}
+                <button
+                  onClick={() => {
+                    toggleShuffle();
+                    toast.success(`Shuffle ${!isShuffle ? 'on' : 'off'}`);
+                  }}
+                  className={`hidden md:block p-2 rounded-full transition-all ${
+                    isShuffle 
+                      ? 'text-green-500 bg-green-500/10' 
+                      : 'text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                  aria-label="Shuffle"
+                  title={`Shuffle: ${isShuffle ? 'On' : 'Off'}`}
+                >
+                  <FiShuffle className="w-4 h-4" />
+                </button>
+
+                {/* Previous */}
+                <button
+                  onClick={playPrevious}
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:scale-110 transition-all"
+                  aria-label="Previous track"
+                >
+                  <FiSkipBack className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+
+                {/* Play/Pause */}
+                <button
+                  onClick={handleTogglePlay}
+                  className="p-3 sm:p-4 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-full text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                >
+                  {isPlaying ? (
+                    <FiPause className="w-5 h-5 sm:w-6 sm:h-6" />
+                  ) : (
+                    <FiPlay className="w-5 h-5 sm:w-6 sm:h-6 ml-0.5" />
+                  )}
+                </button>
+
+                {/* Next */}
+                <button
+                  onClick={playNext}
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:scale-110 transition-all"
+                  aria-label="Next track"
+                >
+                  <FiSkipForward className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+
+                {/* Repeat (desktop only) */}
+                <button
+                  onClick={() => {
+                    toggleRepeat();
+                    const modes = { off: 'Off', all: 'All', one: 'One' };
+                    const newMode = repeatMode === 'off' ? 'all' : repeatMode === 'all' ? 'one' : 'off';
+                    toast.success(`Repeat: ${modes[newMode]}`);
+                  }}
+                  className={`hidden md:block p-2 rounded-full transition-all relative ${
+                    repeatMode !== 'off' 
+                      ? 'text-green-500 bg-green-500/10' 
+                      : 'text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                  aria-label="Repeat"
+                  title={`Repeat: ${repeatMode === 'off' ? 'Off' : repeatMode === 'all' ? 'All' : 'One'}`}
+                >
+                  <FiRepeat className="w-4 h-4" />
+                  {repeatMode === 'one' && (
+                    <span className="absolute -top-0.5 -right-0.5 text-[10px] bg-green-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">1</span>
+                  )}
+                </button>
+              </div>
+
+              {/* Time Display (desktop) */}
+              <div className="hidden sm:flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 tabular-nums">
+                <span>{formatDuration(Math.floor(currentTime))}</span>
+                <span className="text-gray-400 dark:text-gray-600">/</span>
+                <span>{formatDuration(Math.floor(duration))}</span>
               </div>
             </div>
-          </div>
 
-          {/* Controls */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* Shuffle (desktop only) */}
-            <button
-              onClick={toggleShuffle}
-              className={`hidden sm:block p-2 rounded-full transition-colors ${
-                isShuffle ? 'text-purple-500' : 'text-gray-400 hover:text-white'
-              }`}
-              aria-label="Shuffle"
-            >
-              <FiShuffle className="w-4 h-4" />
-            </button>
+            {/* Right: Secondary Controls */}
+            <div className="flex items-center gap-2 sm:gap-3 justify-end flex-1 max-w-[30%]">
+              {/* Queue Button */}
+              <button
+                onClick={() => setQueueOpen(true)}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all relative"
+                aria-label="Queue"
+                title="View Queue"
+              >
+                <FiList className="w-4 h-4 sm:w-5 sm:h-5" />
+                {queue.length > 1 && (
+                  <span className="absolute -top-1 -right-1 text-[10px] bg-purple-600 text-white rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold px-1">
+                    {queue.length}
+                  </span>
+                )}
+              </button>
 
-            {/* Previous */}
-            <button
-              onClick={playPrevious}
-              className="p-2 text-gray-400 hover:text-white transition-colors"
-              aria-label="Previous track"
-            >
-              <FiSkipBack className="w-5 h-5" />
-            </button>
+              {/* Lyrics Button (desktop) */}
+              <button
+                onClick={() => setLyricsOpen(true)}
+                className="hidden lg:block p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all"
+                aria-label="Lyrics"
+                title="Show Lyrics"
+              >
+                <FiFileText className="w-5 h-5" />
+              </button>
+              
+              {/* Settings Button (desktop only) */}
+              <button
+                onClick={() => setSettingsOpen(true)}
+                className="hidden lg:block p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all"
+                aria-label="Audio Settings"
+                title="Audio Settings"
+              >
+                <FiSettings className="w-5 h-5" />
+              </button>
 
-            {/* Play/Pause */}
-            <button
-              onClick={handleTogglePlay}
-              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-full text-white transition-colors"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? (
-                <FiPause className="w-5 h-5" />
-              ) : (
-                <FiPlay className="w-5 h-5 ml-0.5" />
-              )}
-            </button>
+              {/* Volume (desktop only) */}
+              <div className="hidden lg:flex items-center gap-2 w-28">
+                <button
+                  onClick={handleToggleMute}
+                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all"
+                  aria-label={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted || volume === 0 ? (
+                    <FiVolumeX className="w-5 h-5" />
+                  ) : (
+                    <FiVolume2 className="w-5 h-5" />
+                  )}
+                </button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => {
+                    const newVolume = parseFloat(e.target.value);
+                    setVolume(newVolume);
+                    setIsMuted(newVolume === 0);
+                  }}
+                  className="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-600 hover:accent-purple-700"
+                  style={{
+                    background: `linear-gradient(to right, #9333ea 0%, #9333ea ${(isMuted ? 0 : volume) * 100}%, ${document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb'} ${(isMuted ? 0 : volume) * 100}%, ${document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb'} 100%)`
+                  }}
+                />
+              </div>
 
-            {/* Next */}
-            <button
-              onClick={playNext}
-              className="p-2 text-gray-400 hover:text-white transition-colors"
-              aria-label="Next track"
-            >
-              <FiSkipForward className="w-5 h-5" />
-            </button>
-
-            {/* Repeat (desktop only) */}
-            <button
-              onClick={toggleRepeat}
-              className={`hidden sm:block p-2 rounded-full transition-colors relative ${
-                repeatMode !== 'off' ? 'text-purple-500' : 'text-gray-400 hover:text-white'
-              }`}
-              aria-label="Repeat"
-            >
-              <FiRepeat className="w-4 h-4" />
-              {repeatMode === 'one' && (
-                <span className="absolute -top-1 -right-1 text-xs bg-purple-600 text-white rounded-full w-4 h-4 flex items-center justify-center">1</span>
-              )}
-            </button>
-            
-            {/* Queue Button */}
-            <button
-              onClick={() => setQueueOpen(true)}
-              className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors relative"
-              aria-label="Queue"
-            >
-              <FiList className="w-4 h-4" />
-              {queue.length > 1 && (
-                <span className="absolute -top-1 -right-1 text-xs bg-purple-600 text-white rounded-full w-4 h-4 flex items-center justify-center">
-                  {queue.length}
-                </span>
-              )}
-            </button>
-          </div>
-
-          {/* Lyrics Button */}
-          <button
-            onClick={() => setLyricsOpen(true)}
-            className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors"
-            aria-label="Lyrics"
-          >
-            <FiFileText className="w-4 h-4" />
-          </button>
-          
-          {/* Settings Button (desktop only) */}
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors"
-            aria-label="Audio Settings"
-          >
-            <FiSettings className="w-4 h-4" />
-          </button>
-
-          {/* Volume (desktop only) */}
-          <div className="hidden lg:flex items-center gap-2 w-32">
-            <FiVolume2 className="w-4 h-4 text-gray-400" />
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="flex-1 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
-            />
+              {/* More Options (Mobile) */}
+              <button
+                onClick={() => setSettingsOpen(true)}
+                className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all"
+                aria-label="More Options"
+              >
+                <FiMoreVertical className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -455,7 +584,7 @@ export function MusicPlayer() {
           onClose={() => setLyricsOpen(false)}
         />
       )}
-    </div>
+    </>
   );
 }
 
