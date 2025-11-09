@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
-import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
+import { usePlayerStore } from '@/components/MusicPlayer';
 import { RecommendationSection } from '@/components/discovery/RecommendationSection';
 import { ContentCard } from '@/components/discovery/ContentCard';
 import { FriendsActivity } from '@/components/discovery/FriendsActivity';
@@ -264,8 +264,6 @@ export default function MusicPage() {
           </div>
         </div>
       </main>
-      
-      <MusicPlayer />
     </>
   );
 }

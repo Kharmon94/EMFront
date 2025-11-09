@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
-import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
+import { usePlayerStore } from '@/components/MusicPlayer';
 import { PurchaseModal } from '@/components/PurchaseModal';
 import { usePermissions } from '@/lib/usePermissions';
 import { FiPlay, FiHeart, FiShare2, FiCheckCircle, FiMusic, FiShoppingCart, FiClock, FiHeadphones, FiLogIn } from 'react-icons/fi';
@@ -270,8 +270,6 @@ export default function TrackPage() {
           )}
         </div>
       </main>
-      
-      <MusicPlayer />
       
       {track.price && (
         <PurchaseModal

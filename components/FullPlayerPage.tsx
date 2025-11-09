@@ -18,9 +18,11 @@ interface FullPlayerPageProps {
   onClose: () => void;
   onTogglePlay: () => void;
   onSeek: (time: number) => void;
+  isLoading: boolean;
+  isBuffering: boolean;
 }
 
-export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPlayerPageProps) {
+export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek, isLoading, isBuffering }: FullPlayerPageProps) {
   const {
     currentTrack,
     isPlaying,
@@ -46,6 +48,9 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
+  const [albumArtKey, setAlbumArtKey] = useState(0);
+  const [trackInfoKey, setTrackInfoKey] = useState(0);
 
   // Check if track is liked
   useEffect(() => {
@@ -55,6 +60,16 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
         .catch(() => setIsLiked(false));
     }
   }, [currentTrack]);
+
+  // Announce track changes for screen readers and trigger animations
+  useEffect(() => {
+    if (currentTrack && isOpen) {
+      setAnnouncement(`Now playing ${currentTrack.title} by ${currentTrack.artist.name}`);
+      // Trigger animations on track change
+      setAlbumArtKey(prev => prev + 1);
+      setTrackInfoKey(prev => prev + 1);
+    }
+  }, [currentTrack, isOpen]);
 
   const handleToggleLike = async () => {
     if (!currentTrack) return;
@@ -112,12 +127,26 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
         backgroundBlendMode: 'overlay'
       }}
     >
+      {/* ARIA Live Region for Screen Readers */}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </div>
+
+      {/* Buffering Indicator */}
+      {isBuffering && (
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 z-10">
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          Buffering...
+        </div>
+      )}
+
       {/* Header */}
       <div className="safe-top px-4 pt-4 pb-2">
         <div className="flex items-center justify-between">
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-white/10 active:scale-90 rounded-full transition-all"
+            aria-label="Close full player"
           >
             <FiChevronDown className="w-7 h-7 text-white" />
           </button>
@@ -131,7 +160,8 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
 
           <button
             onClick={() => setSettingsOpen(true)}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-white/10 active:scale-90 rounded-full transition-all"
+            aria-label="Audio settings"
           >
             <FiMoreVertical className="w-7 h-7 text-white" />
           </button>
@@ -140,9 +170,9 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
 
       {/* Album Art */}
       <div className="flex-1 flex items-center justify-center px-6 py-8">
-        <div className="relative w-full max-w-md aspect-square">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-3xl" />
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+        <div key={albumArtKey} className="relative w-full max-w-md aspect-square animate-fadeIn">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-3xl animate-pulse" />
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform hover:scale-105">
             {currentTrack.album.cover_url ? (
               <img
                 src={currentTrack.album.cover_url}
@@ -163,7 +193,7 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
       {/* Song Info & Controls */}
       <div className="px-6 pb-8 space-y-6">
         {/* Track Info */}
-        <div className="flex items-start justify-between gap-4">
+        <div key={trackInfoKey} className="flex items-start justify-between gap-4 animate-fadeIn">
           <div className="flex-1 min-w-0">
             <h2 className="text-2xl font-bold text-white truncate mb-1">
               {currentTrack.title}
@@ -181,12 +211,13 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
 
           <button
             onClick={handleToggleLike}
-            className="p-2 flex-shrink-0"
+            className="p-2 flex-shrink-0 active:scale-90 transition-transform"
+            aria-label={isLiked ? 'Unlike track' : 'Like track'}
           >
             <FiHeart 
               className={`w-7 h-7 transition-all ${
                 isLiked 
-                  ? 'text-red-500 fill-current scale-110' 
+                  ? 'text-red-500 fill-current scale-110 animate-pulse' 
                   : 'text-gray-300 hover:text-white hover:scale-110'
               }`}
             />
@@ -233,25 +264,31 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
               toggleShuffle();
               toast.success(`Shuffle ${!isShuffle ? 'on' : 'off'}`);
             }}
-            className={`p-2 transition-all ${
-              isShuffle ? 'text-purple-400' : 'text-gray-300'
+            className={`p-2 transition-all active:scale-90 ${
+              isShuffle ? 'text-purple-400' : 'text-gray-300 hover:text-white'
             }`}
+            aria-label={`Shuffle ${isShuffle ? 'on' : 'off'}`}
           >
             <FiShuffle className="w-6 h-6" />
           </button>
 
           <button
             onClick={playPrevious}
-            className="p-3 text-white hover:scale-110 transition-transform"
+            className="p-3 text-white hover:scale-110 active:scale-95 transition-transform"
+            aria-label="Previous track"
           >
             <FiSkipBack className="w-9 h-9" />
           </button>
 
           <button
             onClick={onTogglePlay}
-            className="p-5 bg-white hover:bg-gray-100 rounded-full text-black shadow-2xl hover:scale-105 transition-all"
+            className="p-5 bg-white hover:bg-gray-100 active:scale-95 rounded-full text-black shadow-2xl hover:scale-105 transition-all relative"
+            disabled={isLoading}
+            aria-label={isBuffering ? 'Buffering' : isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? (
+            {isLoading || isBuffering ? (
+              <div className="w-10 h-10 border-4 border-gray-300 border-t-purple-600 rounded-full animate-spin" />
+            ) : isPlaying ? (
               <FiPause className="w-10 h-10" />
             ) : (
               <FiPlay className="w-10 h-10 ml-1" />
@@ -260,7 +297,8 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
 
           <button
             onClick={playNext}
-            className="p-3 text-white hover:scale-110 transition-transform"
+            className="p-3 text-white hover:scale-110 active:scale-95 transition-transform"
+            aria-label="Next track"
           >
             <FiSkipForward className="w-9 h-9" />
           </button>
@@ -272,9 +310,10 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
               const newMode = repeatMode === 'off' ? 'all' : repeatMode === 'all' ? 'one' : 'off';
               toast.success(`Repeat: ${modes[newMode]}`);
             }}
-            className={`p-2 transition-all relative ${
-              repeatMode !== 'off' ? 'text-purple-400' : 'text-gray-300'
+            className={`p-2 transition-all active:scale-90 relative ${
+              repeatMode !== 'off' ? 'text-purple-400' : 'text-gray-300 hover:text-white'
             }`}
+            aria-label={`Repeat: ${repeatMode}`}
           >
             <FiRepeat className="w-6 h-6" />
             {repeatMode === 'one' && (
@@ -320,24 +359,27 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
         <div className="flex items-center justify-around pb-safe">
           <button
             onClick={() => setShareOpen(true)}
-            className="p-3 text-gray-300 hover:text-white transition-colors"
+            className="p-3 text-gray-300 hover:text-white active:scale-90 transition-all"
             title="Share"
+            aria-label="Share track"
           >
             <FiShare2 className="w-6 h-6" />
           </button>
 
           <button
             onClick={() => setPlaylistOpen(true)}
-            className="p-3 text-gray-300 hover:text-white transition-colors"
+            className="p-3 text-gray-300 hover:text-white active:scale-90 transition-all"
             title="Add to Playlist"
+            aria-label="Add to playlist"
           >
             <FiPlus className="w-6 h-6" />
           </button>
 
           <button
             onClick={() => setLyricsOpen(true)}
-            className="p-3 text-gray-300 hover:text-white transition-colors"
+            className="p-3 text-gray-300 hover:text-white active:scale-90 transition-all"
             title="Lyrics"
+            aria-label="Show lyrics"
           >
             <div className="relative">
               <div className="w-6 h-6 border-2 border-current rounded flex items-center justify-center">
@@ -348,8 +390,9 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
 
           <button
             onClick={() => setQueueOpen(true)}
-            className="p-3 text-gray-300 hover:text-white transition-colors relative"
+            className="p-3 text-gray-300 hover:text-white active:scale-90 transition-all relative"
             title="Queue"
+            aria-label="View queue"
           >
             <FiList className="w-6 h-6" />
           </button>

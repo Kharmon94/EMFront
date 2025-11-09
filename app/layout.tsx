@@ -6,6 +6,7 @@ import { SolanaWalletProvider } from "@/lib/solana";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
 import { OnboardingModal } from "@/components/OnboardingModal";
+import { GlobalMusicPlayer } from "@/components/GlobalMusicPlayer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,6 +41,7 @@ export default function RootLayout({
             {children}
             <Toaster position="top-right" />
             <OnboardingModal />
+            <GlobalMusicPlayer />
           </SolanaWalletProvider>
         </Providers>
       </body>

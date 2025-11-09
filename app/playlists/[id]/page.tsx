@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
-import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
+import { usePlayerStore } from '@/components/MusicPlayer';
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { 
   FiPlay, FiPause, FiHeart, FiShare2, FiEdit, FiTrash2, FiMoreVertical,
@@ -393,8 +393,6 @@ export default function PlaylistDetailPage() {
           </div>
         </div>
       )}
-
-      <MusicPlayer />
     </>
   );
 }

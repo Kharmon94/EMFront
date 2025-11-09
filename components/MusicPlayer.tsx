@@ -32,6 +32,16 @@ export function MusicPlayer() {
   const streamLogTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const streamLoggedRef = useRef(false);
   const [fullPlayerOpen, setFullPlayerOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [trackChangeKey, setTrackChangeKey] = useState(0);
+
+  // Trigger animation on track change
+  useEffect(() => {
+    if (currentTrack) {
+      setTrackChangeKey(prev => prev + 1);
+    }
+  }, [currentTrack?.id]);
 
   // Initialize audio element
   useEffect(() => {
@@ -54,7 +64,22 @@ export function MusicPlayer() {
       if (audio.src) {
         console.error('Audio playback error');
         toast.error('Failed to load track');
+        setIsLoading(false);
+        setIsBuffering(false);
       }
+    };
+    
+    const handleWaiting = () => {
+      setIsBuffering(true);
+    };
+    
+    const handleCanPlay = () => {
+      setIsLoading(false);
+      setIsBuffering(false);
+    };
+    
+    const handleLoadStart = () => {
+      setIsLoading(true);
     };
     
     // Audio event listeners
@@ -62,6 +87,9 @@ export function MusicPlayer() {
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('ended', handleTrackEnd);
     audio.addEventListener('error', handleError as any);
+    audio.addEventListener('waiting', handleWaiting);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('loadstart', handleLoadStart);
     
     return () => {
       audio.pause();
@@ -70,6 +98,9 @@ export function MusicPlayer() {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('ended', handleTrackEnd);
       audio.removeEventListener('error', handleError as any);
+      audio.removeEventListener('waiting', handleWaiting);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('loadstart', handleLoadStart);
     };
   }, []);
 
@@ -320,7 +351,7 @@ export function MusicPlayer() {
             )}
 
             {/* Track Info - Clickable to expand */}
-            <div className="flex-1 min-w-0 cursor-pointer">
+            <div key={trackChangeKey} className="flex-1 min-w-0 cursor-pointer animate-fadeIn">
               <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">
                 {currentTrack.title}
               </div>
@@ -337,10 +368,13 @@ export function MusicPlayer() {
               {/* Play/Pause */}
               <button
                 onClick={handleTogglePlay}
-                className="p-2 sm:p-2.5 text-gray-900 dark:text-white hover:scale-105 transition-all"
+                className="p-2 sm:p-2.5 text-gray-900 dark:text-white hover:scale-105 transition-all relative"
                 aria-label={isPlaying ? 'Pause' : 'Play'}
+                disabled={isLoading}
               >
-                {isPlaying ? (
+                {isLoading || isBuffering ? (
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 border-3 border-gray-300 dark:border-gray-600 border-t-purple-600 rounded-full animate-spin" />
+                ) : isPlaying ? (
                   <FiPause className="w-7 h-7 sm:w-8 sm:h-8" />
                 ) : (
                   <FiPlay className="w-7 h-7 sm:w-8 sm:h-8" />
@@ -350,8 +384,9 @@ export function MusicPlayer() {
               {/* Next */}
               <button
                 onClick={playNext}
-                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all"
+                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white active:scale-90 transition-all"
                 aria-label="Next track"
+                disabled={isLoading}
               >
                 <FiSkipForward className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
@@ -359,7 +394,7 @@ export function MusicPlayer() {
               {/* Expand Icon (always visible) */}
               <button
                 onClick={() => setFullPlayerOpen(true)}
-                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all"
+                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white active:scale-90 transition-all"
                 aria-label="Expand player"
                 title="Open full player"
               >
@@ -376,6 +411,8 @@ export function MusicPlayer() {
         onClose={() => setFullPlayerOpen(false)}
         onTogglePlay={handleTogglePlay}
         onSeek={seek}
+        isLoading={isLoading}
+        isBuffering={isBuffering}
       />
     </>
   );

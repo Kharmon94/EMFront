@@ -9,7 +9,7 @@ import api from '@/lib/api';
 import { Navigation } from '@/components/Navigation';
 import { BackButton } from '@/components/BackButton';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { MusicPlayer, usePlayerStore } from '@/components/MusicPlayer';
+import { usePlayerStore } from '@/components/MusicPlayer';
 import { PurchaseModal } from '@/components/PurchaseModal';
 import { AddToPlaylistModal } from '@/components/AddToPlaylistModal';
 import { ShareModal } from '@/components/ShareModal';
@@ -454,8 +454,6 @@ export default function AlbumPage() {
           )}
         </div>
       </main>
-      
-      <MusicPlayer />
       
       {/* Modals */}
       {album.price && (
