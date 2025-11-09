@@ -150,22 +150,22 @@ export default function TrackAccessManagerPage() {
                 />
               )}
               <div>
-                <h1 className="text-3xl font-bold text-white mb-1">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   Track Access Control
                 </h1>
-                <p className="text-xl text-gray-400">
-                  {album.title} <span className="text-gray-600">by</span> {album.artist?.name || 'Unknown Artist'}
+                <p className="text-xl text-gray-600 dark:text-gray-400">
+                  {album.title} <span className="text-gray-500 dark:text-gray-600">by</span> {album.artist?.name || 'Unknown Artist'}
                 </p>
               </div>
             </div>
-            <p className="text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400">
               Choose which tracks are free, preview-only, or exclusive to NFT holders
             </p>
           </div>
 
           {/* Quick Actions */}
-          <div className="mb-6 p-4 bg-gray-900 rounded-lg border border-gray-800">
-            <h3 className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+          <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
               <FiMusic className="w-4 h-4" />
               Quick Actions:
             </h3>
@@ -244,23 +244,23 @@ export default function TrackAccessManagerPage() {
 
           {/* Individual Track Controls */}
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-white mb-3">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
               Individual Track Settings
             </h3>
             
             {tracks.map((track) => (
               <div
                 key={track.id}
-                className="p-4 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <div className="font-medium text-white mb-1">
+                    <div className="font-medium text-gray-900 dark:text-white mb-1">
                       {track.track_number}. {track.title}
                     </div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
                       {formatDuration(track.duration)}
-                      {track.explicit && <span className="ml-2 text-red-400">🅴 Explicit</span>}
+                      {track.explicit && <span className="ml-2 text-red-500 dark:text-red-400">🅴 Explicit</span>}
                     </div>
                   </div>
                   
@@ -286,18 +286,18 @@ export default function TrackAccessManagerPage() {
                     className={`p-3 rounded-lg border-2 transition-all disabled:opacity-50 ${
                       track.access_tier === 'free'
                         ? 'border-green-600 bg-green-600/20'
-                        : 'border-gray-700 bg-gray-800 hover:border-green-600/50 hover:bg-gray-700'
+                        : 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:border-green-600/50 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                   >
                     <FiGlobe className={`w-5 h-5 mx-auto mb-1 ${
-                      track.access_tier === 'free' ? 'text-green-400' : 'text-gray-400'
+                      track.access_tier === 'free' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'
                     }`} />
                     <div className={`text-xs font-medium ${
-                      track.access_tier === 'free' ? 'text-green-400' : 'text-gray-400'
+                      track.access_tier === 'free' ? 'text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-400'
                     }`}>
                       Free
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                       Full streaming
                     </div>
                   </button>
@@ -308,18 +308,18 @@ export default function TrackAccessManagerPage() {
                     className={`p-3 rounded-lg border-2 transition-all disabled:opacity-50 ${
                       track.access_tier === 'preview_only'
                         ? 'border-yellow-600 bg-yellow-600/20'
-                        : 'border-gray-700 bg-gray-800 hover:border-yellow-600/50 hover:bg-gray-700'
+                        : 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:border-yellow-600/50 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                   >
                     <FiEye className={`w-5 h-5 mx-auto mb-1 ${
-                      track.access_tier === 'preview_only' ? 'text-yellow-400' : 'text-gray-400'
+                      track.access_tier === 'preview_only' ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-500 dark:text-gray-400'
                     }`} />
                     <div className={`text-xs font-medium ${
-                      track.access_tier === 'preview_only' ? 'text-yellow-400' : 'text-gray-400'
+                      track.access_tier === 'preview_only' ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-700 dark:text-gray-400'
                     }`}>
                       Preview
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                       30 seconds
                     </div>
                   </button>
@@ -330,27 +330,27 @@ export default function TrackAccessManagerPage() {
                     className={`p-3 rounded-lg border-2 transition-all disabled:opacity-50 ${
                       track.access_tier === 'nft_required'
                         ? 'border-purple-600 bg-purple-600/20'
-                        : 'border-gray-700 bg-gray-800 hover:border-purple-600/50 hover:bg-gray-700'
+                        : 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:border-purple-600/50 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                   >
                     <FiLock className={`w-5 h-5 mx-auto mb-1 ${
-                      track.access_tier === 'nft_required' ? 'text-purple-400' : 'text-gray-400'
+                      track.access_tier === 'nft_required' ? 'text-purple-600 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'
                     }`} />
                     <div className={`text-xs font-medium ${
-                      track.access_tier === 'nft_required' ? 'text-purple-400' : 'text-gray-400'
+                      track.access_tier === 'nft_required' ? 'text-purple-600 dark:text-purple-400' : 'text-gray-700 dark:text-gray-400'
                     }`}>
                       NFT Only
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                       Exclusive
                     </div>
                   </button>
                 </div>
 
                 {/* User Experience Preview */}
-                <div className="p-3 bg-gray-800 rounded text-xs">
-                  <div className="font-medium text-gray-400 mb-1">What fans see:</div>
-                  <div className="text-gray-500">
+                <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+                  <div className="font-medium text-gray-700 dark:text-gray-400 mb-1">What fans see:</div>
+                  <div className="text-gray-600 dark:text-gray-500">
                     {track.access_tier === 'free' && (
                       <>🌍 Free users: Full streaming • 💎 NFT holders: Lossless + downloads</>
                     )}
@@ -367,12 +367,12 @@ export default function TrackAccessManagerPage() {
           </div>
 
           {/* Info Box */}
-          <div className="mt-6 p-4 bg-blue-600/20 border border-blue-600 rounded-lg">
-            <div className="flex items-start gap-2 text-blue-300">
+          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-600/20 border border-blue-300 dark:border-blue-600 rounded-lg">
+            <div className="flex items-start gap-2 text-blue-700 dark:text-blue-300">
               <FiCheck className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <div className="text-sm">
                 <p className="font-medium mb-1">Changes are saved automatically</p>
-                <p className="text-blue-400/80">
+                <p className="text-blue-600 dark:text-blue-400/80">
                   You can update track access anytime. NFT holders always get premium access regardless of settings.
                 </p>
               </div>
@@ -380,12 +380,12 @@ export default function TrackAccessManagerPage() {
           </div>
 
           {/* Strategy Tips */}
-          <div className="mt-6 p-4 bg-gray-900 rounded-lg border border-gray-800">
-            <h3 className="text-white font-semibold mb-3">💡 Strategy Tips</h3>
-            <div className="space-y-2 text-sm text-gray-400">
-              <p><strong className="text-green-400">Free tracks:</strong> Best for lead singles and promotion - drives NFT discovery</p>
-              <p><strong className="text-yellow-400">Preview tracks:</strong> Create FOMO - fans hear a taste and want more</p>
-              <p><strong className="text-purple-400">NFT exclusive:</strong> Maximum value for NFT holders - bonus tracks, deluxe content</p>
+          <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-3">💡 Strategy Tips</h3>
+            <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+              <p><strong className="text-green-600 dark:text-green-400">Free tracks:</strong> Best for lead singles and promotion - drives NFT discovery</p>
+              <p><strong className="text-yellow-600 dark:text-yellow-400">Preview tracks:</strong> Create FOMO - fans hear a taste and want more</p>
+              <p><strong className="text-purple-600 dark:text-purple-400">NFT exclusive:</strong> Maximum value for NFT holders - bonus tracks, deluxe content</p>
             </div>
           </div>
         </div>
