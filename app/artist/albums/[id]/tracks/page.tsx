@@ -43,8 +43,8 @@ export default function TrackAccessManagerPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading...</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-gray-900 dark:text-white">Loading...</div>
         </div>
       </>
     );
@@ -54,8 +54,8 @@ export default function TrackAccessManagerPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-red-500">Album not found</div>
+        <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+          <div className="text-red-600 dark:text-red-500">Album not found</div>
         </div>
       </>
     );
