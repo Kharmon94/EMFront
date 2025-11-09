@@ -13,6 +13,7 @@ import { FriendsActivity } from '@/components/discovery/FriendsActivity';
 import { FiPlay, FiSearch, FiMusic, FiCheckCircle, FiTrendingUp, FiUsers, FiClock, FiHeart } from 'react-icons/fi';
 import Link from 'next/link';
 import { formatDuration } from '@/lib/utils';
+import toast from 'react-hot-toast';
 
 type Tab = 'for-you' | 'following' | 'trending' | 'new-releases' | 'all';
 
