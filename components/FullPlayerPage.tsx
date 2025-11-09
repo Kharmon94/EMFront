@@ -61,7 +61,7 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
     
     try {
       if (isLiked) {
-        await api.delete(`/tracks/${currentTrack.id}/unlike`);
+        await api.delete(`/tracks/${currentTrack.id}/like`);
         setIsLiked(false);
         toast.success('Removed from liked songs');
       } else {
@@ -71,6 +71,7 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPl
       }
     } catch (error) {
       console.error('Failed to toggle like:', error);
+      toast.error('Failed to update like status');
     }
   };
 
