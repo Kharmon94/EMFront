@@ -16,11 +16,16 @@ export function MusicPlayer() {
     duration,
     volume,
     playbackSpeed,
+    isShuffle,
+    repeatMode,
     setIsPlaying,
     setCurrentTime,
     setDuration,
     setVolume,
+    toggleShuffle,
+    toggleRepeat,
     playNext,
+    playPrevious,
   } = usePlayerStore();
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
