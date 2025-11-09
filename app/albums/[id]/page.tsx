@@ -96,7 +96,7 @@ export default function AlbumPage() {
   const handleLike = async () => {
     try {
       if (isLiked) {
-        await api.delete(`/albums/${albumId}/unlike`);
+        await api.delete(`/albums/${albumId}/like`);
         setIsLiked(false);
         toast.success('Removed from liked albums');
       } else {
@@ -106,6 +106,7 @@ export default function AlbumPage() {
       }
     } catch (error) {
       console.error('Failed to toggle like:', error);
+      toast.error('Failed to update like status');
     }
   };
 
