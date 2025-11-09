@@ -212,6 +212,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       }
     }
     
+    // Add current track to history
+    if (state.currentTrack) {
+      const newHistory = [state.currentTrack, ...state.queueHistory].slice(0, 50);
+      set({ queueHistory: newHistory });
+    }
+    
     set({
       currentTrack: state.queue[nextIndex],
       isPlaying: true,
@@ -222,19 +228,27 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   playPrevious: () => {
     const state = get();
     
-    // If more than 3 seconds into track, restart it
-    if (state.currentTime > 3) {
-      set({ currentTime: 0 });
-      return;
-    }
-    
     if (state.queue.length === 0) return;
     
     const currentIndex = state.queue.findIndex(t => t.id === state.currentTrack?.id);
+    
+    // Go to previous track
     let prevIndex = currentIndex - 1;
     
     if (prevIndex < 0) {
-      prevIndex = state.repeatMode === 'all' ? state.queue.length - 1 : 0;
+      if (state.repeatMode === 'all') {
+        prevIndex = state.queue.length - 1;
+      } else {
+        // Already at first track, just restart it
+        set({ currentTime: 0 });
+        return;
+      }
+    }
+    
+    // Add current track to history
+    if (state.currentTrack) {
+      const newHistory = [state.currentTrack, ...state.queueHistory].slice(0, 50);
+      set({ queueHistory: newHistory });
     }
     
     set({

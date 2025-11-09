@@ -273,7 +273,15 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek, isLoadin
           </button>
 
           <button
-            onClick={playPrevious}
+            onClick={() => {
+              // If more than 3 seconds in, restart track
+              if (currentTime > 3) {
+                onSeek(0);
+                toast.success('Restarting track');
+              } else {
+                playPrevious();
+              }
+            }}
             className="p-3 text-white hover:scale-110 active:scale-95 transition-transform"
             aria-label="Previous track"
           >
@@ -296,7 +304,10 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek, isLoadin
           </button>
 
           <button
-            onClick={playNext}
+            onClick={() => {
+              playNext();
+              // Toast will be shown when new track loads
+            }}
             className="p-3 text-white hover:scale-110 active:scale-95 transition-transform"
             aria-label="Next track"
           >
