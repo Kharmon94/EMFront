@@ -16,9 +16,11 @@ import toast from 'react-hot-toast';
 interface FullPlayerPageProps {
   isOpen: boolean;
   onClose: () => void;
+  onTogglePlay: () => void;
+  onSeek: (time: number) => void;
 }
 
-export function FullPlayerPage({ isOpen, onClose }: FullPlayerPageProps) {
+export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek }: FullPlayerPageProps) {
   const {
     currentTrack,
     isPlaying,
@@ -27,7 +29,6 @@ export function FullPlayerPage({ isOpen, onClose }: FullPlayerPageProps) {
     volume,
     isShuffle,
     repeatMode,
-    setIsPlaying,
     setCurrentTime,
     setVolume,
     toggleShuffle,
@@ -89,7 +90,7 @@ export function FullPlayerPage({ isOpen, onClose }: FullPlayerPageProps) {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const x = clientX - rect.left;
     const percentage = Math.max(0, Math.min(1, x / rect.width));
-    setCurrentTime(percentage * duration);
+    onSeek(percentage * duration);
   };
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -246,7 +247,7 @@ export function FullPlayerPage({ isOpen, onClose }: FullPlayerPageProps) {
           </button>
 
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={onTogglePlay}
             className="p-5 bg-white hover:bg-gray-100 rounded-full text-black shadow-2xl hover:scale-105 transition-all"
           >
             {isPlaying ? (

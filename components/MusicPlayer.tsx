@@ -356,11 +356,12 @@ export function MusicPlayer() {
                 <FiSkipForward className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
 
-              {/* Expand Icon (mobile only) */}
+              {/* Expand Icon (always visible) */}
               <button
                 onClick={() => setFullPlayerOpen(true)}
-                className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all"
+                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all"
                 aria-label="Expand player"
+                title="Open full player"
               >
                 <FiChevronUp className="w-6 h-6" />
               </button>
@@ -372,7 +373,9 @@ export function MusicPlayer() {
       {/* Full Player Page */}
       <FullPlayerPage 
         isOpen={fullPlayerOpen} 
-        onClose={() => setFullPlayerOpen(false)} 
+        onClose={() => setFullPlayerOpen(false)}
+        onTogglePlay={handleTogglePlay}
+        onSeek={seek}
       />
     </>
   );
