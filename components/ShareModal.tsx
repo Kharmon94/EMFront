@@ -12,7 +12,7 @@ interface ShareModalProps {
   url: string;
   title: string;
   description?: string;
-  type?: 'album' | 'track' | 'video' | 'event' | 'artist' | 'merch';
+  type?: 'album' | 'track' | 'video' | 'mini' | 'event' | 'artist' | 'merch';
 }
 
 export function ShareModal({ 
@@ -176,8 +176,8 @@ export function ShareModal({
                     </div>
                   </div>
 
-                  {/* Embed Code (for albums, tracks, videos) */}
-                  {(type === 'album' || type === 'track' || type === 'video') && (
+                  {/* Embed Code (for albums, tracks, videos, minis) */}
+                  {(type === 'album' || type === 'track' || type === 'video' || type === 'mini') && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Embed Code
