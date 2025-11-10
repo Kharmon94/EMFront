@@ -115,7 +115,7 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek, isLoadin
 
   return (
     <div
-      className={`fixed inset-0 bg-gradient-to-b from-purple-900/95 via-gray-900/95 to-black/95 backdrop-blur-xl z-[60] transition-all duration-500 ${
+      className={`fixed inset-0 bg-gradient-to-b from-purple-900/95 via-gray-900/95 to-black/95 backdrop-blur-xl z-[100] transition-all duration-500 ${
         isOpen ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
       }`}
       style={{
@@ -396,7 +396,7 @@ export function FullPlayerPage({ isOpen, onClose, onTogglePlay, onSeek, isLoadin
         </div>
 
         {/* Bottom Actions */}
-        <div className="flex items-center justify-around pb-safe px-2">
+        <div className="flex items-center justify-around pb-20 sm:pb-8 px-2">
           <button
             onClick={() => {
               setShareOpen(true);
